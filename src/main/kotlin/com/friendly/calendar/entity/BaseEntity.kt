@@ -6,9 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-open class BaseEntity {
+open class BaseEntity : java.io.Serializable {
 
     @CreatedDate
-    @Column(name = "input_time", nullable = false , updatable = false)
+    @Column(name = "input_time", nullable = false, updatable = false)
     val createdAt: LocalDateTime = LocalDateTime.now()
 }

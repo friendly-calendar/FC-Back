@@ -6,10 +6,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "APP_USER")
 class User(
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "user_key")
-    val key: Long = 0,
+    val userKey: Long = 0,
 
     val name: String,
 
@@ -19,13 +19,12 @@ class User(
 
     val password: String,
 
-    val phoneNumber: String? = null ,
+    val phoneNumber: String? = null,
 
     @Enumerated(EnumType.STRING)
-    val delFlag: DelFlag = DelFlag.N
+    val delFlag: DelFlag = DelFlag.N,
 
-) : BaseEntity() {
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    val profile: Profile? = null
 
-    @OneToOne
-    var profile: Profile? = null
-}
+) : BaseEntity()
