@@ -2,6 +2,7 @@ package com.friendly.calendar.controller
 
 import com.friendly.calendar.network.ResponseDto
 import com.friendly.calendar.network.enum.ErrorCode
+import com.friendly.calendar.network.user.UserLoginReq
 import com.friendly.calendar.network.user.UserSignUpReq
 import com.friendly.calendar.service.UserService
 import lombok.RequiredArgsConstructor
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 class UserController(val userService: UserService) {
 
@@ -28,5 +29,10 @@ class UserController(val userService: UserService) {
         } catch (e: RuntimeException) {
             ResponseDto.fail(errorCode = ErrorCode.NOT_FOUND)
         }
+    }
+
+    @PostMapping("/login")
+    fun login(@Validated @RequestBody user: UserLoginReq): ResponseDto<Any> {
+        return ResponseDto.success()
     }
 }

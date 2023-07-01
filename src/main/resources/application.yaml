@@ -1,3 +1,4 @@
+
 spring:
     ## DB?? ????
     datasource:
@@ -14,4 +15,5 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
-
+server:
+    port: 8081
