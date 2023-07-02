@@ -32,6 +32,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.mindrot:jbcrypt:0.4") // bcrypt
+	implementation("com.google.code.gson:gson:2.8.7") // Gson
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
