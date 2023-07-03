@@ -6,8 +6,9 @@ import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
 class AlphaNumericWithSpecialCharsValidator : ConstraintValidator<AlphaNumericWithSpecialChars, String> {
+    private val pattern: Pattern = Pattern.compile("^[a-zA-Z0-9!@#\\\$%^&*()-=_+\\\\[\\\\]{}|;:'\\\",.<>/?]*\$")
+
     override fun isValid(value: String?, context: ConstraintValidatorContext?): Boolean {
-        val pattern: Pattern = Pattern.compile("^[a-zA-Z0-9!@#\\\$%^&*()-=_+\\\\[\\\\]{}|;:'\\\",.<>/?]*\$")
         val matcher = pattern.matcher(value)
         return matcher.matches()
     }
