@@ -4,6 +4,8 @@ import com.friendly.calendar.network.user.UserSignUpReq
 import com.google.gson.Gson
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.data.forAll
+import io.kotest.data.row
 import io.kotest.extensions.spring.SpringExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -92,33 +94,25 @@ class UserControllerTest (
         }
 
         "nickName 의 size 는 2~10 사이이다."{
-            val userSignUpReq1 : UserSignUpReq = UserSignUpReq(
-                    nickName = "c",
+            forAll(
+                row("c"),
+                row("asdpajpdjpajdpsadjpasjdpsaasdadas")
+            ) {
+                val userSignUpReq = UserSignUpReq(
+                    nickName = it,
                     email = "cs@gmail.com",
                     id = "csGood",
                     password = "csGoodGoodGood",
                     phoneNumber = "010-1111-1111"
                 )
-            val userSignUpReq2 : UserSignUpReq = UserSignUpReq(
-                    nickName = "csGoodcsGoodcsGoodcsGoodsGoodcsGoodsGoodcsGood",
-                    email = "cs@gmail.com",
-                    id = "csGood",
-                    password = "csGoodGoodGood",
-                    phoneNumber = "010-1111-1111"
-            )
-
-            mockMvc.perform(
-                MockMvcRequestBuilders.post("/user")
-                    .content(gson.toJson(userSignUpReq1))
-                    .contentType(MediaType.APPLICATION_JSON)
-            ).andExpect(status().isBadRequest)
-
-            mockMvc.perform(
-                MockMvcRequestBuilders.post("/user")
-                    .content(gson.toJson(userSignUpReq2))
-                    .contentType(MediaType.APPLICATION_JSON)
-            ).andExpect(status().isBadRequest)
+                mockMvc.perform(
+                    MockMvcRequestBuilders.post("/user")
+                        .content(gson.toJson(userSignUpReq))
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isBadRequest)
+            }
         }
+
         "정상 case" {
             val userSignUpReq : UserSignUpReq = UserSignUpReq(
                 nickName = "csGood",
