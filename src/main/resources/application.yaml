@@ -11,9 +11,12 @@ spring:
         database: POSTGRESQL
         show-sql: true
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
 server:
     port: 8081
+jwt:
+    secret: 김임김강준찬호준수
+    expiredTime: 86400000

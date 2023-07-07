@@ -1,27 +1,26 @@
-package com.friendly.calendar.util
+package com.friendly.calendar.security.jwt
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.SignatureAlgorithm
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Component
 
 import java.util.Date
 
-class JwtUtil {
-    private val secretKey = "김임김강준찬호준수"
-    private val expirationTime: Int = 86400
+@Component
+class JwtTokenManager {
+    private val secretKey = "kimlimkimchanjunkangsuyeongho"
+    private val expirationTime: Int = 86400000
 
-    fun generateToken(authentication: Authentication): String {
-        val userPrincipal: UserDetails = authentication.principal as UserDetails
+    fun generateToken(username: String): String {
 
         val expirationDate = Date(System.currentTimeMillis() + expirationTime)
 
         return Jwts.builder()
-            .setSubject(userPrincipal.username)
+            .setSubject(username)
             .setIssuedAt(Date())
             .setExpiration(expirationDate)
-            .signWith(SignatureAlgorithm.HS512, secretKey)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact()
     }
 
@@ -38,7 +37,7 @@ class JwtUtil {
         }
     }
 
-    fun getUserKeyFromToken(token: String): String? {
+    fun getUsernameFromToken(token: String): String? {
         return try {
             val claims: Claims = Jwts.parser()
                 .setSigningKey(secretKey)

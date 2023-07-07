@@ -13,4 +13,5 @@ interface UserRepository : JpaRepository<User, Long> {
                                      @Param(value = "phoneNumber") phoneNumber:String,
                                      @Param(value = "id") id:String) : Boolean
 
+    fun findById(@Param(value = "id") id:String?) : Optional<User>
 }

@@ -8,7 +8,7 @@ data class ResponseDto<T>(
     val code: Int,
     val description: String,
     val data: T?,
-    val responseTime: LocalDateTime = LocalDateTime.now(),
+    val responseTime: String = LocalDateTime.now().toString(),
 ) {
     companion object {
         fun <T> success(data: T? = null, description: String = "Success"): ResponseDto<T> =

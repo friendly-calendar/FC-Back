@@ -2,7 +2,6 @@ package com.friendly.calendar.controller
 
 import com.friendly.calendar.network.ResponseDto
 import com.friendly.calendar.network.enum.ErrorCode
-import com.friendly.calendar.network.user.UserLoginReq
 import com.friendly.calendar.network.user.UserSignUpReq
 import com.friendly.calendar.service.UserService
 import lombok.RequiredArgsConstructor
@@ -29,10 +28,5 @@ class UserController(val userService: UserService) {
         } catch (e: RuntimeException) {
             ResponseDto.fail(errorCode = ErrorCode.NOT_FOUND)
         }
-    }
-
-    @PostMapping("/login")
-    fun login(@Validated @RequestBody user: UserLoginReq): ResponseDto<Any> {
-        return ResponseDto.success()
     }
 }
