@@ -13,7 +13,7 @@ class AlphaNumericValidatorTest(
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     init {
-        "value 에는 알파벳, 숫자만 들어와야한다."{
+        "value 에는 null, 알파벳, 숫자만 들어와야한다."{
             val validator = AlphaNumericValidator()
             val context = mockk<ConstraintValidatorContext>()
 
@@ -21,9 +21,11 @@ class AlphaNumericValidatorTest(
 
             val isTrueValid = validator.isValid("abc123", context)
             val isFalseValid = validator.isValid("abc123!@#", context)
+            val isNullValid = validator.isValid(null, context)
 
             assertTrue(isTrueValid)
             assertFalse(isFalseValid)
+            assertTrue(isNullValid)
         }
     }
 }

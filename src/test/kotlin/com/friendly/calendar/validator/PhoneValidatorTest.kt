@@ -13,7 +13,7 @@ class PhoneValidatorTest(
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     init {
-        "value 에는 알맞은 휴대폰 번호 형식이 들어와야한다." {
+        "value 에는 null 과 알맞은 휴대폰 번호 형식이 들어와야한다." {
             val validator = PhoneValidator()
             val context = mockk<ConstraintValidatorContext>()
 
@@ -21,9 +21,11 @@ class PhoneValidatorTest(
 
             val isTrueValid = validator.isValid("010-1234-5678", context)
             val isFalseValid = validator.isValid("010-1234-56782", context)
+            val isNullValid = validator.isValid(null, context)
 
             assertTrue(isTrueValid)
             assertFalse(isFalseValid)
+            assertTrue(isNullValid)
         }
     }
 }
