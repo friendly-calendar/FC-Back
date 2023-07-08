@@ -9,3 +9,9 @@
 - repository  
 - service 
 - controller
+
+## Rest API 문서 경로 
+
+```sql
+/{서버주소}/docs/index.html
+```

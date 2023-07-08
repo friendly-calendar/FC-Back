@@ -1,0 +1,18 @@
+:snippets: build/generated-snippets
+
+=== Server Health Check
+서버 가동 여부를 확인하는 API
+
+==== Sample Request
+include::{snippets}/alive/health-check/http-request.adoc[]
+
+==== Sample Response
+include::{snippets}/alive/health-check/http-response.adoc[]
+
+==== CURL sample
+include::{snippets}/alive/health-check/curl-request.adoc[]
+
+==== Path Parameters
+
+==== Response Fields
+include::{snippets}/alive/health-check/response-fields.adoc[]

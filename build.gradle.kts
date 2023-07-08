@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
+	id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
 
 group = "com.friendly"
@@ -41,6 +42,10 @@ dependencies {
 	testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
 	testImplementation("io.mockk:mockk:1.13.4") //mockK
+	// rest docs
+	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+	testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
+
 }
 
 tasks.withType<KotlinCompile> {
@@ -52,4 +57,30 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+/***
+ * Build Step
+ * 1. test --> 2. asciidoctor --> 3. build
+ */
+tasks {
+	val snippetsDir by extra { file("build/generated-snippets") }
+
+	test {
+		outputs.dir(snippetsDir)
+	}
+
+	asciidoctor {
+		dependsOn(test)
+		doLast {
+			copy {
+				from("build/docs/asciidoc")
+				into("src/main/resources/static/docs")
+			}
+		}
+	}
+
+	build {
+		dependsOn(asciidoctor)
+	}
 }
