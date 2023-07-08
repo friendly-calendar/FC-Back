@@ -11,8 +11,6 @@ import java.util.Date
 class JwtTokenManager(
     private val jwtConfig: JwtConfig
 ) {
-//    private val secretKey = "kimlimkimchanjunkangsuyeongho"
-//    private val expirationTime: Int = 86400000
     private val secretKey = jwtConfig.secret
     private val expirationTime: Int = jwtConfig.expiredTime.toInt()
 
