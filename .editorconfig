@@ -1,0 +1,21 @@
+root = true
+
+[*]
+## 파일 엔코딩
+charset = utf-8
+## 개행 문자
+end_of_line = lf
+## 들여쓰기 공백 개수
+indent_size = 4
+## 공백 스타일
+indent_style = space
+## 끝 공백 제거 여부
+trim_trailing_whitespace = true
+## 파일 끝 개행 문자 추가 여부
+insert_final_newline = true
+## 한줄당 최대 문자열 길이
+max_line_length = 120
+## 탭 문자 여부
+tab_width = 4
+## 와일드 카드 import * 허용
+disabled_rules=no-wildcard-imports
