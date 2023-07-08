@@ -15,7 +15,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 ## 한줄당 최대 문자열 길이
 max_line_length = 120
-## 탭 문자 여부
+## 탭 문자 길이
 tab_width = 4
 ## 와일드 카드 import * 허용
 disabled_rules=no-wildcard-imports
