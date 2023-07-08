@@ -40,6 +40,7 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
 	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
