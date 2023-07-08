@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component
 import java.util.Date
 
 @Component
-class JwtTokenManager {
-    private val secretKey = "kimlimkimchanjunkangsuyeongho"
-    private val expirationTime: Int = 86400000
+class JwtTokenManager(
+    private val jwtConfig: JwtConfig
+) {
+    private val secretKey = jwtConfig.secret
+    private val expirationTime: Int = jwtConfig.expiredTime.toInt()
 
     fun generateToken(username: String): String {
 
