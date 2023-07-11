@@ -1,8 +1,8 @@
 package com.friendly.calendar.network.user
 
+import com.friendly.calendar.validator.annotation.AlphaNumeric
 import com.friendly.calendar.validator.annotation.AlphaNumericWithSpecialChars
 import com.friendly.calendar.validator.annotation.Phone
-import com.friendly.calendar.validator.annotation.AlphaNumeric
 import javax.validation.constraints.Email
 import javax.validation.constraints.Size
 

@@ -9,8 +9,9 @@ import java.util.*
 @Repository
 interface UserRepository : JpaRepository<User, Long> {
 
-    fun existsByEmailOrPhoneNumberOrId(@Param(value = "email") email:String,
-                                     @Param(value = "phoneNumber") phoneNumber:String,
-                                     @Param(value = "id") id:String) : Boolean
-
+    fun existsByEmailOrPhoneNumberOrId(
+        @Param(value = "email") email: String,
+        @Param(value = "phoneNumber") phoneNumber: String,
+        @Param(value = "id") id: String
+    ): Boolean
 }
