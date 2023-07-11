@@ -8,8 +8,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
 import javax.validation.ConstraintValidatorContext
 
-class AlphaNumericWithSpecialCharsValidatorTest(
-) : StringSpec() {
+class AlphaNumericWithSpecialCharsValidatorTest() : StringSpec() {
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     init {

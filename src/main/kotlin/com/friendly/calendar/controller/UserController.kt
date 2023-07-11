@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequiredArgsConstructor
 class UserController(val userService: UserService) {
 
-    //회원가입 실패
+    // 회원가입 실패
     // 1. 입력값검증시 예외
     // 2. 중복아이디, 중복이메일 vv
     // 3. DB 커넥션  (Internal Server Error)

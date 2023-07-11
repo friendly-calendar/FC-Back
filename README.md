@@ -20,6 +20,6 @@
 ## Directory 구조
 
 - entity      : RDBMS Entity
-- repository
+- repository용
 - service
 - controller
