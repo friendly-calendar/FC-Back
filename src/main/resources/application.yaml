@@ -1,3 +1,4 @@
+
 spring:
     ## DB?? ????
     datasource:
@@ -10,8 +11,12 @@ spring:
         database: POSTGRESQL
         show-sql: true
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
-
+server:
+    port: 8081
+jwt:
+    secret: kimlimkimchanjunkangsuyeongho
+    expiredTime: 86400000

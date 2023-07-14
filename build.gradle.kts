@@ -27,21 +27,24 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.mindrot:jbcrypt:0.4") // bcrypt
-    implementation("com.google.code.gson:gson:2.8.9") // Gson
-    compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
-    runtimeOnly("org.postgresql:postgresql")
-    annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
-    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
-    testImplementation("io.mockk:mockk:1.13.4") // mockK
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation ("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.mindrot:jbcrypt:0.4") // bcrypt
+  implementation("com.google.code.gson:gson:2.8.9") // Gson
+	compileOnly("org.projectlombok:lombok")
+	runtimeOnly("com.h2database:h2")
+	runtimeOnly("org.postgresql:postgresql")
+	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
+	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
+  testImplementation("io.mockk:mockk:1.13.4") // mockK
 }
 
 tasks.withType<KotlinCompile> {
