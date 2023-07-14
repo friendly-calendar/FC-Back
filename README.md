@@ -19,7 +19,27 @@
 
 ## Directory 구조
 
-- entity      : RDBMS Entity
-- repository용
-- service
+- entity      : RDBMS Entity 
+- repository  
+- service 
 - controller
+
+## Rest API 
+
+
+- 빌드시 자동으로 /statics/docs/index.html 파일명으로 API문서가 생성됩니다.
+- 해당 문서의 템플릿을 변경하고 싶다면 `src/docs/asciidoc` 에서 문서의 템플릿을 변경할 수 있습니다. 
+기본적으로 파일 포맷은 adoc이며 , 마크업 문법은 다음의 사이트에서 참고 가능합니다.
+
+아스키 문법 가이드  : https://narusas.github.io/2018/03/21/Asciidoc-basic.html
+
+- 문서 생성 방법
+```bash
+./gradlew clean build
+```
+
+- 문서 조회 경로 
+
+```sql
+/{서버주소}/docs/index.html
+```

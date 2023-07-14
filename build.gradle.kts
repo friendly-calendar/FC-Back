@@ -44,7 +44,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.kotest:kotest-runner-junit5:5.3.2")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
-  testImplementation("io.mockk:mockk:1.13.4") // mockK
+	testImplementation("io.mockk:mockk:1.13.4") //mockK
+	// rest docs
+	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+	testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 tasks.withType<KotlinCompile> {
@@ -56,4 +59,30 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+/***
+ * Build Step
+ * 1. test --> 2. asciidoctor --> 3. build
+ */
+tasks {
+	val snippetsDir by extra { file("build/generated-snippets") }
+
+	test {
+		outputs.dir(snippetsDir)
+	}
+
+	asciidoctor {
+		dependsOn(test)
+		doLast {
+			copy {
+				from("build/docs/asciidoc")
+				into("src/main/resources/static/docs")
+			}
+		}
+	}
+
+	build {
+		dependsOn(asciidoctor)
+	}
 }

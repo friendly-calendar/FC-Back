@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### API Document 제외 ##
+src/main/resources/static/docs/
