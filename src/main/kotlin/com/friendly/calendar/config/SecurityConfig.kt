@@ -1,5 +1,8 @@
 package com.friendly.calendar.config
 
+import com.friendly.calendar.security.CalendarAuthFailHandler
+import com.friendly.calendar.security.CalendarAuthSuccessHandler
+import com.friendly.calendar.security.SignInAuthenticationFilter
 import com.friendly.calendar.security.jwt.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -30,8 +33,9 @@ class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
     fun filterChain(http : HttpSecurity,
                     jwtTokenManager: JwtTokenManager,
                     authenticationManager: AuthenticationManager): SecurityFilterChain {
-        val filter =  SignInAuthenticationFilter(jwtTokenManager , authenticationManager)
-        filter.setAuthenticationSuccessHandler(JwtAuthenticationSuccess())
+        val filter =  SignInAuthenticationFilter(authenticationManager)
+        filter.setAuthenticationSuccessHandler(CalendarAuthSuccessHandler())
+        filter.setAuthenticationFailureHandler(CalendarAuthFailHandler())
         return http
              // 회원가입  , 로그인 요청은 인증 불필요
              .authorizeHttpRequests().antMatchers("/api/user","/api/user/signIn").permitAll()

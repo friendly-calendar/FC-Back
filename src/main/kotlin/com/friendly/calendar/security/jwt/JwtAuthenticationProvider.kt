@@ -1,5 +1,6 @@
 package com.friendly.calendar.security.jwt
 
+import com.friendly.calendar.network.jwt.TokenResponse
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
@@ -7,7 +8,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetailsService
 
 
-class JwtAuthenticationProvider(val userDetailService: UserDetailsService , val jwtTokenManager: JwtTokenManager) :AuthenticationProvider {
+class JwtAuthenticationProvider(private val userDetailService: UserDetailsService , private val jwtTokenManager: JwtTokenManager) :AuthenticationProvider {
 
     override fun authenticate(authentication: Authentication): Authentication {
 
@@ -20,10 +21,13 @@ class JwtAuthenticationProvider(val userDetailService: UserDetailsService , val 
             throw BadCredentialsException("")
         }
 
+        val accessToken  = jwtTokenManager.generateAccessToken(authentication.name);
+        val refreshToken = jwtTokenManager.generateRefreshToken(authentication.name);
+
         return JwtAuthenticationToken(authentication.name,
                 authentication.credentials.toString(),
-                jwtTokenManager.generateToken(authentication.name))
-
+                TokenResponse(accessToken , refreshToken)
+              )
     }
 
     // authentication

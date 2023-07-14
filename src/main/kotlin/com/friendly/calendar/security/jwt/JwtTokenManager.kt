@@ -1,11 +1,15 @@
 package com.friendly.calendar.security.jwt
 
+import com.friendly.calendar.exception.UnexpectedTokenTypeException
+
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 
 import java.util.Date
+
+private const val REFRESH_TOKEN = "RefreshToken"
 
 @Component
 class JwtTokenManager(
@@ -14,26 +18,36 @@ class JwtTokenManager(
     private val secretKey = jwtConfig.secret
     private val expirationTime: Int = jwtConfig.expiredTime.toInt()
 
-    fun generateToken(username: String): String {
+    fun generateRefreshToken(username: String) = this.generateToken(username, expirationTime * 7)
 
-        val expirationDate = Date(System.currentTimeMillis() + expirationTime)
+    fun generateAccessToken(username: String) = this.generateToken(username)
+
+    private fun generateToken(username: String, expiredTime: Int = expirationTime,
+                              tokenIdentity: String? = if (expiredTime == expirationTime) null else REFRESH_TOKEN): String {
+        val claims: Claims = Jwts.claims()
+                .setSubject(username)
+                .setId(tokenIdentity)
+                .setIssuedAt(Date())
+                .setExpiration(Date(System.currentTimeMillis() + expiredTime))
 
         return Jwts.builder()
-            .setSubject(username)
-            .setIssuedAt(Date())
-            .setExpiration(expirationDate)
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact()
+                .setClaims(claims)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact()
     }
 
-    fun validateToken(token: String): Boolean {
+    fun isValidAccessToken(token: String): Boolean {
         return try {
-            val claims: Claims = Jwts.parser()
+            val claims = Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .body
 
-            !claims.expiration.before(Date())
+            if (claims.id == REFRESH_TOKEN) {
+                throw UnexpectedTokenTypeException("This is refresh token")
+            }
+
+            Date(System.currentTimeMillis()).before(claims.expiration)
         } catch (e: Exception) {
             false
         }
