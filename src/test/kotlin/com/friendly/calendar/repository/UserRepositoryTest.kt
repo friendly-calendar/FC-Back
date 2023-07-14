@@ -18,14 +18,14 @@ class UserRepositoryTest(
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     init {
-        "유저가 생성 시간이 자동으로 기록되야 합니다"{
+        "유저가 생성 시간이 자동으로 기록되야 합니다" {
 
             val newUser = User(name = "khkim", id = "kh", password = "1234")
             val savedUser = userRepository.save(newUser)
             assertNotNull(savedUser.createdAt)
         }
 
-        "중복 유저 조회 쿼리가 정상적으로 실행되야 합니다"{
+        "중복 유저 조회 쿼리가 정상적으로 실행되야 합니다" {
             val newUser =
                 User(name = "khkim", id = "kh", password = "1234", email = "khkim@crscube.io", phoneNumber = "112")
             userRepository.save(newUser)

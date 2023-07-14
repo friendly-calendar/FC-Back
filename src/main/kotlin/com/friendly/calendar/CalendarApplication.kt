@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class CalendarApplication
 
 fun main(args: Array<String>) {
-	runApplication<CalendarApplication>(*args)
+    runApplication<CalendarApplication>(*args)
 }

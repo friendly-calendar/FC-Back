@@ -8,8 +8,7 @@ import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
 import javax.validation.ConstraintValidatorContext
 
-class PhoneValidatorTest(
-) : StringSpec() {
+class PhoneValidatorTest() : StringSpec() {
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     init {
