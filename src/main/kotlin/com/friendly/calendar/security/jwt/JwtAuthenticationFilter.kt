@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse
 class JwtAuthenticationFilter(val jwtTokenManager: JwtTokenManager) :GenericFilterBean() {
 
     private val objectMapper = ObjectMapper()
-    private val WHITE_LIST: List<String> = listOf("/api/user/signIn","/api/user/signUp")
+    private val WHITE_LIST: List<String> = listOf("/api/user/signIn","/api/user/signUp", "/api/token/refresh")
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain?) {
         request as HttpServletRequest
@@ -43,8 +43,8 @@ class JwtAuthenticationFilter(val jwtTokenManager: JwtTokenManager) :GenericFilt
 
     private fun isWhiteListUrl(request: HttpServletRequest) : Boolean = WHITE_LIST.contains(request.requestURI)
 
-    private fun isValidTokenByRequest(request: HttpServletRequest): Boolean {
-        val token = request.getHeader("Authorization")?.replace("Bearer ", "")?: throw IllegalArgumentException("Token is not found")
-        return jwtTokenManager.isValidAccessToken(token)
+    private fun isValidTokenByRequest(request: HttpServletRequest): Boolean{
+        val accessToken = request.getHeader("Authorization")?.replace("Bearer ", "")?: throw IllegalArgumentException("Token is not found")
+        return jwtTokenManager.isValidAccessToken(accessToken) && jwtTokenManager.isNotExpiredToken(accessToken)
     }
 }

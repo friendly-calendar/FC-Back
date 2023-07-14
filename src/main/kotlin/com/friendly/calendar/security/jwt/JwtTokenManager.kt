@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component
 import java.util.Date
 
 private const val REFRESH_TOKEN = "RefreshToken"
+private const val ACCESS_TOKEN = "AccessToken"
 
 @Component
 class JwtTokenManager(
@@ -23,7 +24,7 @@ class JwtTokenManager(
     fun generateAccessToken(username: String) = this.generateToken(username)
 
     private fun generateToken(username: String, expiredTime: Int = expirationTime,
-                              tokenIdentity: String? = if (expiredTime == expirationTime) null else REFRESH_TOKEN): String {
+                              tokenIdentity: String? = if (expiredTime == expirationTime) ACCESS_TOKEN else REFRESH_TOKEN): String {
         val claims: Claims = Jwts.claims()
                 .setSubject(username)
                 .setId(tokenIdentity)
@@ -36,33 +37,45 @@ class JwtTokenManager(
                 .compact()
     }
 
+    private fun getClaimsFromToken(token: String) = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).body
+
+    fun isNotExpiredToken(token: String): Boolean {
+        val claims: Claims = getClaimsFromToken(token)
+
+        return Date(System.currentTimeMillis()).before(claims.expiration)
+    }
+
     fun isValidAccessToken(token: String): Boolean {
         return try {
-            val claims = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .body
+            val claims: Claims = getClaimsFromToken(token)
 
-            if (claims.id == REFRESH_TOKEN) {
-                throw UnexpectedTokenTypeException("This is refresh token")
-            }
-
-            Date(System.currentTimeMillis()).before(claims.expiration)
+            claims.id == ACCESS_TOKEN
         } catch (e: Exception) {
             false
         }
     }
 
-    fun getUsernameFromToken(token: String): String? {
+    fun isRefreshTokenValidAndNonExpired(token: String): Boolean {
         return try {
-            val claims: Claims = Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .body
+            val claims: Claims = getClaimsFromToken(token)
+
+            if (claims.id != REFRESH_TOKEN) {
+                throw UnexpectedTokenTypeException("token type is not refresh token")
+            }
+
+            isNotExpiredToken(token)
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    fun getUsernameFromToken(token: String): String {
+        return try {
+            val claims: Claims = getClaimsFromToken(token)
 
             claims.subject
         } catch (e: Exception) {
-            null
+            ""
         }
     }
 }

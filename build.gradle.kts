@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
+	id("org.asciidoctor.jvm.convert") version "3.3.2"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
 }
 
