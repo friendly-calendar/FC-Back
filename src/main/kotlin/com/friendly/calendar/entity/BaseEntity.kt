@@ -1,9 +1,9 @@
-package com.friendly.calendar.entity;
+package com.friendly.calendar.entity
 
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Column
+import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
 open class BaseEntity : java.io.Serializable {
