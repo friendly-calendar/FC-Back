@@ -4,6 +4,7 @@ import com.friendly.calendar.exception.UnexpectedTokenTypeException
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 
@@ -23,6 +24,8 @@ class JwtTokenManager(
 
     fun generateAccessToken(username: String) = this.generateToken(username)
 
+    fun generateNewAccessToken(token: String): String = generateAccessToken(getUsernameFromToken(token))
+
     private fun generateToken(username: String, expiredTime: Int = expirationTime,
                               tokenIdentity: String? = if (expiredTime == expirationTime) ACCESS_TOKEN else REFRESH_TOKEN): String {
         val claims: Claims = Jwts.claims()
@@ -39,31 +42,25 @@ class JwtTokenManager(
 
     private fun getClaimsFromToken(token: String) = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).body
 
-    fun isNotExpiredToken(token: String): Boolean {
-        val claims: Claims = getClaimsFromToken(token)
-
-        return Date(System.currentTimeMillis()).before(claims.expiration)
-    }
-
-    fun isValidAccessToken(token: String): Boolean {
+    fun isAccessTokenValid(token: String): Boolean {
         return try {
             val claims: Claims = getClaimsFromToken(token)
 
             claims.id == ACCESS_TOKEN
+        } catch (expiredException: ExpiredJwtException) {
+            throw expiredException
         } catch (e: Exception) {
             false
         }
     }
 
-    fun isRefreshTokenValidAndNonExpired(token: String): Boolean {
+    fun isRefreshTokenValid(token: String): Boolean {
         return try {
             val claims: Claims = getClaimsFromToken(token)
 
-            if (claims.id != REFRESH_TOKEN) {
-                throw UnexpectedTokenTypeException("token type is not refresh token")
-            }
-
-            isNotExpiredToken(token)
+            claims.id == REFRESH_TOKEN
+        } catch (expiredException: ExpiredJwtException) {
+            throw expiredException
         } catch (e: Exception) {
             false
         }
