@@ -3,6 +3,7 @@ package com.friendly.calendar.controller
 import com.friendly.calendar.network.ResponseDto
 import com.friendly.calendar.network.enum.ErrorCode
 import com.friendly.calendar.security.jwt.JwtTokenManager
+import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
@@ -33,7 +34,7 @@ class TokenRefreshController(private val jwtTokenManager: JwtTokenManager) {
                 }
                 else -> ResponseDto.fail(data = null, ErrorCode.INVALID_TOKEN)
             }
-        } catch (expiredTokenException: Exception) {
+        } catch (expiredTokenException: ExpiredJwtException) {
             ResponseDto.fail(data = null, ErrorCode.EXPIRED_TOKEN)
         } catch (otherException: Exception) {
             ResponseDto.fail(data = null, ErrorCode.INTERNAL_SERVER)
