@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class TokenRefreshController(private val jwtTokenManager: JwtTokenManager) {
 
     @PostMapping("/refresh", headers = ["Authorization"])
-    fun refreshToken(@RequestBody params: HashMap<String, Object>, @RequestHeader("Authorization") authorization: String): ResponseDto<Any> {
+    fun refreshToken(@RequestBody params: HashMap<String, Any>, @RequestHeader("Authorization") authorization: String): ResponseDto<Any> {
         val accessToken: String = authorization.replace("Bearer ", "")
         val refreshToken: String = params["refreshToken"].toString()
 
