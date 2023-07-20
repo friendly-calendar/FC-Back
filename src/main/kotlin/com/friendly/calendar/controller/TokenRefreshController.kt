@@ -18,26 +18,19 @@ class TokenRefreshController(private val jwtTokenManager: JwtTokenManager) {
     fun refreshToken(@RequestBody params: HashMap<String, Any>, @RequestHeader("Authorization") authorization: String): ResponseDto<Any> {
         val accessToken: String = authorization.replace("Bearer ", "")
         val refreshToken: String = params["refreshToken"].toString()
-
-        return try {
-            when {
-                accessToken.isEmpty() || refreshToken.isEmpty() -> ResponseDto.fail(data = null, ErrorCode.NOT_FOUND_TOKEN)
-                jwtTokenManager.isAccessTokenValid(accessToken) && jwtTokenManager.isRefreshTokenValid(refreshToken) -> {
-                    val accessTokenUsername: String = jwtTokenManager.getUsernameFromToken(accessToken)
-                    val refreshTokenUsername: String = jwtTokenManager.getUsernameFromToken(refreshToken)
-                    if (accessTokenUsername != refreshTokenUsername) {
-                        throw Exception("Not matched username")
-                    }
-
-                    val newAccessToken: String = jwtTokenManager.generateNewAccessToken(accessToken)
-                    ResponseDto.success(data = newAccessToken)
-                }
-                else -> ResponseDto.fail(data = null, ErrorCode.INVALID_TOKEN)
-            }
-        } catch (expiredTokenException: ExpiredJwtException) {
-            ResponseDto.fail(data = null, ErrorCode.EXPIRED_TOKEN)
-        } catch (otherException: Exception) {
-            ResponseDto.fail(data = null, ErrorCode.INTERNAL_SERVER)
+        if (accessToken.isEmpty() || refreshToken.isEmpty()) {
+            return ResponseDto.fail(data = null, ErrorCode.NOT_FOUND_TOKEN)
+        } else if (!jwtTokenManager.isAccessTokenValid(accessToken) || !jwtTokenManager.isRefreshTokenValid(refreshToken)) {
+            return ResponseDto.fail(data = null, ErrorCode.INVALID_TOKEN)
         }
+
+        val accessTokenUsername: String = jwtTokenManager.getUsernameFromToken(accessToken)
+        val refreshTokenUsername: String = jwtTokenManager.getUsernameFromToken(refreshToken)
+        if (accessTokenUsername != refreshTokenUsername) {
+            throw IllegalArgumentException("Not matched username")
+        }
+
+        val newAccessToken: String = jwtTokenManager.generateNewAccessToken(accessToken)
+        return ResponseDto.success(data = newAccessToken)
     }
 }
