@@ -1,7 +1,5 @@
 package com.friendly.calendar.security.jwt
 
-import com.friendly.calendar.exception.UnexpectedTokenTypeException
-
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
