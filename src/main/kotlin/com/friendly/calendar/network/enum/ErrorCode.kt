@@ -13,6 +13,8 @@ enum class ErrorCode(val code: Int, val description: String) {
 
     EXPIRED_TOKEN(400, "만료된 토큰입니다."),
 
+    INVALID_REQUEST_ARGUMENT(400, "요청 인자 유효성 검증 실패"),
+
     INVALID_TOKEN_TYPE(400, "유효하지 않은 토큰 타입입니다."),
 
     INTERNAL_SERVER(500, "서버 내부 에러입니다."),
