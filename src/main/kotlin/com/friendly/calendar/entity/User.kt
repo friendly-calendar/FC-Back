@@ -1,6 +1,6 @@
 package com.friendly.calendar.entity
 
-import com.friendly.calendar.entity.enum.DelFlag
+import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
 import javax.persistence.*
 
 @Entity
@@ -21,10 +21,7 @@ class User(
 
     val phoneNumber: String? = null,
 
-    @Enumerated(EnumType.STRING)
-    val delFlag: DelFlag = DelFlag.N,
-
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     val profile: Profile? = null
 
-) : BaseEntity()
+) : AuditBaseEntity()

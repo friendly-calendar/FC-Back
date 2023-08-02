@@ -1,5 +1,6 @@
 package com.friendly.calendar.entity
 
+import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
 import javax.persistence.*
 
 @Entity
@@ -13,4 +14,4 @@ class Profile(
 
     val path: String
 
-) : BaseEntity()
+) : AuditBaseEntity()
