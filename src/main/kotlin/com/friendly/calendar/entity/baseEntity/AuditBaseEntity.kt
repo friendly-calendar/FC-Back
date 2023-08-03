@@ -10,11 +10,11 @@ import javax.persistence.*
 abstract class AuditBaseEntity : java.io.Serializable {
 
     @LastModifiedBy
-    var lastModifiedBy: String? = null
+    lateinit var lastModifiedBy: String
 
     @LastModifiedDate
-    var lastModifiedDate: LocalDateTime? = null
+    lateinit var lastModifiedDate: LocalDateTime
 
     @Enumerated(EnumType.STRING)
-    var delFlag: DelFlag = DelFlag.N
+    lateinit var delFlag: DelFlag
 }

@@ -11,8 +11,8 @@ import javax.persistence.*
 abstract class BaseEntity : AuditBaseEntity() {
 
     @CreatedBy
-    var createdBy: String? = null
+    lateinit var createdBy: String
 
     @CreatedDate
-    var createdDate: LocalDateTime? = null
+    lateinit var createdDate: LocalDateTime
 }
