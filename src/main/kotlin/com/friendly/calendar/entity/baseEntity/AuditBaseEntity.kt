@@ -4,23 +4,17 @@ import com.friendly.calendar.entity.enum.DelFlag
 import org.springframework.data.annotation.LastModifiedBy
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
-import javax.persistence.Column
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.MappedSuperclass
+import javax.persistence.*
 
 @MappedSuperclass
 abstract class AuditBaseEntity : java.io.Serializable {
 
     @LastModifiedBy
-    @Column(nullable = false)
-    val lastModifiedBy: String? = null
+    var lastModifiedBy: String? = null
 
     @LastModifiedDate
-    @Column(nullable = false)
-    val lastModifiedDate: LocalDateTime? = null
+    var lastModifiedDate: LocalDateTime? = null
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    val delFlag: DelFlag = DelFlag.N
+    var delFlag: DelFlag = DelFlag.N
 }

@@ -3,6 +3,7 @@ package com.friendly.calendar.entity.event
 import com.friendly.calendar.entity.User
 import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
 import com.friendly.calendar.entity.enum.Status
+import org.hibernate.envers.Audited
 import javax.persistence.*
 
 @Entity

@@ -9,17 +9,17 @@ class Event (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "event_key")
-    val id: Long,
+    val id: Long = 0,
 
     val title: String?,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_key")
-    val eventDate: EventDate,
+    val eventDate: EventDate? = null,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_key")
-    val eventLocation: EventLocation,
+    val eventLocation: EventLocation? = null,
 
     @OneToMany(cascade = [CascadeType.ALL])
     @JoinColumn(name = "event_key")

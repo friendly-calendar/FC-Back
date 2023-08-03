@@ -1,6 +1,7 @@
 package com.friendly.calendar.entity.event
 
 import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
+import org.hibernate.envers.Audited
 import javax.persistence.*
 
 @Entity

@@ -1,6 +1,8 @@
 package com.friendly.calendar.entity
 
 import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
+import com.friendly.calendar.entity.baseEntity.BaseEntity
+import org.hibernate.envers.Audited
 import javax.persistence.*
 
 @Entity
@@ -9,6 +11,7 @@ class User(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_key")
     val userKey: Long = 0,
 
     val name: String,
@@ -24,4 +27,4 @@ class User(
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     val profile: Profile? = null
 
-) : AuditBaseEntity()
+) : BaseEntity()

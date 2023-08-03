@@ -22,7 +22,7 @@ class UserRepositoryTest(
 
             val newUser = User(name = "khkim", id = "kh", password = "1234")
             val savedUser = userRepository.save(newUser)
-            assertNotNull(savedUser.createdAt)
+            assertNotNull(savedUser.lastModifiedDate)
         }
 
         "중복 유저 조회 쿼리가 정상적으로 실행되야 합니다" {
