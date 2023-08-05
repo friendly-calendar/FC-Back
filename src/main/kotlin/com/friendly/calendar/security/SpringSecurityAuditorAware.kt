@@ -9,14 +9,13 @@ import java.util.*
 @Component
 class SpringSecurityAuditorAware : AuditorAware<String> {
     override fun getCurrentAuditor(): Optional<String> {
-//        val authentication: Authentication? = SecurityContextHolder.getContext().authentication
-//
-//        if (authentication == null || !authentication.isAuthenticated) {
-//            return Optional.empty()
-//        }
-//
-//        val username: String = authentication.principal as String
-//        return Optional.of(username)
-        return Optional.of("test")
+        val authentication: Authentication? = SecurityContextHolder.getContext().authentication
+
+        if (authentication == null || !authentication.isAuthenticated) {
+            return Optional.empty()
+        }
+
+        val username: String = authentication.principal as String
+        return Optional.of(username)
     }
 }
