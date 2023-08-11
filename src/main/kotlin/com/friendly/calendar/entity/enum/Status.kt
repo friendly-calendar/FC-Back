@@ -5,4 +5,5 @@ enum class Status {
     ACCEPTED,
     REJECTED,
     CANCELED,
+    INVITED,
 }
