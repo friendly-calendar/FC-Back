@@ -13,17 +13,18 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+const val ALLOW_URL = "/api/user"
+
 @Slf4j
-class JwtAuthenticationFilter(val jwtTokenManager: JwtTokenManager) :GenericFilterBean() {
+class JwtAuthenticationFilter(private val jwtTokenManager: JwtTokenManager) :GenericFilterBean() {
 
     private val objectMapper = ObjectMapper()
-    private val WHITE_LIST: List<String> = listOf("/api/user/signIn","/api/user/signUp", "/api/token/refresh")
 
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain?) {
         requireNotNull(chain) { "FilterChain is null" }
 
         request as HttpServletRequest
-        if(isWhiteListUrl(request)) {
+        if(request.requestURI.startsWith(ALLOW_URL)) {
             chain.doFilter(request,response)
             return
         }
@@ -48,10 +49,9 @@ class JwtAuthenticationFilter(val jwtTokenManager: JwtTokenManager) :GenericFilt
             val responseDto = ResponseDto.fail(errorCode = errorCode, data = null)
             val jsonBody: String = objectMapper.writeValueAsString(responseDto)
             response.writer.write(jsonBody)
+            return
         }
 
         chain.doFilter(request,response)
     }
-
-    private fun isWhiteListUrl(request: HttpServletRequest) : Boolean = WHITE_LIST.contains(request.requestURI)
 }
