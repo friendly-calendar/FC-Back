@@ -27,7 +27,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableWebMvc
 class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
 
-    private val ALLOW_URL = arrayOf("/api/user","/api/user/signIn", "/api/token/refresh","/alive")
     @Bean
     fun authenticationManager(http : HttpSecurity , jwtTokenManager: JwtTokenManager): AuthenticationManager {
         val authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder::class.java)
@@ -83,5 +82,9 @@ class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
                     .addResourceLocations("classpath:/static/")
             }
         }
+    }
+
+    companion object {
+        val ALLOW_URL = arrayOf("/api/user", "/api/user/signIn", "/api/token/refresh", "/alive")
     }
 }
