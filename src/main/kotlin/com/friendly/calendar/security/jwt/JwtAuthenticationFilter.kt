@@ -13,10 +13,9 @@ import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-const val ALLOW_URL = "/api/user"
 
 @Slf4j
-class JwtAuthenticationFilter(private val jwtTokenManager: JwtTokenManager) :GenericFilterBean() {
+class JwtAuthenticationFilter(private val jwtTokenManager: JwtTokenManager,private val allowUrls:Array<String>) :GenericFilterBean() {
 
     private val objectMapper = ObjectMapper()
 
@@ -24,7 +23,7 @@ class JwtAuthenticationFilter(private val jwtTokenManager: JwtTokenManager) :Gen
         requireNotNull(chain) { "FilterChain is null" }
 
         request as HttpServletRequest
-        if(request.requestURI.startsWith(ALLOW_URL)) {
+        if(allowUrls.any { request.requestURI.startsWith(it) }) {
             chain.doFilter(request,response)
             return
         }
