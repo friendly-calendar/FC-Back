@@ -7,11 +7,8 @@ import com.friendly.calendar.repository.EventRepository
 import com.friendly.calendar.repository.UserRepository
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
-import org.hibernate.Hibernate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Propagation.*
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
@@ -31,34 +28,34 @@ class EventServiceTest (
     val userRepository: UserRepository
 ) : AnnotationSpec() {
 
-    private val user1Email1 : String = "c65901262@gamil.com"
-    private val user1Email2 : String = "c65901263@gamil.com"
+    var userId1 : Long = 0
+    var userId2 : Long = 0
 
     @BeforeEach
     fun setUp() {
         val user1 = UserSignUpReq(
             nickName = "qw0916e11",
-            email = user1Email1,
+            email = "c65901262@gamil.com",
             id = "sada771380",
             password = "cs3061435669sd",
             phoneNumber = "010-1615-5544"
         )
         val user2 = UserSignUpReq(
             nickName = "qw0916e12",
-            email = user1Email2,
+            email = "c65901263@gamil.com",
             id = "sada771360",
             password = "cs611435669sd",
             phoneNumber = "010-1515-5544"
         );
 
-        userService.signUp(user1)
-        userService.signUp(user2)
+        userId1 = userService.signUp(user1)
+        userId2 = userService.signUp(user2)
     }
 
     @Test
     fun createEventTest() {
-        val findUser1 = userRepository.findByEmail(user1Email1).get()
-        val findUser2 = userRepository.findByEmail(user1Email2).get()
+        val findUser1 = userRepository.findById(userId1).get()
+        val findUser2 = userRepository.findById(userId2).get()
         val startDate: LocalDateTime = LocalDateTime.now().minusDays(1)
         val endDate: LocalDateTime = LocalDateTime.now()
 
