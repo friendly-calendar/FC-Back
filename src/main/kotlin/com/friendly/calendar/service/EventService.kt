@@ -27,8 +27,8 @@ class EventService(val eventRepository: EventRepository) {
         val eventLocation = EventLocation(
             location = eventDto.location
         )
-        val members: List<EventMember> = eventDto.invitedMembers?.map { invitedUser ->
-            EventMember(invitedUser = invitedUser, status = eventDto.status)
+        val members: List<EventMember> = eventDto.invitedMembers?.map {
+            EventMember(invitedUser = it, status = eventDto.status)
         } ?: emptyList()
 
         return Event(
