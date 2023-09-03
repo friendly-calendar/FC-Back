@@ -16,11 +16,11 @@ class Event (
     val description: String?,
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    @JoinColumn(name = "event_key")
+    @JoinColumn(name = "data_key")
     val eventDate: EventDate?,
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    @JoinColumn(name = "event_key")
+    @JoinColumn(name = "location_key")
     val eventLocation: EventLocation?,
 
     @OneToMany(cascade = [CascadeType.PERSIST])

@@ -74,7 +74,9 @@ class EventServiceTest (
         val createEvent = eventService.createEvent(eventDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
 
-        createEvent.eventLocation?.location shouldBe findEvent?.eventLocation?.location
         createEvent.title shouldBe findEvent?.title
+        createEvent.eventDate?.startDate shouldBe findEvent?.eventDate?.startDate
+        createEvent.eventLocation?.location shouldBe findEvent?.eventLocation?.location
+        createEvent.members.size shouldBe findEvent?.members?.size
     }
 }
