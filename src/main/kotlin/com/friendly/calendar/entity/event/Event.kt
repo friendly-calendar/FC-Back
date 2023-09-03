@@ -16,7 +16,7 @@ class Event (
     val description: String?,
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
-    @JoinColumn(name = "data_key")
+    @JoinColumn(name = "date_key")
     val eventDate: EventDate?,
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
