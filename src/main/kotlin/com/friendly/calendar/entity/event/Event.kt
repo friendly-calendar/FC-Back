@@ -23,7 +23,7 @@ class Event (
     @JoinColumn(name = "event_key")
     val eventLocation: EventLocation?,
 
-    @OneToMany
+    @OneToMany(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "event_key")
     val members: List<EventMember?> = listOf()
 
