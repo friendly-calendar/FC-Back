@@ -16,7 +16,7 @@ class EventMember (
     @Enumerated(EnumType.STRING)
     val status : Status?,
 
-    @OneToOne(cascade = [CascadeType.PERSIST])
+    @OneToOne
     @JoinColumn(name = "user_key")
     val invitedUser : User?,
 
