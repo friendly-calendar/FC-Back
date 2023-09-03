@@ -53,7 +53,13 @@ class EventRepositoryTest (
         context.authentication = auth
         SecurityContextHolder.setContext(context)
 
-        val event = Event(title = "test")
+        val event = Event(
+            title = "test",
+            description = "test",
+            eventDate = null,
+            eventLocation = null,
+            members = emptyList()
+            )
         val saveEvent: Event = eventRepository.save(event)
 
         assertNotNull(saveEvent.createdDate)

@@ -14,7 +14,7 @@ class EventDate(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "date_key")
-    val id: Long,
+    val id: Long = 0,
 
     val startDate: LocalDateTime?,
 

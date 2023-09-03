@@ -8,6 +8,7 @@ plugins {
     kotlin("plugin.jpa") version "1.6.21"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+    kotlin("kapt") version "1.7.10"
 }
 
 group = "com.friendly"
@@ -28,6 +29,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.data:spring-data-envers")
 	implementation("org.springframework.boot:spring-boot-starter-validation")

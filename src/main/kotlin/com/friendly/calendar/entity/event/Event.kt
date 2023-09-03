@@ -13,16 +13,18 @@ class Event (
 
     val title: String?,
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_key")
-    val eventDate: EventDate? = null,
+    val description: String?,
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "event_key")
-    val eventLocation: EventLocation? = null,
+    val eventDate: EventDate?,
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToOne(fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "event_key")
-    val members: List<EventMember> = listOf()
+    val eventLocation: EventLocation?,
+
+    @OneToMany
+    @JoinColumn(name = "event_key")
+    val members: List<EventMember?> = listOf()
 
 ) : BaseEntity()
