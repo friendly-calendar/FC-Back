@@ -38,7 +38,7 @@ class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
         filter.setAuthenticationFailureHandler(CalendarAuthFailHandler())
         return http
              // 회원가입  , 로그인 요청은 인증 불필요
-             .authorizeHttpRequests().antMatchers("/api/user","/api/user/signIn", "/api/token/refresh", "/api/event").permitAll()
+             .authorizeHttpRequests().antMatchers("/api/user","/api/user/signIn", "/api/token/refresh").permitAll()
              // 나머지는 인증필요
              .anyRequest().authenticated()
              .and()
