@@ -2,7 +2,6 @@ package com.friendly.calendar.entity.event
 
 import com.friendly.calendar.entity.baseEntity.BaseEntity
 import javax.persistence.*
-import javax.validation.constraints.Size
 
 @Entity
 class Event (
