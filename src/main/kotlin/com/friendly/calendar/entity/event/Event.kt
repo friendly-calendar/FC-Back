@@ -7,14 +7,14 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-class Event (
+class Event(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "event_key")
     val id: Long = 0,
 
-    val title: String?,
+    val title: String,
 
     @Column(length = 4000)
     val description: String?,
@@ -33,10 +33,10 @@ class Event (
 
 ) : BaseEntity() {
     constructor(
-        title: String?,
+        title: String,
         description: String?,
-        startDate: LocalDateTime?,
-        endDate: LocalDateTime?,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime,
         location: String?,
         status: Status?,
         invitedUser: List<User>?
