@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/event")
 class EventController(val eventService: EventService) {
 
-    @PostMapping("/add")
+    @PostMapping
     fun createEvent(@RequestBody eventDto: EventDto): ResponseDto<Any> {
         return try {
             eventService.createEvent(eventDto)

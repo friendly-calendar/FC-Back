@@ -2,6 +2,7 @@ package com.friendly.calendar.entity.event
 
 import com.friendly.calendar.entity.baseEntity.BaseEntity
 import javax.persistence.*
+import javax.validation.constraints.Size
 
 @Entity
 class Event (
@@ -13,6 +14,7 @@ class Event (
 
     val title: String?,
 
+    @Column(length = 4000)
     val description: String?,
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
