@@ -1,9 +1,6 @@
 package com.friendly.calendar.service
 
 import com.friendly.calendar.entity.event.Event
-import com.friendly.calendar.entity.event.EventDate
-import com.friendly.calendar.entity.event.EventLocation
-import com.friendly.calendar.entity.event.EventMember
 import com.friendly.calendar.network.event.EventDto
 import com.friendly.calendar.repository.EventRepository
 import org.springframework.stereotype.Service

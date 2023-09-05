@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-class Event(
+class Event (
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
