@@ -1,10 +1,13 @@
 package com.friendly.calendar.entity.event
 
+import com.friendly.calendar.entity.User
 import com.friendly.calendar.entity.baseEntity.BaseEntity
+import com.friendly.calendar.entity.enum.Status
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-class Event (
+class Event(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -28,4 +31,20 @@ class Event (
     @JoinColumn(name = "event_key")
     val members: List<EventMember?> = listOf()
 
-) : BaseEntity()
+) : BaseEntity() {
+    constructor(
+        title: String?,
+        description: String?,
+        startDate: LocalDateTime?,
+        endDate: LocalDateTime?,
+        location: String?,
+        status: Status?,
+        invitedUser: List<User>?
+    ) : this(
+        title = title,
+        description = description,
+        eventDate = EventDate(startDate = startDate, endDate = endDate),
+        eventLocation = EventLocation(location = location),
+        members = invitedUser?.map { EventMember(invitedUser = it, status = status) } ?: emptyList()
+    )
+}

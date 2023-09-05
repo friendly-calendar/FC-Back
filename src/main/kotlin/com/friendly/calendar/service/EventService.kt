@@ -20,23 +20,14 @@ class EventService(val eventRepository: EventRepository) {
     }
 
     private fun toEntity(eventDto: EventDto): Event {
-        val eventDate = EventDate(
-            startDate = eventDto.startDate,
-            endDate = eventDto.endDate,
-        )
-        val eventLocation = EventLocation(
-            location = eventDto.location
-        )
-        val members: List<EventMember> = eventDto.invitedMembers?.map {
-            EventMember(invitedUser = it, status = eventDto.status)
-        } ?: emptyList()
-
         return Event(
             title = eventDto.title,
             description = eventDto.description,
-            eventDate = eventDate,
-            eventLocation = eventLocation,
-            members = members
+            startDate = eventDto.startDate,
+            endDate = eventDto.endDate,
+            location = eventDto.location,
+            status = eventDto.status,
+            invitedUser = eventDto.invitedMembers
         )
     }
 }
