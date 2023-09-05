@@ -1,29 +1,35 @@
 package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.baseEntity.BaseEntity
 import com.friendly.calendar.entity.User
+import com.friendly.calendar.entity.baseEntity.BaseEntity
 import com.friendly.calendar.entity.enum.FriendStatus
 import javax.persistence.*
 
 @Entity
-class FriendRelation (
+@Table(
+    name = "FRIEND_RELATION",
+    uniqueConstraints = [
+        UniqueConstraint(name = "FRIEND_RELATION_UNIQUE", columnNames = ["user_key", "friend_key"])
+    ]
+)
+class FriendRelation(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "relation_key")
-    val relationKey: Long = 0,
+    val relationKey: Long,
 
-    @OneToOne
-    @JoinColumn(name = "user_key", unique = true, nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_key")
     val user: User,
 
-    @OneToOne
-    @JoinColumn(name = "friend_key", unique = true, nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "friend_key")
     val friend: User,
 
     @Enumerated(EnumType.STRING)
-    val status : FriendStatus,
+    val status: FriendStatus,
 
     val friendAlias: String? = null,
 
-) : BaseEntity()
+    ) : BaseEntity()
