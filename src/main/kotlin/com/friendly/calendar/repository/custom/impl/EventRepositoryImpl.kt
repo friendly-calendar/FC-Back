@@ -13,13 +13,13 @@ class EventRepositoryImpl(
     @Autowired
     val queryFactory: JPAQueryFactory
 ) : EventRepositoryCustom {
-    override fun findEventWithDetails(eventId: Long): Event? {
+    override fun findEventWithDetails(eventKey: Long): Event? {
         return queryFactory
             .selectFrom(event)
             .leftJoin(event.eventDate, eventDate).fetchJoin()
             .leftJoin(event.eventLocation, eventLocation).fetchJoin()
             .leftJoin(event.members, eventMember).fetchJoin()
-            .where(event.id.eq(eventId))
+            .where(event.id.eq(eventKey))
             .fetchOne()
     }
 }
