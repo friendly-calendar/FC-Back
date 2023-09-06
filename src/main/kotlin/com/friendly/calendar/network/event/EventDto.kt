@@ -1,6 +1,5 @@
 package com.friendly.calendar.network.event
 
-import com.friendly.calendar.entity.User
 import com.friendly.calendar.entity.enum.Status
 import java.time.LocalDateTime
 
@@ -11,5 +10,5 @@ data class EventDto (
     var endDate: LocalDateTime?,
     var location: String?,
     var status: Status?,
-    var invitedMembers: List<User>?
+    var invitedMembersId: List<String>?
 )

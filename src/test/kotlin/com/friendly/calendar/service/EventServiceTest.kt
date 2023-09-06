@@ -7,7 +7,6 @@ import com.friendly.calendar.repository.EventRepository
 import com.friendly.calendar.repository.UserRepository
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -15,16 +14,9 @@ import java.time.LocalDateTime
 @SpringBootTest
 @Transactional
 class EventServiceTest (
-    @Autowired
     val eventService: EventService,
-
-    @Autowired
     val eventRepository: EventRepository,
-
-    @Autowired
     val userService: UserService,
-
-    @Autowired
     val userRepository: UserRepository
 ) : AnnotationSpec() {
 
@@ -66,7 +58,7 @@ class EventServiceTest (
             endDate = endDate,
             location = "locationTest",
             status = ACCEPTED,
-            invitedMembers = listOf(findUser1, findUser2)
+            invitedMembersId = listOf(findUser1.id, findUser2.id)
         )
         val createEvent = eventService.createEvent(eventDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
