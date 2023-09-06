@@ -39,12 +39,12 @@ class Event(
         endDate: LocalDateTime,
         location: String?,
         status: Status?,
-        invitedUser: List<User>?
+        invitedUser: List<User>
     ) : this(
         title = title,
         description = description,
         eventDate = EventDate(startDate = startDate, endDate = endDate),
-        eventLocation = EventLocation(location = location),
-        members = invitedUser?.map { EventMember(invitedUser = it, status = status) } ?: emptyList()
+        eventLocation = location?.let { EventLocation(location = location) },
+        members = status?.let { invitedUser.map { EventMember(invitedUser = it, status = status) } } ?: emptyList()
     )
 }
