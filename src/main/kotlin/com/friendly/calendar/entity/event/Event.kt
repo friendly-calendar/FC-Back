@@ -7,14 +7,14 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-class Event (
+class Event(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "event_key")
     val id: Long = 0,
 
-    val title: String?,
+    val title: String,
 
     @Column(length = 4000)
     val description: String?,
@@ -33,18 +33,18 @@ class Event (
 
 ) : BaseEntity() {
     constructor(
-        title: String?,
+        title: String,
         description: String?,
-        startDate: LocalDateTime?,
-        endDate: LocalDateTime?,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime,
         location: String?,
         status: Status?,
-        invitedUser: List<User>?
+        invitedUser: List<User>
     ) : this(
         title = title,
         description = description,
         eventDate = EventDate(startDate = startDate, endDate = endDate),
-        eventLocation = EventLocation(location = location),
-        members = invitedUser?.map { EventMember(invitedUser = it, status = status) } ?: emptyList()
+        eventLocation = location?.let { EventLocation(location = location) },
+        members = status?.let { invitedUser.map { EventMember(invitedUser = it, status = status) } } ?: emptyList()
     )
 }

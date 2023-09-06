@@ -14,10 +14,10 @@ class EventMember (
     val id: Long = 0,
 
     @Enumerated(EnumType.STRING)
-    val status : Status?,
+    val status : Status,
 
     @OneToOne
     @JoinColumn(name = "user_key")
-    val invitedUser : User?,
+    val invitedUser : User,
 
 ) : AuditBaseEntity()
