@@ -14,10 +14,10 @@ class EventDate(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "date_key")
-    val id: Long,
+    val id: Long = 0,
 
-    val startDate: LocalDateTime?,
+    val startDate: LocalDateTime,
 
-    val endDate: LocalDateTime?
+    val endDate: LocalDateTime
 
 ) : BaseEntity()
