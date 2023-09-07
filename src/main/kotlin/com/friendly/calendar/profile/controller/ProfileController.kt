@@ -3,7 +3,7 @@ package com.friendly.calendar.profile.controller
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/api/profile")
 class ProfileController {
 
     @GetMapping

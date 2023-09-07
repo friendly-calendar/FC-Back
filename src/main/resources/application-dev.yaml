@@ -7,7 +7,7 @@ spring:
         driver-class-name: org.h2.Driver
 
     jpa:
-        database: POSTGRESQL
+        database: H2
         show-sql: true
         hibernate:
             ddl-auto: create-drop
