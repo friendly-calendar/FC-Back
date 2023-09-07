@@ -6,6 +6,7 @@ import com.friendly.calendar.security.SignInAuthenticationFilter
 import com.friendly.calendar.security.jwt.*
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -30,6 +31,7 @@ class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
     }
 
     @Bean
+    @Profile("prod")
     fun filterChain(http : HttpSecurity,
                     jwtTokenManager: JwtTokenManager,
                     authenticationManager: AuthenticationManager): SecurityFilterChain {
@@ -47,5 +49,14 @@ class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
              .addFilterAfter(JwtAuthenticationFilter(jwtTokenManager),LogoutFilter::class.java)
              .addFilterBefore(filter, UsernamePasswordAuthenticationFilter::class.java)
              .build()
+    }
+
+    @Bean
+    @Profile("dev")
+    fun devFilterChain(http : HttpSecurity) :SecurityFilterChain{
+        return http
+                .authorizeHttpRequests().anyRequest().permitAll()
+                .and()
+                .build()
     }
 }
