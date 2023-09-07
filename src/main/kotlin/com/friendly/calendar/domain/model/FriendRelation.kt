@@ -32,4 +32,4 @@ class FriendRelation(
 
     val friendAlias: String? = null,
 
-    ) : BaseEntity()
+) : BaseEntity()

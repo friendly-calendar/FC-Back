@@ -18,45 +18,47 @@ import org.springframework.security.web.authentication.logout.LogoutFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig(val calendarUserDetailsService : UserDetailsService) {
+class SecurityConfig(val calendarUserDetailsService: UserDetailsService) {
 
     @Bean
-    fun authenticationManager(http : HttpSecurity , jwtTokenManager: JwtTokenManager): AuthenticationManager {
+    fun authenticationManager(http: HttpSecurity, jwtTokenManager: JwtTokenManager): AuthenticationManager {
         val authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder::class.java)
         authenticationManagerBuilder
-                .authenticationProvider(JwtAuthenticationProvider(calendarUserDetailsService,jwtTokenManager))
-                .userDetailsService(calendarUserDetailsService)
+            .authenticationProvider(JwtAuthenticationProvider(calendarUserDetailsService, jwtTokenManager))
+            .userDetailsService(calendarUserDetailsService)
 
         return authenticationManagerBuilder.build()
     }
 
     @Bean
     @Profile("prod")
-    fun filterChain(http : HttpSecurity,
-                    jwtTokenManager: JwtTokenManager,
-                    authenticationManager: AuthenticationManager): SecurityFilterChain {
-        val filter =  SignInAuthenticationFilter(authenticationManager)
+    fun filterChain(
+        http: HttpSecurity,
+        jwtTokenManager: JwtTokenManager,
+        authenticationManager: AuthenticationManager
+    ): SecurityFilterChain {
+        val filter = SignInAuthenticationFilter(authenticationManager)
         filter.setAuthenticationSuccessHandler(CalendarAuthSuccessHandler())
         filter.setAuthenticationFailureHandler(CalendarAuthFailHandler())
         return http
-             // 회원가입  , 로그인 요청은 인증 불필요
-             .authorizeHttpRequests().antMatchers("/api/user","/api/user/signIn", "/api/token/refresh").permitAll()
-             // 나머지는 인증필요
-             .anyRequest().authenticated()
-             .and()
-             .authenticationManager(authenticationManager(http, jwtTokenManager))
-             .csrf().disable()
-             .addFilterAfter(JwtAuthenticationFilter(jwtTokenManager),LogoutFilter::class.java)
-             .addFilterBefore(filter, UsernamePasswordAuthenticationFilter::class.java)
-             .build()
+            // 회원가입  , 로그인 요청은 인증 불필요
+            .authorizeHttpRequests().antMatchers("/api/user", "/api/user/signIn", "/api/token/refresh").permitAll()
+            // 나머지는 인증필요
+            .anyRequest().authenticated()
+            .and()
+            .authenticationManager(authenticationManager(http, jwtTokenManager))
+            .csrf().disable()
+            .addFilterAfter(JwtAuthenticationFilter(jwtTokenManager), LogoutFilter::class.java)
+            .addFilterBefore(filter, UsernamePasswordAuthenticationFilter::class.java)
+            .build()
     }
 
     @Bean
     @Profile("dev")
-    fun devFilterChain(http : HttpSecurity) :SecurityFilterChain{
+    fun devFilterChain(http: HttpSecurity): SecurityFilterChain {
         return http
-                .authorizeHttpRequests().anyRequest().permitAll()
-                .and()
-                .build()
+            .authorizeHttpRequests().anyRequest().permitAll()
+            .and()
+            .build()
     }
 }

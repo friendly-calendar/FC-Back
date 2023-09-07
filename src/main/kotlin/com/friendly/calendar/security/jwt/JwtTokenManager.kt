@@ -1,11 +1,10 @@
 package com.friendly.calendar.security.jwt
 
-import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
+import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
-
 import java.util.Date
 
 private const val REFRESH_TOKEN = "RefreshToken"
@@ -24,18 +23,21 @@ class JwtTokenManager(
 
     fun generateNewAccessToken(token: String): String = generateAccessToken(getUsernameFromToken(token))
 
-    private fun generateToken(username: String, expiredTime: Int = expirationTime,
-                              tokenIdentity: String? = if (expiredTime == expirationTime) ACCESS_TOKEN else REFRESH_TOKEN): String {
+    private fun generateToken(
+        username: String,
+        expiredTime: Int = expirationTime,
+        tokenIdentity: String? = if (expiredTime == expirationTime) ACCESS_TOKEN else REFRESH_TOKEN
+    ): String {
         val claims: Claims = Jwts.claims()
-                .setSubject(username)
-                .setId(tokenIdentity)
-                .setIssuedAt(Date())
-                .setExpiration(Date(System.currentTimeMillis() + expiredTime))
+            .setSubject(username)
+            .setId(tokenIdentity)
+            .setIssuedAt(Date())
+            .setExpiration(Date(System.currentTimeMillis() + expiredTime))
 
         return Jwts.builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact()
+            .setClaims(claims)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact()
     }
 
     private fun getClaimsFromToken(token: String) = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).body

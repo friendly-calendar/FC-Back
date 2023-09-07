@@ -13,15 +13,15 @@ import java.time.LocalDateTime
 
 @SpringBootTest
 @Transactional
-class EventServiceTest (
+class EventServiceTest(
     val eventService: EventService,
     val eventRepository: EventRepository,
     val userService: UserService,
     val userRepository: UserRepository
 ) : AnnotationSpec() {
 
-    var userId1 : Long = 0
-    var userId2 : Long = 0
+    var userId1: Long = 0
+    var userId2: Long = 0
 
     @BeforeEach
     fun setUp() {
@@ -38,7 +38,7 @@ class EventServiceTest (
             id = "sada771360",
             password = "cs611435669sd",
             phoneNumber = "010-1515-5544"
-        );
+        )
 
         userId1 = userService.signUp(user1)
         userId2 = userService.signUp(user2)
