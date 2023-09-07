@@ -9,12 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
-import javax.lang.model.element.Name
 import javax.transaction.Transactional
 
 @SpringBootTest
 @Transactional
-class EventRepositoryTest (
+class EventRepositoryTest(
     @Autowired
     val eventRepository: EventRepository,
 ) : AnnotationSpec() {
@@ -59,11 +58,10 @@ class EventRepositoryTest (
             eventDate = null,
             eventLocation = null,
             members = emptyList()
-            )
+        )
         val saveEvent: Event = eventRepository.save(event)
 
         assertNotNull(saveEvent.createdDate)
         assertEquals(saveEvent.createdBy, "tttttttttttest")
     }
-
 }

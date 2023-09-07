@@ -6,7 +6,7 @@ import com.friendly.calendar.entity.enum.Status
 import javax.persistence.*
 
 @Entity
-class EventMember (
+class EventMember(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -14,10 +14,10 @@ class EventMember (
     val id: Long = 0,
 
     @Enumerated(EnumType.STRING)
-    val status : Status,
+    val status: Status,
 
     @OneToOne
     @JoinColumn(name = "user_key")
-    val invitedUser : User,
+    val invitedUser: User,
 
 ) : AuditBaseEntity()

@@ -4,7 +4,7 @@ import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
 import javax.persistence.*
 
 @Entity
-class EventLocation (
+class EventLocation(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

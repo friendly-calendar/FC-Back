@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 class LiveController {
 
     @GetMapping("/alive")
-    fun healthCheck() :ResponseDto<String> {
-        return ResponseDto.success(description = "Server Enable");
+    fun healthCheck(): ResponseDto<String> {
+        return ResponseDto.success(description = "Server Enable")
     }
 }

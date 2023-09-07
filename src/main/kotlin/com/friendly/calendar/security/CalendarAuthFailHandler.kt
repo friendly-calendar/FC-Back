@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class CalendarAuthFailHandler : AuthenticationFailureHandler{
+class CalendarAuthFailHandler : AuthenticationFailureHandler {
 
     private val objectMapper = ObjectMapper()
     override fun onAuthenticationFailure(request: HttpServletRequest?, response: HttpServletResponse, ex: AuthenticationException?) {

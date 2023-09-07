@@ -20,5 +20,4 @@ class ProfileController {
     fun deleteProfile(): String {
         TODO("not implemented")
     }
-
 }

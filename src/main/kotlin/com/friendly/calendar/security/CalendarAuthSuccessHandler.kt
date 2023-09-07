@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class CalendarAuthSuccessHandler :AuthenticationSuccessHandler{
+class CalendarAuthSuccessHandler : AuthenticationSuccessHandler {
 
     private val objectMapper = ObjectMapper()
     override fun onAuthenticationSuccess(request: HttpServletRequest?, response: HttpServletResponse, authentication: Authentication?) {

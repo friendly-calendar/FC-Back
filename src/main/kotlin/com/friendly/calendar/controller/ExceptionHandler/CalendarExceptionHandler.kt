@@ -14,21 +14,20 @@ class CalendarExceptionHandler {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @ExceptionHandler(value = [Exception::class, NullPointerException::class])
-    fun handle(ex: Exception) : ResponseDto<Any> {
-        logger.error("internal server exception : {}", ex.message);
-        return ResponseDto.fail(data = null , ErrorCode.INTERNAL_SERVER)
+    fun handle(ex: Exception): ResponseDto<Any> {
+        logger.error("internal server exception : {}", ex.message)
+        return ResponseDto.fail(data = null, ErrorCode.INTERNAL_SERVER)
     }
 
     @ExceptionHandler(value = [ExpiredJwtException::class])
-    fun handle(ex: ExpiredJwtException) : ResponseDto<Any> {
-        logger.error("expired token exception : {}", ex.message);
-        return ResponseDto.fail(data = null , ErrorCode.EXPIRED_TOKEN)
+    fun handle(ex: ExpiredJwtException): ResponseDto<Any> {
+        logger.error("expired token exception : {}", ex.message)
+        return ResponseDto.fail(data = null, ErrorCode.EXPIRED_TOKEN)
     }
 
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
-    fun handle(ex: MethodArgumentNotValidException) : ResponseDto<Any> {
-        logger.error("internal server exception : {}", ex.bindingResult.allErrors[0].defaultMessage);
-        return ResponseDto.fail(data = null , ErrorCode.INVALID_REQUEST_ARGUMENT)
+    fun handle(ex: MethodArgumentNotValidException): ResponseDto<Any> {
+        logger.error("internal server exception : {}", ex.bindingResult.allErrors[0].defaultMessage)
+        return ResponseDto.fail(data = null, ErrorCode.INVALID_REQUEST_ARGUMENT)
     }
 }
-
