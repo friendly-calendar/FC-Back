@@ -58,7 +58,7 @@ class EventServiceTest(
             endDate = endDate,
             location = "locationTest",
             status = ACCEPTED,
-            invitedMembersId = listOf(findUser1.id, findUser2.id)
+            invitedMembersId = listOf(findUser1.username, findUser2.username)
         )
         val createEvent = eventService.createEvent(eventDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)

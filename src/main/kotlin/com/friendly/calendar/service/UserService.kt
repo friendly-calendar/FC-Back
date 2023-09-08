@@ -25,13 +25,13 @@ class UserService(val userRepository: UserRepository) {
 
         return userRepository.save(
             User(
-                id = user.id,
+                username = user.id,
                 password = hashPw,
                 phoneNumber = user.phoneNumber,
                 email = user.email,
                 name = user.nickName ?: getDefaultNickName(),
             )
-        ).userKey
+        ).id
     }
 
     // TODO

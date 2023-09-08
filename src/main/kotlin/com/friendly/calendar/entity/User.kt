@@ -10,13 +10,13 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_key")
-    val userKey: Long = 0,
+    val id: Long = 0,
 
     val name: String,
 
     val email: String? = null,
 
-    val id: String,
+    val username: String,
 
     val password: String,
 

@@ -18,7 +18,7 @@ class CalendarUserDetailService(val userRepository: UserRepository) : UserDetail
 
         val selectedUser: Optional<User> = userRepository.findById(username)
 
-        return selectedUser.map { CalendarUserDetails(it.id, it.password) }
+        return selectedUser.map { CalendarUserDetails(it.username, it.password) }
             .orElseThrow { throw RuntimeException("user not found") }
     }
 }
