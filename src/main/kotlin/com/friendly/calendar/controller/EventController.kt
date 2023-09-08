@@ -1,4 +1,4 @@
-package com.friendly.calendar.controller.event
+package com.friendly.calendar.controller
 
 import com.friendly.calendar.network.ResponseDto
 import com.friendly.calendar.network.enum.ErrorCode

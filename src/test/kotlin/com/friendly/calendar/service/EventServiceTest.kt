@@ -1,6 +1,6 @@
 package com.friendly.calendar.service
 
-import com.friendly.calendar.entity.enum.Status.*
+import com.friendly.calendar.domain.model.enum.Status.*
 import com.friendly.calendar.network.event.EventDto
 import com.friendly.calendar.network.user.UserSignUpReq
 import com.friendly.calendar.repository.EventRepository

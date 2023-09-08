@@ -1,6 +1,6 @@
 package com.friendly.calendar.service
 
-import com.friendly.calendar.entity.event.Event
+import com.friendly.calendar.domain.model.Event
 import com.friendly.calendar.network.event.EventDto
 import com.friendly.calendar.repository.EventRepository
 import com.friendly.calendar.repository.UserRepository

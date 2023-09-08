@@ -1,6 +1,6 @@
 package com.friendly.calendar.repository.custom.impl
 
-import com.friendly.calendar.entity.event.*
+import com.friendly.calendar.domain.model.Event
 import com.friendly.calendar.entity.event.QEvent.*
 import com.friendly.calendar.entity.event.QEventDate.*
 import com.friendly.calendar.entity.event.QEventLocation.*

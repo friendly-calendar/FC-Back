@@ -1,4 +1,4 @@
-package com.friendly.calendar.entity.enum
+package com.friendly.calendar.domain.model.enum
 
 enum class Status {
     PENDING,

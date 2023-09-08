@@ -1,6 +1,6 @@
 package com.friendly.calendar.service
 
-import com.friendly.calendar.entity.User
+import com.friendly.calendar.domain.model.User
 import com.friendly.calendar.network.user.UserSignUpReq
 import com.friendly.calendar.repository.UserRepository
 import io.kotest.core.extensions.Extension

@@ -1,6 +1,6 @@
-package com.friendly.calendar.entity
+package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.baseEntity.BaseEntity
+import com.friendly.calendar.domain.model.baseEntity.BaseEntity
 import javax.persistence.*
 
 @Entity

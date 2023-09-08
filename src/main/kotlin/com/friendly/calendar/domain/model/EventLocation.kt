@@ -1,6 +1,6 @@
-package com.friendly.calendar.entity.event
+package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
+import com.friendly.calendar.domain.model.baseEntity.LastModifiedLogEntity
 import javax.persistence.*
 
 @Entity
@@ -13,4 +13,4 @@ class EventLocation(
 
     val location: String,
 
-) : AuditBaseEntity()
+) : LastModifiedLogEntity()

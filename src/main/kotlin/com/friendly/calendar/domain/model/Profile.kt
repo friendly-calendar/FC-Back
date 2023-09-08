@@ -1,6 +1,6 @@
-package com.friendly.calendar.entity
+package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
+import com.friendly.calendar.domain.model.baseEntity.LastModifiedLogEntity
 import javax.persistence.*
 
 @Entity
@@ -14,4 +14,4 @@ class Profile(
 
     val path: String
 
-) : AuditBaseEntity()
+) : LastModifiedLogEntity()

@@ -1,8 +1,7 @@
-package com.friendly.calendar.entity.event
+package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.User
-import com.friendly.calendar.entity.baseEntity.BaseEntity
-import com.friendly.calendar.entity.enum.Status
+import com.friendly.calendar.domain.model.baseEntity.BaseEntity
+import com.friendly.calendar.domain.model.enum.Status
 import java.time.LocalDateTime
 import javax.persistence.*
 

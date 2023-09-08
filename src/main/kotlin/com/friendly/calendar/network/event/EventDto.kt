@@ -1,6 +1,6 @@
 package com.friendly.calendar.network.event
 
-import com.friendly.calendar.entity.enum.Status
+import com.friendly.calendar.domain.model.enum.Status
 import java.time.LocalDateTime
 
 data class EventDto(

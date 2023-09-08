@@ -1,6 +1,6 @@
-package com.friendly.calendar.entity.event
+package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.baseEntity.BaseEntity
+import com.friendly.calendar.domain.model.baseEntity.BaseEntity
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity

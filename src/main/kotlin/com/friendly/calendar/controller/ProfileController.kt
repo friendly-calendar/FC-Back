@@ -1,4 +1,4 @@
-package com.friendly.calendar.profile.controller
+package com.friendly.calendar.controller
 
 import org.springframework.web.bind.annotation.*
 

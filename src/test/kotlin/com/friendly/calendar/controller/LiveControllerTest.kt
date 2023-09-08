@@ -4,7 +4,6 @@ import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
 import org.hamcrest.Matchers.*
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -18,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 @WebMvcTest(LiveController::class)
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-class LiveControllerTes(val mockMvc: MockMvc) : StringSpec() {
+class LiveControllerTest(val mockMvc: MockMvc) : StringSpec() {
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
     init {

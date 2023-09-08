@@ -1,6 +1,6 @@
 package com.friendly.calendar.repository
 
-import com.friendly.calendar.entity.event.Event
+import com.friendly.calendar.domain.model.Event
 import io.kotest.core.spec.style.AnnotationSpec
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull

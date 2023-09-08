@@ -1,6 +1,6 @@
 package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.baseEntity.BaseEntity
+import com.friendly.calendar.domain.model.baseEntity.LastModifiedLogEntity
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -21,4 +21,4 @@ class FriendGroup(
     val description: String,
 
     val imageUrl: String,
-) : BaseEntity()
+) : LastModifiedLogEntity()

@@ -1,8 +1,7 @@
-package com.friendly.calendar.entity.event
+package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.User
-import com.friendly.calendar.entity.baseEntity.AuditBaseEntity
-import com.friendly.calendar.entity.enum.Status
+import com.friendly.calendar.domain.model.baseEntity.LastModifiedLogEntity
+import com.friendly.calendar.domain.model.enum.Status
 import javax.persistence.*
 
 @Entity
@@ -20,4 +19,4 @@ class EventMember(
     @JoinColumn(name = "user_key")
     val invitedUser: User,
 
-) : AuditBaseEntity()
+) : LastModifiedLogEntity()

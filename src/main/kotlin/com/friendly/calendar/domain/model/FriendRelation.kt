@@ -1,8 +1,7 @@
 package com.friendly.calendar.domain.model
 
-import com.friendly.calendar.entity.User
-import com.friendly.calendar.entity.baseEntity.BaseEntity
-import com.friendly.calendar.entity.enum.FriendStatus
+import com.friendly.calendar.domain.model.baseEntity.BaseEntity
+import com.friendly.calendar.domain.model.enum.FriendStatus
 import javax.persistence.*
 
 @Entity
