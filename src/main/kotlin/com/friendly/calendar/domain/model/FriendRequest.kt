@@ -5,7 +5,7 @@ import com.friendly.calendar.domain.model.enum.FriendLogStatus
 import javax.persistence.*
 
 @Entity
-class FriendRequest (
+class FriendRequest(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -25,4 +25,4 @@ class FriendRequest (
 
     @Column(length = 100)
     val message: String
-): BaseEntity()
+) : BaseEntity()
