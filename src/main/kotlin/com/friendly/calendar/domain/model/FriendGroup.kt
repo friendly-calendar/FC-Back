@@ -1,11 +1,7 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.baseEntity.LastModifiedLogEntity
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class FriendGroup(
@@ -13,6 +9,9 @@ class FriendGroup(
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "grp_key")
     val id: Long = 0,
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "group")
+    val groupList: FriendGroupList,
 
     @Column(length = 40)
     val label: String,
