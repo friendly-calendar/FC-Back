@@ -16,7 +16,7 @@ class ProfileController(private val fileService: FileService) {
     }
 
     @PostMapping
-    fun createOrUpdateProfile(@ModelAttribute profile: ProfileDto): ResponseDto<String> {
+    fun createProfile(@ModelAttribute profile: ProfileDto): ResponseDto<String> {
         try {
             fileService.uploadFile("profile/${profile.userId}", profile.profileImage)
         } catch (e: Exception) {
