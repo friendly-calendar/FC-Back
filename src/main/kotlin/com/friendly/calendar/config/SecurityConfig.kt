@@ -59,6 +59,7 @@ class SecurityConfig(val calendarUserDetailsService: UserDetailsService) {
         return http
             .authorizeHttpRequests().anyRequest().permitAll()
             .and()
+            .csrf().disable()
             .build()
     }
 }

@@ -1,10 +1,10 @@
 package com.friendly.calendar.repository.custom.impl
 
 import com.friendly.calendar.domain.model.Event
-import com.friendly.calendar.domain.model.QEvent.*
-import com.friendly.calendar.domain.model.QEventDate.*
-import com.friendly.calendar.domain.model.QEventLocation.*
-import com.friendly.calendar.domain.model.QEventMember.*
+import com.friendly.calendar.domain.model.QEvent.event
+import com.friendly.calendar.domain.model.QEventDate.eventDate
+import com.friendly.calendar.domain.model.QEventLocation.eventLocation
+import com.friendly.calendar.domain.model.QEventMember.eventMember
 import com.friendly.calendar.repository.custom.EventRepositoryCustom
 import com.querydsl.jpa.impl.JPAQueryFactory
 

@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class EventService(val eventRepository: EventRepository, val userRepository: UserRepository) {
 
+    fun getEvent(eventId: Long): Event? {
+        return eventRepository.findEventWithDetails(eventId)
+    }
+
     @Transactional
     fun createEvent(eventDto: EventDto): Event {
         val invitedMembers = eventDto.invitedMembersId?.map { userRepository.findById(it).get() }
