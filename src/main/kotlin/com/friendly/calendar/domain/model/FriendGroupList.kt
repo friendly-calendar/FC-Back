@@ -4,7 +4,7 @@ import com.friendly.calendar.domain.model.baseEntity.LastModifiedLogEntity
 import javax.persistence.*
 
 @Entity
-class FriendGroupList (
+class FriendGroupList(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

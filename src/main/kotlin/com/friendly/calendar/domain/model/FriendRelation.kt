@@ -26,7 +26,7 @@ class FriendRelation(
     @JoinColumn(name = "friend_key")
     val friend: User,
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany
     @JoinColumn(name = "relation_key")
     val groupList: List<FriendGroupList>,
 
