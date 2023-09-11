@@ -15,4 +15,6 @@ interface UserRepository : JpaRepository<User, Long> {
     ): Boolean
 
     fun findById(@Param(value = "id") id: String?): Optional<User>
+
+    fun findByUserKey(@Param(value = "userKey") userKey: Long): Optional<User>
 }
