@@ -15,12 +15,7 @@ class FriendService(
     fun getFriends(userKey: Long): List<FriendRelation> {
         val result: Optional<User> = userRepository.findById(userKey)
 
-        val user: User? = result.orElse(null)
-
-        if (user != null) {
-            return friendRelationRepository.findFriendListByUser(user)
-        } else {
-            return emptyList()
-        }
+        return result.map { friendRelationRepository.findFriendListByUser(it) }
+            .orElse(emptyList())
     }
 }
