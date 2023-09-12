@@ -28,14 +28,14 @@ class EventServiceTest(
         val user1 = UserSignUpReq(
             nickName = "qw0916e11",
             email = "c65901262@gamil.com",
-            id = "sada771380",
+            username = "sada771380",
             password = "cs3061435669sd",
             phoneNumber = "010-1615-5544"
         )
         val user2 = UserSignUpReq(
             nickName = "qw0916e12",
             email = "c65901263@gamil.com",
-            id = "sada771360",
+            username = "sada771360",
             password = "cs611435669sd",
             phoneNumber = "010-1515-5544"
         )

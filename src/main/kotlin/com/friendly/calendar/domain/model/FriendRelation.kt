@@ -1,7 +1,6 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.baseEntity.BaseEntity
-import com.friendly.calendar.domain.model.enum.FriendStatus
 import javax.persistence.*
 
 @Entity
@@ -35,4 +34,4 @@ class FriendRelation(
 
     val friendAlias: String? = null,
 
-) : BaseEntity()
+    ) : BaseEntity()

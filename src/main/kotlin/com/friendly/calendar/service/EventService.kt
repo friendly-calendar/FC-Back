@@ -17,7 +17,7 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
 
     @Transactional
     fun createEvent(eventDto: EventDto): Event {
-        val invitedMembers = eventDto.invitedMembersId?.map { userRepository.findById(it).get() }
+        val invitedMembers = eventDto.invitedMembersId?.map { userRepository.findByUsername(it).get() }
         val event = Event(
             title = eventDto.title,
             description = eventDto.description,
