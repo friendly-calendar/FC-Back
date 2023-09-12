@@ -31,7 +31,7 @@ class UserRepositoryTest(
             userRepository.save(newUser)
 
             val result =
-                userRepository.existsByEmailOrPhoneNumberOrId(email = "khkim@crscube.io", phoneNumber = "112", id = "kh")
+                userRepository.existsByEmailOrPhoneNumberOrUsername(email = "khkim@crscube.io", phoneNumber = "112", username = "kh")
             assertTrue(result)
         }
     }

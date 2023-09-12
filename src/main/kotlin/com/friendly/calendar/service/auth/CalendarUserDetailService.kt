@@ -16,7 +16,7 @@ class CalendarUserDetailService(val userRepository: UserRepository) : UserDetail
 
     override fun loadUserByUsername(username: String?): UserDetails {
 
-        val selectedUser: Optional<User> = userRepository.findById(username)
+        val selectedUser: Optional<User> = userRepository.findByUsername(username)
 
         return selectedUser.map { CalendarUserDetails(it.username, it.password) }
             .orElseThrow { throw RuntimeException("user not found") }
