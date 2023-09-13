@@ -1,6 +1,7 @@
 package com.friendly.calendar.repository
 
 import com.friendly.calendar.domain.model.User
+import com.friendly.calendar.domain.persistence.UserRepository
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension

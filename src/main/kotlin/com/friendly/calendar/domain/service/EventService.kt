@@ -1,9 +1,9 @@
-package com.friendly.calendar.service
+package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.Event
-import com.friendly.calendar.network.event.EventDto
-import com.friendly.calendar.repository.EventRepository
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.network.EventDto
+import com.friendly.calendar.domain.persistence.EventRepository
+import com.friendly.calendar.domain.persistence.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

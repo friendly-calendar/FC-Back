@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.user
+package com.friendly.calendar.network
 
 import com.friendly.calendar.validator.annotation.AlphaNumeric
 import com.friendly.calendar.validator.annotation.AlphaNumericWithSpecialChars

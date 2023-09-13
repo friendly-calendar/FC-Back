@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.event
+package com.friendly.calendar.network
 
 import com.friendly.calendar.domain.model.enum.Status
 import java.time.LocalDateTime

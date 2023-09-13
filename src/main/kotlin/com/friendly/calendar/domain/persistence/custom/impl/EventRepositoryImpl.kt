@@ -1,4 +1,4 @@
-package com.friendly.calendar.repository.custom.impl
+package com.friendly.calendar.domain.persistence.custom.impl
 
 import com.friendly.calendar.domain.model.Event
 import com.friendly.calendar.domain.model.QEvent.event
@@ -6,7 +6,7 @@ import com.friendly.calendar.domain.model.QEventDate.eventDate
 import com.friendly.calendar.domain.model.QEventLocation.eventLocation
 import com.friendly.calendar.domain.model.QEventMember.eventMember
 import com.friendly.calendar.domain.model.baseEntity.DelFlag
-import com.friendly.calendar.repository.custom.EventRepositoryCustom
+import com.friendly.calendar.domain.persistence.custom.EventRepositoryCustom
 import com.querydsl.jpa.impl.JPAQueryFactory
 
 class EventRepositoryImpl(

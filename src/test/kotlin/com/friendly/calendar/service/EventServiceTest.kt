@@ -1,10 +1,12 @@
 package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.enum.Status.*
-import com.friendly.calendar.network.event.EventDto
-import com.friendly.calendar.network.user.UserSignUpReq
-import com.friendly.calendar.repository.EventRepository
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.network.EventDto
+import com.friendly.calendar.network.UserSignUpReq
+import com.friendly.calendar.domain.persistence.EventRepository
+import com.friendly.calendar.domain.persistence.UserRepository
+import com.friendly.calendar.domain.service.EventService
+import com.friendly.calendar.domain.service.UserService
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest

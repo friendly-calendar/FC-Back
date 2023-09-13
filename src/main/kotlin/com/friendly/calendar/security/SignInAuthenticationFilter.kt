@@ -1,7 +1,7 @@
 package com.friendly.calendar.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.friendly.calendar.network.user.UserSignInReq
+import com.friendly.calendar.network.UserSignInReq
 import com.friendly.calendar.security.jwt.JwtAuthenticationToken
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.core.Authentication
