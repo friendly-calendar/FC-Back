@@ -1,4 +1,4 @@
-package com.friendly.calendar.repository
+package com.friendly.calendar.domain.persistence
 
 import com.friendly.calendar.domain.model.User
 import org.springframework.data.jpa.repository.JpaRepository

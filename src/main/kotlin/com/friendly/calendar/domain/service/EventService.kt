@@ -1,9 +1,9 @@
-package com.friendly.calendar.service
+package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.Event
-import com.friendly.calendar.network.event.EventDto
-import com.friendly.calendar.repository.EventRepository
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.network.EventDto
+import com.friendly.calendar.domain.persistence.EventRepository
+import com.friendly.calendar.domain.persistence.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -24,7 +24,7 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
             startDate = eventDto.startDate,
             endDate = eventDto.endDate,
             location = eventDto.location,
-            status = eventDto.status,
+            eventInvitationStatus = eventDto.eventInvitationStatus,
             invitedUser = invitedMembers ?: emptyList()
         )
         return eventRepository.save(event)

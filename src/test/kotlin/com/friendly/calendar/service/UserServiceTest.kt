@@ -1,8 +1,9 @@
 package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.network.user.UserSignUpReq
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.network.UserSignUpReq
+import com.friendly.calendar.domain.persistence.UserRepository
+import com.friendly.calendar.domain.service.UserService
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension

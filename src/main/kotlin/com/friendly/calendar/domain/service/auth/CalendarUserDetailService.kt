@@ -1,7 +1,7 @@
-package com.friendly.calendar.service.auth
+package com.friendly.calendar.domain.service.auth
 
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.security.CalendarUserDetails
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

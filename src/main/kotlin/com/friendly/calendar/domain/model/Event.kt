@@ -1,7 +1,7 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.baseEntity.BaseEntity
-import com.friendly.calendar.domain.model.enum.Status
+import com.friendly.calendar.domain.model.enum.EventInvitationStatus
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -37,13 +37,13 @@ class Event(
         startDate: LocalDateTime,
         endDate: LocalDateTime,
         location: String?,
-        status: Status?,
+        eventInvitationStatus: EventInvitationStatus?,
         invitedUser: List<User>
     ) : this(
         title = title,
         description = description,
         eventDate = EventDate(startDate = startDate, endDate = endDate),
         eventLocation = location?.let { EventLocation(location = location) },
-        members = status?.let { invitedUser.map { EventMember(invitedUser = it, status = status) } } ?: emptyList()
+        members = eventInvitationStatus?.let { invitedUser.map { EventMember(invitedUser = it, eventInvitationStatus = eventInvitationStatus) } } ?: emptyList()
     )
 }

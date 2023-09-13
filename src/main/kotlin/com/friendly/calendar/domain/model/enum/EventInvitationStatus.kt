@@ -1,6 +1,6 @@
 package com.friendly.calendar.domain.model.enum
 
-enum class Status {
+enum class EventInvitationStatus {
     PENDING,
     ACCEPTED,
     REJECTED,

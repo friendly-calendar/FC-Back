@@ -1,6 +1,6 @@
 package com.friendly.calendar.controller
 
-import com.friendly.calendar.network.user.UserSignUpReq
+import com.friendly.calendar.network.UserSignUpReq
 import com.google.gson.Gson
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec

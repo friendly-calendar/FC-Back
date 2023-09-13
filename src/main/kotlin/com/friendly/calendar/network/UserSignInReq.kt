@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.user
+package com.friendly.calendar.network
 
 import java.io.Serializable
 

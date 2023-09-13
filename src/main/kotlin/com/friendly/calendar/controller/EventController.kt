@@ -2,8 +2,8 @@ package com.friendly.calendar.controller
 
 import com.friendly.calendar.network.ResponseDto
 import com.friendly.calendar.network.enum.ErrorCode
-import com.friendly.calendar.network.event.EventDto
-import com.friendly.calendar.service.EventService
+import com.friendly.calendar.network.EventDto
+import com.friendly.calendar.domain.service.EventService
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
