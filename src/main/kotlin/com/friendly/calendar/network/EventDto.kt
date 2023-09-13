@@ -1,6 +1,6 @@
 package com.friendly.calendar.network
 
-import com.friendly.calendar.domain.model.enum.Status
+import com.friendly.calendar.domain.model.enum.EventInvitationStatus
 import java.time.LocalDateTime
 
 data class EventDto(
@@ -9,6 +9,6 @@ data class EventDto(
     var startDate: LocalDateTime,
     var endDate: LocalDateTime,
     var location: String?,
-    var status: Status?,
+    var eventInvitationStatus: EventInvitationStatus?,
     var invitedMembersId: List<String>?
 )

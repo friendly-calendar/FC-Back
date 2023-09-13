@@ -1,6 +1,6 @@
 package com.friendly.calendar.service
 
-import com.friendly.calendar.domain.model.enum.Status.*
+import com.friendly.calendar.domain.model.enum.EventInvitationStatus.*
 import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.network.UserSignUpReq
 import com.friendly.calendar.domain.persistence.EventRepository
@@ -59,7 +59,7 @@ class EventServiceTest(
             startDate = startDate,
             endDate = endDate,
             location = "locationTest",
-            status = ACCEPTED,
+            eventInvitationStatus = ACCEPTED,
             invitedMembersId = listOf(findUser1.username, findUser2.username)
         )
         val createEvent = eventService.createEvent(eventDto)

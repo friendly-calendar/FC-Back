@@ -24,7 +24,7 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
             startDate = eventDto.startDate,
             endDate = eventDto.endDate,
             location = eventDto.location,
-            status = eventDto.status,
+            eventInvitationStatus = eventDto.eventInvitationStatus,
             invitedUser = invitedMembers ?: emptyList()
         )
         return eventRepository.save(event)
