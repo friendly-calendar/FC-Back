@@ -1,6 +1,6 @@
 package com.friendly.calendar.controller
 
-import com.friendly.calendar.network.user.UserSignUpReq
+import com.friendly.calendar.network.UserSignUpReq
 import com.google.gson.Gson
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
@@ -33,7 +33,7 @@ class UserControllerTest(
             val userSignUpReq: UserSignUpReq = UserSignUpReq(
                 nickName = "csGood",
                 email = "cs@gmail.com",
-                id = "csGood",
+                username = "csGood",
                 password = "csGoodGoodGood",
                 phoneNumber = "010-1111-1111123"
             )
@@ -49,7 +49,7 @@ class UserControllerTest(
             val userSignUpReq: UserSignUpReq = UserSignUpReq(
                 nickName = "1@$%@#$@#4",
                 email = "cs@gmail.com",
-                id = "csGood",
+                username = "csGood",
                 password = "csGoodGoodGood",
                 phoneNumber = "010-1111-1111"
             )
@@ -65,7 +65,7 @@ class UserControllerTest(
             val userSignUpReq: UserSignUpReq = UserSignUpReq(
                 nickName = "csKim",
                 email = "cs1@gmail.com",
-                id = "csCS!@#123",
+                username = "csCS!@#123",
                 password = "csCS!@#1231231231",
                 phoneNumber = "010-1111-1112"
             )
@@ -81,7 +81,7 @@ class UserControllerTest(
             val userSignUpReq: UserSignUpReq = UserSignUpReq(
                 nickName = "csKim",
                 email = "csgmail.com",
-                id = "csGood",
+                username = "csGood",
                 password = "csGoodGoodGood",
                 phoneNumber = "010-1111-1111"
             )
@@ -101,7 +101,7 @@ class UserControllerTest(
                 val userSignUpReq = UserSignUpReq(
                     nickName = it,
                     email = "cs@gmail.com",
-                    id = "csGood",
+                    username = "csGood",
                     password = "csGoodGoodGood",
                     phoneNumber = "010-1111-1111"
                 )
@@ -117,7 +117,7 @@ class UserControllerTest(
             val userSignUpReq: UserSignUpReq = UserSignUpReq(
                 nickName = "csGood",
                 email = "cs@gmail.com",
-                id = "csGood",
+                username = "csGood",
                 password = "csGoodGoodGood",
                 phoneNumber = "010-1111-1111"
             )

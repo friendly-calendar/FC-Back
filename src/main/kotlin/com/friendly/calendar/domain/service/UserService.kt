@@ -1,8 +1,8 @@
-package com.friendly.calendar.service
+package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.network.user.UserSignUpReq
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.network.UserSignUpReq
+import com.friendly.calendar.domain.persistence.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -12,10 +12,10 @@ import javax.transaction.Transactional
 class UserService(val userRepository: UserRepository) {
 
     fun signUp(user: UserSignUpReq): Long {
-        val isExistUser = userRepository.existsByEmailOrPhoneNumberOrId(
+        val isExistUser = userRepository.existsByEmailOrPhoneNumberOrUsername(
             email = user.email!!,
             phoneNumber = user.phoneNumber,
-            id = user.id
+            username = user.username
         )
         if (isExistUser) {
             throw RuntimeException()
@@ -25,7 +25,7 @@ class UserService(val userRepository: UserRepository) {
 
         return userRepository.save(
             User(
-                username = user.id,
+                username = user.username,
                 password = hashPw,
                 phoneNumber = user.phoneNumber,
                 email = user.email,

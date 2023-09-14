@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.jwt
+package com.friendly.calendar.network
 
 data class TokenResponse(
     val accessToken: String,

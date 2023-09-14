@@ -1,4 +1,4 @@
-package com.friendly.calendar.domain.model.enum
+package com.friendly.calendar.domain.model
 
 enum class FriendStatus {
     SUCCESS,

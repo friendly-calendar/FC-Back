@@ -1,6 +1,6 @@
 package com.friendly.calendar.security.jwt
 
-import com.friendly.calendar.network.jwt.TokenResponse
+import com.friendly.calendar.network.TokenResponse
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException

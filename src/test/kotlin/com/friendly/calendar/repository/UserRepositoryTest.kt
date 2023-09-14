@@ -1,6 +1,7 @@
 package com.friendly.calendar.repository
 
 import com.friendly.calendar.domain.model.User
+import com.friendly.calendar.domain.persistence.UserRepository
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
@@ -31,7 +32,7 @@ class UserRepositoryTest(
             userRepository.save(newUser)
 
             val result =
-                userRepository.existsByEmailOrPhoneNumberOrId(email = "khkim@crscube.io", phoneNumber = "112", id = "kh")
+                userRepository.existsByEmailOrPhoneNumberOrUsername(email = "khkim@crscube.io", phoneNumber = "112", username = "kh")
             assertTrue(result)
         }
     }

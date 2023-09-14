@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.user
+package com.friendly.calendar.network
 
 import com.friendly.calendar.validator.annotation.AlphaNumeric
 import com.friendly.calendar.validator.annotation.AlphaNumericWithSpecialChars
@@ -17,7 +17,7 @@ data class UserSignUpReq(
 
     @field:Size(min = 4, max = 15, message = "id의 Size 는 {min} ~ {max} 사이입니다.")
     @AlphaNumericWithSpecialChars
-    val id: String,
+    val username: String,
 
     @field:Size(min = 9, max = 20, message = "password 의 Size 는 {min} ~ {max} 사이입니다.")
     @AlphaNumericWithSpecialChars

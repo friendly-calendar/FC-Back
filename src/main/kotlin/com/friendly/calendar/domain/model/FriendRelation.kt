@@ -1,7 +1,6 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.baseEntity.BaseEntity
-import com.friendly.calendar.domain.model.enum.FriendStatus
 import javax.persistence.*
 
 @Entity
@@ -25,6 +24,10 @@ class FriendRelation(
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_key")
     val friend: User,
+
+    @OneToMany
+    @JoinColumn(name = "relation_key")
+    val groupList: List<FriendGroupList>,
 
     @Enumerated(EnumType.STRING)
     val status: FriendStatus,
