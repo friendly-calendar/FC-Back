@@ -1,5 +1,6 @@
 package com.friendly.calendar.service
 
+import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus.*
 import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.network.UserSignUpReq
@@ -69,5 +70,28 @@ class EventServiceTest(
         createEvent.eventDate?.startDate shouldBe findEvent?.eventDate?.startDate
         createEvent.eventLocation?.location shouldBe findEvent?.eventLocation?.location
         createEvent.members.size shouldBe findEvent?.members?.size
+    }
+
+    @Test
+    fun deleteEventTest() {
+        val findUser1 = userRepository.findById(userId1).get()
+        val startDate: LocalDateTime = LocalDateTime.now().minusDays(1)
+        val endDate: LocalDateTime = LocalDateTime.now()
+
+        val eventDto = EventDto(
+            title = "titleTest",
+            description = "descriptionTest",
+            startDate = startDate,
+            endDate = endDate,
+            location = "locationTest",
+            eventInvitationStatus = ACCEPTED,
+            invitedMembersId = listOf(findUser1.username)
+        )
+        val createEvent = eventService.createEvent(eventDto)
+        eventService.deleteEvent(createEvent.id)
+        val findEvent = eventRepository.findById(createEvent.id).get()
+
+        createEvent.delFlag shouldBe N
+        findEvent.delFlag shouldBe Y
     }
 }

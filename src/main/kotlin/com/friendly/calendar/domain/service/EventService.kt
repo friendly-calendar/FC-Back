@@ -1,6 +1,8 @@
 package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.Event
+import com.friendly.calendar.domain.model.baseEntity.DelFlag
+import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
 import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
@@ -34,7 +36,10 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
         TODO()
     }
 
-    fun deleteEvent() {
-        TODO()
+    fun deleteEvent(eventKey: Long) {
+        eventRepository.findById(eventKey).ifPresent {
+            it.delFlag = Y
+            eventRepository.save(it)
+        }
     }
 }

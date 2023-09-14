@@ -2,8 +2,8 @@ package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.User
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
+import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.domain.service.FriendStatusService
-import com.friendly.calendar.repository.UserRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
