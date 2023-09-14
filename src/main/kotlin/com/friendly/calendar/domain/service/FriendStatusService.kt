@@ -6,9 +6,11 @@ import com.friendly.calendar.domain.model.enum.FriendLogStatus
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
 import com.friendly.calendar.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.Optional
 
 @Service
+@Transactional
 class FriendStatusService(
     private val friendRequestRepository: FriendRequestRepository,
     private val userRepository: UserRepository
