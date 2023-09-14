@@ -5,7 +5,9 @@ import com.friendly.calendar.network.enum.ErrorCode
 import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.domain.service.EventService
 import lombok.RequiredArgsConstructor
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController
 class EventController(val eventService: EventService) {
 
     @GetMapping
-    fun getEvent(@RequestParam eventId: Long): ResponseDto<Any> {
+    fun getEvent(@RequestParam eventKey: Long): ResponseDto<Any> {
         return try {
-            val event = eventService.getEvent(eventId)
+            val event = eventService.getEvent(eventKey)
             ResponseDto.success(event)
         } catch (e: Exception) {
             ResponseDto.fail(errorCode = ErrorCode.NOT_FOUND)
@@ -35,5 +37,15 @@ class EventController(val eventService: EventService) {
         } catch (e: Exception) {
             ResponseDto.fail(errorCode = ErrorCode.NOT_FOUND)
         }
+    }
+
+    @PatchMapping
+    fun updateEvent() {
+        eventService.updateEvent()
+    }
+
+    @DeleteMapping
+    fun deleteEvent() {
+        eventService.deleteEvent()
     }
 }
