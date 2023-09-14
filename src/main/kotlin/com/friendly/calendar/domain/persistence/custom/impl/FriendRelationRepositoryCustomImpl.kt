@@ -17,7 +17,8 @@ class FriendRelationRepositoryCustomImpl(
             .where(
                 friendRelation.user.eq(user)
                     .and(friendRelation.delFlag.eq(DelFlag.N))
-                    .and(friendRelation.status.eq(FriendStatus.SUCCESS)))
+                    .and(friendRelation.status.eq(FriendStatus.SUCCESS))
+            )
             .fetch()
     }
 }

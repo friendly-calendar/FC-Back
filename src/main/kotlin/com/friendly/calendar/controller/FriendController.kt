@@ -21,7 +21,7 @@ class FriendController(
 
     @GetMapping("/list")
     fun getFriendList(@RequestParam userKey: Long): ResponseDto<Any> {
-        val friendList: List<FriendRelation> = friendService.getFriends(userKey);
+        val friendList: List<FriendRelation> = friendService.getFriends(userKey)
 
         return ResponseDto.success(data = friendList)
     }

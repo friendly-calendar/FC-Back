@@ -11,7 +11,7 @@ import io.mockk.every
 import io.mockk.mockk
 import java.util.Optional
 
-class FriendStatusServiceTest: AnnotationSpec() {
+class FriendStatusServiceTest : AnnotationSpec() {
 
     private val userRepository = mockk<UserRepository>()
 
@@ -23,23 +23,27 @@ class FriendStatusServiceTest: AnnotationSpec() {
 
     @BeforeEach
     fun setUp() {
-        every { userRepository.findById(existsUserId1) } returns Optional.of(User(
-            id = 1,
-            username = "jylim",
-            password = "jylim12345",
-            email = "jylim@test.com",
-            phoneNumber = "010-1234-5678",
-            name = "TestName",
-        ))
+        every { userRepository.findById(existsUserId1) } returns Optional.of(
+            User(
+                id = 1,
+                username = "jylim",
+                password = "jylim12345",
+                email = "jylim@test.com",
+                phoneNumber = "010-1234-5678",
+                name = "TestName",
+            )
+        )
 
-        every { userRepository.findById(existsUserId2) } returns Optional.of(User(
-            id = 2,
-            username = "jylim2",
-            password = "jylim12345",
-            email = "limjy@test.com",
-            phoneNumber = "010-1111-2222",
-            name = "TestName2",
-        ))
+        every { userRepository.findById(existsUserId2) } returns Optional.of(
+            User(
+                id = 2,
+                username = "jylim2",
+                password = "jylim12345",
+                email = "limjy@test.com",
+                phoneNumber = "010-1111-2222",
+                name = "TestName2",
+            )
+        )
 
         every { userRepository.findById(notExistsUserId) } returns Optional.empty()
 
