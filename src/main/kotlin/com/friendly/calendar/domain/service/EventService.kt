@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 class EventService(val eventRepository: EventRepository, val userRepository: UserRepository) {
 
-    fun getEvent(eventId: Long): Event? {
-        return eventRepository.findEventWithDetails(eventId)
+    @Transactional(readOnly = true)
+    fun getEvent(eventKey: Long): Event? {
+        return eventRepository.findEventWithDetails(eventKey)
     }
 
-    @Transactional
     fun createEvent(eventDto: EventDto): Event {
         val invitedMembers = eventDto.invitedMembersId?.map { userRepository.findByUsername(it).get() }
         val event = Event(
@@ -28,5 +28,13 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
             invitedUser = invitedMembers ?: emptyList()
         )
         return eventRepository.save(event)
+    }
+
+    fun updateEvent() {
+        TODO()
+    }
+
+    fun deleteEvent() {
+        TODO()
     }
 }
