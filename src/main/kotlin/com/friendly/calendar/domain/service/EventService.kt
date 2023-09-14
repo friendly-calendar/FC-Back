@@ -37,9 +37,11 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
     }
 
     fun deleteEvent(eventKey: Long) {
-        eventRepository.findById(eventKey).ifPresent {
+        val event = eventRepository.findById(eventKey)
+
+        event.map {
             it.delFlag = Y
             eventRepository.save(it)
-        }
+        }.orElseThrow { IllegalArgumentException("event not found") }
     }
 }
