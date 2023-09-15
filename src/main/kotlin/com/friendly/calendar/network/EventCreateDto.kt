@@ -2,7 +2,7 @@ package com.friendly.calendar.network
 
 import java.time.LocalDateTime
 
-data class EventDto(
+data class EventCreateDto(
     var title: String,
     var description: String?,
     var startDate: LocalDateTime,

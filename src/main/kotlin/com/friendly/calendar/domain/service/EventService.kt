@@ -4,7 +4,7 @@ import com.friendly.calendar.domain.model.*
 import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus.*
-import com.friendly.calendar.network.EventDto
+import com.friendly.calendar.network.EventCreateDto
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.network.EventUpdateDto
@@ -20,21 +20,21 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
         return eventRepository.findEventWithDetails(eventKey)
     }
 
-    fun createEvent(eventDto: EventDto): Event {
+    fun createEvent(eventCreateDto: EventCreateDto): Event {
         val eventDate = EventDate(
-            startDate = eventDto.startDate,
-            endDate = eventDto.endDate,
+            startDate = eventCreateDto.startDate,
+            endDate = eventCreateDto.endDate,
         )
-        val eventLocation = eventDto.location?.let {
+        val eventLocation = eventCreateDto.location?.let {
             EventLocation(location = it)
         }
-        val members: List<EventMember> = eventDto.invitedMembersId?.map {
+        val members: List<EventMember> = eventCreateDto.invitedMembersId?.map {
             val invitedUser = userRepository.findByUsername(it).get()
             EventMember(invitedUser = invitedUser, eventInvitationStatus = INVITED)
         } ?: emptyList()
          val event = Event(
-            title = eventDto.title,
-            description = eventDto.description,
+            title = eventCreateDto.title,
+            description = eventCreateDto.description,
             eventDate = eventDate,
             eventLocation = eventLocation,
             members = members

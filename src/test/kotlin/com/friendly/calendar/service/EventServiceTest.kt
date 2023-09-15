@@ -2,7 +2,7 @@ package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus
-import com.friendly.calendar.network.EventDto
+import com.friendly.calendar.network.EventCreateDto
 import com.friendly.calendar.network.UserSignUpReq
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
@@ -59,7 +59,7 @@ class EventServiceTest(
         val startDate: LocalDateTime = LocalDateTime.now().minusDays(1)
         val endDate: LocalDateTime = LocalDateTime.now()
 
-        val eventDto = EventDto(
+        val eventCreateDto = EventCreateDto(
             title = "titleTest",
             description = "descriptionTest",
             startDate = startDate,
@@ -67,7 +67,7 @@ class EventServiceTest(
             location = "locationTest",
             invitedMembersId = listOf(findUser1.username, findUser2.username)
         )
-        val createEvent = eventService.createEvent(eventDto)
+        val createEvent = eventService.createEvent(eventCreateDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
 
         createEvent.title shouldBe findEvent?.title
@@ -81,7 +81,7 @@ class EventServiceTest(
         val startDate: LocalDateTime = LocalDateTime.now().minusDays(1)
         val endDate: LocalDateTime = LocalDateTime.now()
 
-        val eventDto = EventDto(
+        val eventCreateDto = EventCreateDto(
             title = "titleTest",
             description = "descriptionTest",
             startDate = startDate,
@@ -89,7 +89,7 @@ class EventServiceTest(
             location = "locationTest",
             invitedMembersId = listOf(findUser1.username)
         )
-        val createEvent = eventService.createEvent(eventDto)
+        val createEvent = eventService.createEvent(eventCreateDto)
         eventService.deleteEvent(createEvent.id)
         val findEvent = eventRepository.findById(createEvent.id).get()
 
@@ -107,7 +107,7 @@ class EventServiceTest(
         val changeEndDate: LocalDateTime = LocalDateTime.now().plusDays(4)
 
         //create event
-        val eventDto = EventDto(
+        val eventCreateDto = EventCreateDto(
             title = "title1",
             description = "description1",
             startDate = startDate,
@@ -115,7 +115,7 @@ class EventServiceTest(
             location = "location1",
             invitedMembersId = listOf(findUser1.username)
         )
-        val createEvent = eventService.createEvent(eventDto)
+        val createEvent = eventService.createEvent(eventCreateDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
 
         //update event
