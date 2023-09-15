@@ -4,7 +4,7 @@ import com.friendly.calendar.domain.model.FriendRelation
 import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.domain.service.FriendStatusService
 import com.friendly.calendar.network.ResponseDto
-import com.friendly.calendar.network.friend.FriendRequestDto
+import com.friendly.calendar.network.FriendRequestDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

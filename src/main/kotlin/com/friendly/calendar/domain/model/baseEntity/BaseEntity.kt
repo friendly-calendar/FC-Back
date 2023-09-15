@@ -21,4 +21,13 @@ abstract class BaseEntity : java.io.Serializable {
 
     @Enumerated(EnumType.STRING)
     var delFlag: DelFlag = DelFlag.N
+        private set
+
+    fun delete() {
+        this.delFlag = DelFlag.Y
+    }
+
+    fun restore() {
+        this.delFlag = DelFlag.N
+    }
 }

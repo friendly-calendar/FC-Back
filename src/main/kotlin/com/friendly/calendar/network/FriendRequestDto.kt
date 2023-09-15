@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.friend
+package com.friendly.calendar.network
 
 data class FriendRequestDto(
     val sender: Long,
