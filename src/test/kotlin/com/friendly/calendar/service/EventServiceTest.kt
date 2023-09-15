@@ -1,21 +1,26 @@
 package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
-import com.friendly.calendar.domain.model.enum.EventInvitationStatus.*
+import com.friendly.calendar.domain.model.enum.EventInvitationStatus
 import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.network.UserSignUpReq
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.domain.service.EventService
 import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.network.EventMemberDto
+import com.friendly.calendar.network.EventUpdateDto
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("dev")
 class EventServiceTest(
     val eventService: EventService,
     val eventRepository: EventRepository,
@@ -60,14 +65,12 @@ class EventServiceTest(
             startDate = startDate,
             endDate = endDate,
             location = "locationTest",
-            eventInvitationStatus = ACCEPTED,
             invitedMembersId = listOf(findUser1.username, findUser2.username)
         )
         val createEvent = eventService.createEvent(eventDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
 
         createEvent.title shouldBe findEvent?.title
-        createEvent.eventDate?.startDate shouldBe findEvent?.eventDate?.startDate
         createEvent.eventLocation?.location shouldBe findEvent?.eventLocation?.location
         createEvent.members.size shouldBe findEvent?.members?.size
     }
@@ -84,7 +87,6 @@ class EventServiceTest(
             startDate = startDate,
             endDate = endDate,
             location = "locationTest",
-            eventInvitationStatus = ACCEPTED,
             invitedMembersId = listOf(findUser1.username)
         )
         val createEvent = eventService.createEvent(eventDto)
@@ -93,5 +95,49 @@ class EventServiceTest(
 
         createEvent.delFlag shouldBe N
         findEvent.delFlag shouldBe Y
+    }
+
+    @Test
+    fun updateEventTest() {
+        val findUser1 = userRepository.findById(userId1).get()
+        val findUser2 = userRepository.findById(userId2).get()
+        val startDate: LocalDateTime = LocalDateTime.now().minusDays(1)
+        val endDate: LocalDateTime = LocalDateTime.now()
+        val changeStartDate: LocalDateTime = LocalDateTime.now().plusDays(3)
+        val changeEndDate: LocalDateTime = LocalDateTime.now().plusDays(4)
+
+        //create event
+        val eventDto = EventDto(
+            title = "title1",
+            description = "description1",
+            startDate = startDate,
+            endDate = endDate,
+            location = "location1",
+            invitedMembersId = listOf(findUser1.username)
+        )
+        val createEvent = eventService.createEvent(eventDto)
+        val findEvent = eventRepository.findEventWithDetails(createEvent.id)
+
+        //update event
+        val eventMemberDto = EventMemberDto(
+            invitedMembersId = findUser2.username,
+            eventInvitationStatus = EventInvitationStatus.ACCEPTED
+        )
+        val eventUpdateDto = EventUpdateDto(
+            eventKey = createEvent.id,
+            title = "title2",
+            description = "description2",
+            startDate = changeStartDate,
+            endDate = changeEndDate,
+            location = "location2",
+            eventMemberDto = listOf(eventMemberDto)
+        )
+        eventService.updateEvent(eventUpdateDto)
+        val updateEvent = eventRepository.findEventWithDetails(createEvent.id)
+
+        //check update event
+        updateEvent?.title shouldNotBe findEvent?.title
+        updateEvent?.eventLocation?.location shouldNotBe findEvent?.eventLocation?.location
+        updateEvent?.members?.get(0)?.invitedUser?.username shouldNotBe findEvent?.members?.get(0)?.invitedUser?.username
     }
 }

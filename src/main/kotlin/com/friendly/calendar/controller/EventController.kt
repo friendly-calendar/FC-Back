@@ -3,6 +3,7 @@ package com.friendly.calendar.controller
 import com.friendly.calendar.network.ResponseDto
 import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.domain.service.EventService
+import com.friendly.calendar.network.EventUpdateDto
 import com.friendly.calendar.network.ResponseDto.Companion.success
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -32,8 +33,9 @@ class EventController(val eventService: EventService) {
     }
 
     @PatchMapping
-    fun updateEvent() {
-        eventService.updateEvent()
+    fun updateEvent(@RequestBody eventUpdateDto: EventUpdateDto): ResponseDto<Any> {
+        eventService.updateEvent(eventUpdateDto)
+        return success()
     }
 
     @DeleteMapping
