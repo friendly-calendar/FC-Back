@@ -57,11 +57,11 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
                 val invitedUser = userRepository.findByUsername(it.invitedMembersId).get()
                 EventMember(invitedUser = invitedUser, eventInvitationStatus = it.eventInvitationStatus as EventInvitationStatus)
             } ?: emptyList()
-            event.title = eventUpdateDto.title
-            event.description = eventUpdateDto.description
-            event.eventDate = eventDate
-            event.eventLocation = eventLocation
-            event.members = members
+            it.title = eventUpdateDto.title
+            it.description = eventUpdateDto.description
+            it.eventDate = eventDate
+            it.eventLocation = eventLocation
+            it.members = members
         } ?: throw IllegalArgumentException("event not found")
     }
 
