@@ -8,8 +8,8 @@ import com.friendly.calendar.network.ResponseDto.Companion.success
 import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -32,7 +32,7 @@ class EventController(val eventService: EventService) {
         return success()
     }
 
-    @PatchMapping
+    @PutMapping
     fun updateEvent(@RequestBody eventUpdateDto: EventUpdateDto): ResponseDto<Any> {
         eventService.updateEvent(eventUpdateDto)
         return success()
