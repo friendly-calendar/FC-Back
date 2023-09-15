@@ -12,13 +12,17 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 class EventRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ) : EventRepositoryCustom {
-    override fun findEventWithDetails(eventKey: Long): Event? {
-        return queryFactory
+    override fun findEventWithDetails(eventKey: Long): Event {
+        val result = queryFactory
             .selectFrom(event)
             .leftJoin(event.eventDate, eventDate).fetchJoin()
             .leftJoin(event.eventLocation, eventLocation).fetchJoin()
             .leftJoin(event.members, eventMember).fetchJoin()
             .where(event.id.eq(eventKey).and(event.delFlag.eq(DelFlag.N)))
             .fetchOne()
+
+        result?.let {
+            return it
+        } ?: throw Exception("Event not found")
     }
 }

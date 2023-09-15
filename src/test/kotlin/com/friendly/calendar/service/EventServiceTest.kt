@@ -70,9 +70,9 @@ class EventServiceTest(
         val createEvent = eventService.createEvent(eventCreateDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
 
-        createEvent.title shouldBe findEvent?.title
-        createEvent.eventLocation?.location shouldBe findEvent?.eventLocation?.location
-        createEvent.members.size shouldBe findEvent?.members?.size
+        createEvent.title shouldBe findEvent.title
+        createEvent.eventLocation?.location shouldBe findEvent.eventLocation?.location
+        createEvent.members.size shouldBe findEvent.members?.size
     }
 
     @Test
@@ -136,8 +136,8 @@ class EventServiceTest(
         val updateEvent = eventRepository.findEventWithDetails(createEvent.id)
 
         //check update event
-        updateEvent?.title shouldNotBe findEvent?.title
-        updateEvent?.eventLocation?.location shouldNotBe findEvent?.eventLocation?.location
-        updateEvent?.members?.get(0)?.invitedUser?.username shouldNotBe findEvent?.members?.get(0)?.invitedUser?.username
+        updateEvent.title shouldNotBe findEvent.title
+        updateEvent.eventLocation?.location shouldNotBe findEvent.eventLocation?.location
+        updateEvent.members.get(0)?.invitedUser?.username shouldNotBe findEvent.members?.get(0)?.invitedUser?.username
     }
 }
