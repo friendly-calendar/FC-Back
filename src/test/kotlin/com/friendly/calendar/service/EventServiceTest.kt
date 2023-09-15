@@ -72,7 +72,7 @@ class EventServiceTest(
 
         createEvent.title shouldBe findEvent.title
         createEvent.eventLocation?.location shouldBe findEvent.eventLocation?.location
-        createEvent.members.size shouldBe findEvent.members?.size
+        createEvent.members.size shouldBe findEvent.members.size
     }
 
     @Test
@@ -138,6 +138,6 @@ class EventServiceTest(
         //check update event
         updateEvent.title shouldNotBe findEvent.title
         updateEvent.eventLocation?.location shouldNotBe findEvent.eventLocation?.location
-        updateEvent.members.get(0)?.invitedUser?.username shouldNotBe findEvent.members?.get(0)?.invitedUser?.username
+        updateEvent.members[0]?.invitedUser?.username shouldNotBe findEvent.members[0]?.invitedUser?.username
     }
 }
