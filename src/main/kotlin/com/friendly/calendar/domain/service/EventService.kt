@@ -73,7 +73,6 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
 
         event.map {
             it.delete()
-            eventRepository.save(it)
         }.orElseThrow { IllegalArgumentException("event not found") }
     }
 }
