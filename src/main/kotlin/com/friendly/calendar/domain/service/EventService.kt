@@ -62,7 +62,7 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
             event.eventDate = eventDate
             event.eventLocation = eventLocation
             event.members = members
-        }
+        } ?: throw IllegalArgumentException("event not found")
     }
 
     fun deleteEvent(eventKey: Long) {
