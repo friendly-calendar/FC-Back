@@ -16,8 +16,8 @@ class EventDate(
     @Column(name = "date_key")
     val id: Long = 0,
 
-    var startDate: LocalDateTime,
+    val startDate: LocalDateTime,
 
-    var endDate: LocalDateTime
+    val endDate: LocalDateTime
 
 ) : BaseEntity()

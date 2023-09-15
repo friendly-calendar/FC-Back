@@ -11,6 +11,6 @@ class EventLocation(
     @Column(name = "location_key")
     val id: Long = 0,
 
-    var location: String,
+    val location: String,
 
     ) : LastModifiedLogEntity()
