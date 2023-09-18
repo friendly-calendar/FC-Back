@@ -36,4 +36,15 @@ class FriendController(
 
         return ResponseDto.success()
     }
+
+    @PostMapping("/accept")
+    fun acceptFriend(@RequestBody friendRequestDto: FriendRequestDto): ResponseDto<Any> {
+        friendStatusService.acceptFriend(
+            senderKey = friendRequestDto.sender,
+            receiverKey = friendRequestDto.receiver,
+            acceptMessage = friendRequestDto.message
+        )
+
+        return ResponseDto.success()
+    }
 }
