@@ -35,7 +35,7 @@ class FriendRelationRepositoryCustomImpl(
 
     override fun isFriendRelation(user: User, friend: User): Boolean =
         queryFactory
-            .select(friendRelation)
+            .selectFrom(friendRelation)
             .where(
                 friendRelation.user.eq(user)
                     .and(friendRelation.friend.eq(friend))
