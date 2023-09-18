@@ -1,9 +1,9 @@
 package com.friendly.calendar.service
 
+import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.model.User
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
-import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.domain.service.FriendStatusService
 import com.friendly.calendar.domain.service.UserService
@@ -12,7 +12,6 @@ import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import java.util.Optional
 
 class FriendStatusServiceTest : AnnotationSpec() {
 
@@ -57,6 +56,22 @@ class FriendStatusServiceTest : AnnotationSpec() {
         every { friendRelationRepository.isBlockedRelation(any(), any()) } returns false
 
         every { friendRelationRepository.isFriendRelation(any(), any()) } returns false
+
+        every { friendService.getFriendRequest(any(), any(), any(), any()) } answers {
+            val args = it.invocation.args
+
+            val sender = args[0] as User
+            val receiver = args[1] as User
+            val message = args[2] as String
+            val status = args[3] as com.friendly.calendar.domain.model.FriendLogStatus
+
+            FriendRequest(
+                sender = sender,
+                receiver = receiver,
+                message = message,
+                status = status
+            )
+        }
     }
 
     @Test
@@ -75,5 +90,34 @@ class FriendStatusServiceTest : AnnotationSpec() {
         shouldThrow<IllegalArgumentException> {
             friendStatusService.requestFriend(existsUserId1, notExistsUserId, "testMessage")
         }
+    }
+
+    @Test
+    fun `Should success when sender and receiver are not blocked and not friend`() {
+        val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
+
+        friendStatusService.requestFriend(existsUserId1, existsUserId2, "testMessage")
+    }
+
+    @Test
+    fun `Should fail when sender is blocked by receiver`() {
+        every { friendRelationRepository.isBlockedRelation(any(), any()) } returns true
+
+        val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
+
+        shouldThrow<IllegalArgumentException> {
+            friendStatusService.requestFriend(existsUserId1, existsUserId2, "testMessage")
+        }.message shouldBe "You are blocked by this user."
+    }
+
+    @Test
+    fun `Should fail when sender is already friend with receiver`() {
+        every { friendRelationRepository.isFriendRelation(any(), any()) } returns true
+
+        val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
+
+        shouldThrow<IllegalArgumentException> {
+            friendStatusService.requestFriend(existsUserId1, existsUserId2, "testMessage")
+        }.message shouldBe "You are already friend with this user."
     }
 }
