@@ -50,9 +50,13 @@ class FriendStatusServiceTest : AnnotationSpec() {
             name = "TestName2",
         )
 
-        every { userService.findUserById(notExistsUserId) } returns throw IllegalArgumentException("User with id $notExistsUserId not found")
+        every { userService.findUserById(notExistsUserId) } throws IllegalArgumentException("User with id $notExistsUserId not found")
 
         every { friendRequestRepository.save(any()) } returns mockk()
+
+        every { friendRelationRepository.isBlockedRelation(any(), any()) } returns false
+
+        every { friendRelationRepository.isFriendRelation(any(), any()) } returns false
     }
 
     @Test
