@@ -39,4 +39,8 @@ class UserService(val userRepository: UserRepository) {
         val DEFAULT_NAME_LIST: List<String> = listOf("김강호")
         return DEFAULT_NAME_LIST[0]
     }
+
+    fun findUserById(userId: Long): User {
+        return userRepository.findById(userId).orElseThrow { IllegalArgumentException("User with id $userId not found") }
+    }
 }
