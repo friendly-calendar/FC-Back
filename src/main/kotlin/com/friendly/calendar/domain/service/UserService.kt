@@ -1,8 +1,8 @@
 package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.network.UserSignUpReq
 import com.friendly.calendar.domain.persistence.UserRepository
+import com.friendly.calendar.network.UserSignUpReq
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional

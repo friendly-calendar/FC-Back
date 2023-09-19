@@ -1,8 +1,8 @@
 package com.friendly.calendar.domain.service
 
+import com.friendly.calendar.domain.model.FriendLogStatus
 import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.domain.model.FriendLogStatus
 import com.friendly.calendar.domain.model.event.FriendRequestAcceptedEvent
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
@@ -36,7 +36,7 @@ class FriendStatusService(
         friendRequestRepository.save(friendRequest)
     }
 
-    fun acceptFriend(senderKey: Long, receiverKey: Long, acceptMessage: String){
+    fun acceptFriend(senderKey: Long, receiverKey: Long, acceptMessage: String) {
         val sender: User = userService.findUserById(senderKey)
         val receiver: User = userService.findUserById(receiverKey)
 

@@ -1,11 +1,10 @@
 package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.Event
-import com.friendly.calendar.domain.model.baseEntity.DelFlag
 import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
-import com.friendly.calendar.network.EventDto
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
+import com.friendly.calendar.network.EventDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
