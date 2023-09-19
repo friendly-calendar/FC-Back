@@ -11,20 +11,27 @@ import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 
 class FriendStatusServiceTest : AnnotationSpec() {
 
-    private val userService = mockk<UserService>()
+    @MockK
+    lateinit var userService: UserService
 
-    private val friendRequestRepository = mockk<FriendRequestRepository>()
+    @MockK
+    lateinit var friendRequestRepository: FriendRequestRepository
 
-    private val friendRelationRepository = mockk<FriendRelationRepository>()
+    @MockK
+    lateinit var friendRelationRepository: FriendRelationRepository
 
-    private val friendService = mockk<FriendService>()
+    @MockK
+    lateinit var friendService: FriendService
 
-    private val applicationEventPublisher = mockk<org.springframework.context.ApplicationEventPublisher>()
+    @MockK
+    lateinit var applicationEventPublisher: org.springframework.context.ApplicationEventPublisher
 
     private val existsUserId1: Long = 1
     private val existsUserId2: Long = 2
@@ -32,6 +39,8 @@ class FriendStatusServiceTest : AnnotationSpec() {
 
     @BeforeEach
     fun setUp() {
+        MockKAnnotations.init(this, relaxUnitFun = true)
+
         every { userService.findUserById(existsUserId1) } returns User(
             id = 1,
             username = "jylim",
