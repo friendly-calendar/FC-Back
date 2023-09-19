@@ -131,4 +131,15 @@ class FriendStatusServiceTest : AnnotationSpec() {
             friendStatusService.acceptFriend(notExistsUserId, existsUserId2, "testMessage")
         }
     }
+
+    @Test
+    fun `Should fail when there is no friend request from sender`() {
+        every { friendRequestRepository.existsRequestFriend(any(), any()) } returns false
+
+        val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
+
+        shouldThrow<IllegalArgumentException> {
+            friendStatusService.acceptFriend(existsUserId1, existsUserId2, "testMessage")
+        }.message shouldBe "There is no friend request from this user."
+    }
 }
