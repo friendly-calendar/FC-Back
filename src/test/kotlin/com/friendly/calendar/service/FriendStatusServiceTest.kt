@@ -7,6 +7,7 @@ import com.friendly.calendar.domain.persistence.FriendRequestRepository
 import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.domain.service.FriendStatusService
 import com.friendly.calendar.domain.service.UserService
+import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
@@ -96,7 +97,9 @@ class FriendStatusServiceTest : AnnotationSpec() {
     fun `Should success when sender and receiver are not blocked and not friend`() {
         val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
 
-        friendStatusService.requestFriend(existsUserId1, existsUserId2, "testMessage")
+        shouldNotThrow<Exception> {
+            friendStatusService.requestFriend(existsUserId1, existsUserId2, "testMessage")
+        }
     }
 
     @Test
