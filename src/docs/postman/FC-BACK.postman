@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "029624e8-8b07-4b39-a4ac-1f6cb42cb524",
+		"name": "FC-BACK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18981389"
+	},
+	"item": [
+		{
+			"name": "Friend",
+			"item": [
+				{
+					"name": "FriendList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqeWxpbTEiLCJqdGkiOiJBY2Nlc3NUb2tlbiIsImlhdCI6MTY5NDQ4NzkwMSwiZXhwIjoxNjk0NTc0MzAxfQ.i5F4v47LSJfj0Zx1qvCUe3Z4Bj7hxzx-BWph4LB3gfA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "refreshToken",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqeWxpbTEiLCJqdGkiOiJSZWZyZXNoVG9rZW4iLCJpYXQiOjE2OTQ0ODc2MDEsImV4cCI6MTY5NTA5MjQwMX0.JE48RA4tcjfco2vL2O_g0o1hDll4n5DUv7pkLRFwdRc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend/list?userKey=1",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend",
+								"list"
+							],
+							"query": [
+								{
+									"key": "userKey",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Friend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender\": 1,\r\n    \"receiver\": 2,\r\n    \"message\": \"request friend\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Friend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender\": 1,\r\n    \"receiver\": 2,\r\n    \"message\": \"accept message\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend/accept",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
