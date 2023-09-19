@@ -44,6 +44,10 @@ class FriendStatusService(
             throw IllegalArgumentException("You are already friend with this user.")
         }
 
+        if (!friendRequestRepository.existsRequestFriend(sender, receiver)) {
+            throw IllegalArgumentException("There is no friend request from this user.")
+        }
+
         val friendRequest: FriendRequest = friendService.getFriendRequest(sender, receiver, acceptMessage, FriendLogStatus.ACCEPT)
 
         friendRequestRepository.save(friendRequest)
