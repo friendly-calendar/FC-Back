@@ -39,6 +39,11 @@ class FriendStatusService(
     fun acceptFriend(senderKey: Long, receiverKey: Long, acceptMessage: String){
         val sender: User = userService.findUserById(senderKey)
         val receiver: User = userService.findUserById(receiverKey)
+
+        if (friendRelationRepository.isFriendRelation(sender, receiver)) {
+            throw IllegalArgumentException("You are already friend with this user.")
+        }
+
         val friendRequest: FriendRequest = friendService.getFriendRequest(sender, receiver, acceptMessage, FriendLogStatus.ACCEPT)
 
         friendRequestRepository.save(friendRequest)

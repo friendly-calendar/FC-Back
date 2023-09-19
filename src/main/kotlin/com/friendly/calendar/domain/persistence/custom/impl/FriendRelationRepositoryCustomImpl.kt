@@ -14,8 +14,8 @@ class FriendRelationRepositoryCustomImpl(
 ) : FriendRelationRepositoryCustom {
     override fun findFriendListByUser(user: User): List<FriendRelation> = queryFactory
             .selectFrom(friendRelation)
-            .leftJoin(friendRelation.user, QUser.user).fetchJoin()
-            .leftJoin(friendRelation.friend, QUser.user).fetchJoin()
+            .innerJoin(friendRelation.user, QUser.user).fetchJoin()
+            .innerJoin(friendRelation.friend, QUser.user).fetchJoin()
             .where(
                 friendRelation.user.eq(user)
                     .and(friendRelation.delFlag.eq(DelFlag.N))

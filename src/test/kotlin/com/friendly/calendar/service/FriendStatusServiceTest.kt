@@ -111,7 +111,7 @@ class FriendStatusServiceTest : AnnotationSpec() {
     }
 
     @Test
-    fun `Should fail when sender is already friend with receiver`() {
+    fun `Should fail when sender is already friend with receiver (request friend)`() {
         every { friendRelationRepository.isFriendRelation(any(), any()) } returns true
 
         val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
@@ -119,5 +119,16 @@ class FriendStatusServiceTest : AnnotationSpec() {
         shouldThrow<IllegalArgumentException> {
             friendStatusService.requestFriend(existsUserId1, existsUserId2, "testMessage")
         }.message shouldBe "You are already friend with this user."
+    }
+
+    @Test
+    fun `Should fail when sender is already friend with receiver (accept request)`() {
+        every { friendRelationRepository.isFriendRelation(any(), any()) } returns true
+
+        val friendStatusService = FriendStatusService(friendRequestRepository, friendRelationRepository, friendService, userService, applicationEventPublisher)
+
+        shouldThrow<IllegalArgumentException> {
+            friendStatusService.acceptFriend(notExistsUserId, existsUserId2, "testMessage")
+        }
     }
 }
