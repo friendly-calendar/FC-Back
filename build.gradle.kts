@@ -41,6 +41,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.mindrot:jbcrypt:0.4") // bcrypt
     implementation("com.google.code.gson:gson:2.8.9") // Gson
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+    implementation("com.amazonaws:aws-java-sdk-s3:1.12.547")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")

@@ -18,4 +18,6 @@ enum class ErrorCode(val code: Int, val description: String) {
     INVALID_TOKEN_TYPE(400, "유효하지 않은 토큰 타입입니다."),
 
     INTERNAL_SERVER(500, "서버 내부 에러입니다."),
+
+    FILE_UPLOAD_ERROR(500, "파일 업로드에 실패했습니다"),
 }
