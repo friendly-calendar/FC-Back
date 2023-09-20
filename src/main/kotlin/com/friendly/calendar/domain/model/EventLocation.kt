@@ -13,4 +13,4 @@ class EventLocation(
 
     val location: String,
 
-) : LastModifiedLogEntity()
+    ) : LastModifiedLogEntity()
