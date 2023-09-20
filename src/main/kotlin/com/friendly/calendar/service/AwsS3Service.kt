@@ -9,7 +9,7 @@ import java.net.URLEncoder
 class AwsS3Service(val s3Client: AwsS3Client) : FileService {
     override fun uploadFile(filePath: String, multipartFile: MultipartFile) {
         val encodedFileName = URLEncoder.encode(multipartFile.originalFilename, "UTF-8")
-        s3Client.uploadFile(filePath, encodedFileName, multipartFile.inputStream)
+        s3Client.uploadFile(filePath, encodedFileName, multipartFile)
     }
 
     override fun readFile() {

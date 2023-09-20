@@ -17,12 +17,12 @@ class ProfileController(private val fileService: FileService) {
 
     @PostMapping
     fun createProfile(@ModelAttribute profile: ProfileDto): ResponseDto<String> {
-        try {
+        return try {
             fileService.uploadFile("profile/${profile.userId}", profile.profileImage)
+            ResponseDto.success("success")
         } catch (e: Exception) {
-            return ResponseDto.fail(data = null, ErrorCode.FILE_UPLOAD_ERROR)
+            ResponseDto.fail(data = null, ErrorCode.FILE_UPLOAD_ERROR)
         }
-        return ResponseDto.success("success")
     }
 
     @DeleteMapping
