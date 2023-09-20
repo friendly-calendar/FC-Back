@@ -21,6 +21,7 @@ class ProfileController(private val fileService: FileService) {
             fileService.uploadFile("profile/${profile.userId}", profile.profileImage)
             ResponseDto.success("success")
         } catch (e: Exception) {
+            //TODO Exception Handler 분리
             ResponseDto.fail(data = null, ErrorCode.FILE_UPLOAD_ERROR)
         }
     }
