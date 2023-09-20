@@ -1,7 +1,6 @@
 package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.*
-import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus.*
 import com.friendly.calendar.network.EventCreateDto
