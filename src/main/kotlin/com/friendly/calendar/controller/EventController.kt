@@ -5,7 +5,6 @@ import com.friendly.calendar.network.EventCreateDto
 import com.friendly.calendar.domain.service.EventService
 import com.friendly.calendar.network.EventUpdateDto
 import com.friendly.calendar.network.ResponseDto.Companion.success
-import lombok.RequiredArgsConstructor
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/event")
 class EventController(val eventService: EventService) {
 

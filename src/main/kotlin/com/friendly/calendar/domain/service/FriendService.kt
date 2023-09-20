@@ -1,6 +1,8 @@
 package com.friendly.calendar.domain.service
 
+import com.friendly.calendar.domain.model.FriendLogStatus
 import com.friendly.calendar.domain.model.FriendRelation
+import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.model.User
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.persistence.UserRepository
@@ -17,5 +19,14 @@ class FriendService(
 
         return result.map { friendRelationRepository.findFriendListByUser(it) }
             .orElse(emptyList())
+    }
+
+    fun getFriendRequest(sender: User, receiver: User, message: String, status: FriendLogStatus): FriendRequest {
+        return FriendRequest(
+            sender = sender,
+            receiver = receiver,
+            message = message,
+            status = status
+        )
     }
 }

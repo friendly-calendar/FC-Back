@@ -15,7 +15,7 @@ class FriendRelation(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "relation_key")
-    val relationKey: Long,
+    val relationKey: Long = 0,
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_key")
@@ -27,7 +27,7 @@ class FriendRelation(
 
     @OneToMany
     @JoinColumn(name = "relation_key")
-    val groupList: List<FriendGroupList>,
+    val groupList: List<FriendGroupList>? = null,
 
     @Enumerated(EnumType.STRING)
     val status: FriendStatus,

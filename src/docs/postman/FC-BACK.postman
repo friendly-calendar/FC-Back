@@ -1,0 +1,296 @@
+{
+	"info": {
+		"_postman_id": "029624e8-8b07-4b39-a4ac-1f6cb42cb524",
+		"name": "FC-BACK",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18981389"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Need Access Token",
+					"item": [
+						{
+							"name": "Refresh Access Token",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{domain}}:{{port}}/api/token/refresh",
+									"host": [
+										"{{domain}}"
+									],
+									"port": "{{port}}",
+									"path": [
+										"api",
+										"token",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Sign Up User1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nickName\": \"dokdogal\",\r\n    \"email\": \"jylim1@gmail.com\",\r\n    \"username\": \"jylim1\",\r\n    \"password\": \"createAccount\",\r\n    \"phoneNumber\": \"010-1234-1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/user",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nickName\": \"dokdogal2\",\r\n    \"email\": \"jylim2@gmail.com\",\r\n    \"username\": \"jylim2\",\r\n    \"password\": \"createAccount\",\r\n    \"phoneNumber\": \"010-1243-1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/user",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In User1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"jylim1\",\r\n    \"password\": \"createAccount\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/user/signIn",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"user",
+								"signIn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In User2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"jylim2\",\r\n    \"password\": \"createAccount\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/user/signIn",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"user",
+								"signIn"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Friend",
+			"item": [
+				{
+					"name": "FriendList",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqeWxpbTEiLCJqdGkiOiJBY2Nlc3NUb2tlbiIsImlhdCI6MTY5NDQ4NzkwMSwiZXhwIjoxNjk0NTc0MzAxfQ.i5F4v47LSJfj0Zx1qvCUe3Z4Bj7hxzx-BWph4LB3gfA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "refreshToken",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqeWxpbTEiLCJqdGkiOiJSZWZyZXNoVG9rZW4iLCJpYXQiOjE2OTQ0ODc2MDEsImV4cCI6MTY5NTA5MjQwMX0.JE48RA4tcjfco2vL2O_g0o1hDll4n5DUv7pkLRFwdRc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend/list?userKey=1",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend",
+								"list"
+							],
+							"query": [
+								{
+									"key": "userKey",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Friend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender\": 1,\r\n    \"receiver\": 2,\r\n    \"message\": \"request friend\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Friend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender\": 1,\r\n    \"receiver\": 2,\r\n    \"message\": \"accept message\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend/accept",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

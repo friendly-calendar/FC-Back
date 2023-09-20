@@ -19,4 +19,4 @@ class EventMember(
     @JoinColumn(name = "user_key")
     val invitedUser: User,
 
-    ) : LastModifiedLogEntity()
+) : LastModifiedLogEntity()
