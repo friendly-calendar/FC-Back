@@ -1,5 +1,8 @@
 ## 개발환경 설정
+
 spring:
+    profiles:
+        active: dev
     servlet:
         multipart:
             max-file-size: 10MB

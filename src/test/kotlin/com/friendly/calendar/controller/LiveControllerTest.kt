@@ -4,9 +4,12 @@ import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
 import org.hamcrest.Matchers.*
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
@@ -14,9 +17,11 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@WebMvcTest(LiveController::class)
+@WebMvcTest(LiveController::class, excludeAutoConfiguration = [SecurityAutoConfiguration::class])
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@MockBean(
+    JpaMetamodelMappingContext::class)
 class LiveControllerTest(val mockMvc: MockMvc) : StringSpec() {
     override fun extensions(): List<Extension> = listOf(SpringExtension)
 
