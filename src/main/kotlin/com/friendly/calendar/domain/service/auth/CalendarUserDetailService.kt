@@ -1,7 +1,7 @@
-package com.friendly.calendar.service.auth
+package com.friendly.calendar.domain.service.auth
 
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.security.CalendarUserDetails
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -16,7 +16,7 @@ class CalendarUserDetailService(val userRepository: UserRepository) : UserDetail
 
     override fun loadUserByUsername(username: String?): UserDetails {
 
-        val selectedUser: Optional<User> = userRepository.findById(username)
+        val selectedUser: Optional<User> = userRepository.findByUsername(username)
 
         return selectedUser.map { CalendarUserDetails(it.username, it.password) }
             .orElseThrow { throw RuntimeException("user not found") }

@@ -1,8 +1,9 @@
 package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.User
-import com.friendly.calendar.network.user.UserSignUpReq
-import com.friendly.calendar.repository.UserRepository
+import com.friendly.calendar.domain.persistence.UserRepository
+import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.network.UserSignUpReq
 import io.kotest.core.extensions.Extension
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.extensions.spring.SpringExtension
@@ -29,7 +30,7 @@ class UserServiceTest(
         "유저 등록 API 호출하여 정상적으로 유저가 등록됩니다" {
             val newUser: UserSignUpReq = UserSignUpReq(
                 nickName = "khkim",
-                id = "kh",
+                username = "kh",
                 password = "1234",
                 email = "khkim@gmail.com",
                 phoneNumber = "010-1234-5678"
@@ -43,7 +44,7 @@ class UserServiceTest(
         "유저 등록 API 호출 했을 때 RuntimeException 이 에러가 발생합니다" {
             val newUser = UserSignUpReq(
                 nickName = "khkim",
-                id = "kh",
+                username = "kh",
                 password = "1234",
                 email = "khkim@gmail.com",
                 phoneNumber = "010-1234-5678"

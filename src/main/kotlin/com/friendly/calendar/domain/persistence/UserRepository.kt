@@ -1,4 +1,4 @@
-package com.friendly.calendar.repository
+package com.friendly.calendar.domain.persistence
 
 import com.friendly.calendar.domain.model.User
 import org.springframework.data.jpa.repository.JpaRepository
@@ -8,11 +8,13 @@ import java.util.*
 
 @Repository
 interface UserRepository : JpaRepository<User, Long> {
-    fun existsByEmailOrPhoneNumberOrId(
+    fun existsByEmailOrPhoneNumberOrUsername(
         @Param(value = "email") email: String,
         @Param(value = "phoneNumber") phoneNumber: String,
-        @Param(value = "id") id: String
+        @Param(value = "username") username: String
     ): Boolean
 
-    fun findById(@Param(value = "id") id: String?): Optional<User>
+    fun findByUsername(@Param(value = "username") username: String?): Optional<User>
+
+    override fun findById(@Param(value = "userKey") userKey: Long): Optional<User>
 }

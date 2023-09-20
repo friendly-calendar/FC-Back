@@ -2,7 +2,7 @@ package com.friendly.calendar.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.friendly.calendar.network.ResponseDto
-import com.friendly.calendar.network.jwt.TokenResponse
+import com.friendly.calendar.network.TokenResponse
 import com.friendly.calendar.security.jwt.JwtAuthenticationToken
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication

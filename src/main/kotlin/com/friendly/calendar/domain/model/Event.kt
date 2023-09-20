@@ -1,49 +1,48 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.baseEntity.BaseEntity
-import com.friendly.calendar.domain.model.enum.Status
-import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
 class Event(
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "event_key")
     val id: Long = 0,
 
-    val title: String,
+    title: String,
+    description: String?,
+    eventDate: EventDate?,
+    eventLocation: EventLocation?,
+    members: List<EventMember?> = listOf()
+
+) : BaseEntity() {
+    var title: String = title
+        private set
 
     @Column(length = 4000)
-    val description: String?,
+    var description: String? = description
+        private set
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "date_key")
-    val eventDate: EventDate?,
+    var eventDate: EventDate? = eventDate
+        private set
 
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "location_key")
-    val eventLocation: EventLocation?,
+    var eventLocation: EventLocation? = eventLocation
+        private set
 
     @OneToMany(cascade = [CascadeType.PERSIST])
     @JoinColumn(name = "event_key")
-    val members: List<EventMember?> = listOf()
+    var members: List<EventMember?> = members
+        private set
 
-) : BaseEntity() {
-    constructor(
-        title: String,
-        description: String?,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime,
-        location: String?,
-        status: Status?,
-        invitedUser: List<User>
-    ) : this(
-        title = title,
-        description = description,
-        eventDate = EventDate(startDate = startDate, endDate = endDate),
-        eventLocation = location?.let { EventLocation(location = location) },
-        members = status?.let { invitedUser.map { EventMember(invitedUser = it, status = status) } } ?: emptyList()
-    )
+    fun update(title: String, description: String?, eventDate: EventDate, eventLocation: EventLocation?, members: List<EventMember>) {
+        this.title = title
+        this.description = description
+        this.eventDate = eventDate
+        this.eventLocation = eventLocation
+        this.members = members
+    }
 }

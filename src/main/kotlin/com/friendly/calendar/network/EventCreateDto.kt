@@ -1,14 +1,12 @@
-package com.friendly.calendar.network.event
+package com.friendly.calendar.network
 
-import com.friendly.calendar.domain.model.enum.Status
 import java.time.LocalDateTime
 
-data class EventDto(
+data class EventCreateDto(
     var title: String,
     var description: String?,
     var startDate: LocalDateTime,
     var endDate: LocalDateTime,
     var location: String?,
-    var status: Status?,
     var invitedMembersId: List<String>?
 )
