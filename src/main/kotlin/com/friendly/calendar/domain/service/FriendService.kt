@@ -21,7 +21,19 @@ class FriendService(
             .orElse(emptyList())
     }
 
-    fun getFriendRequest(sender: User, receiver: User, message: String, status: FriendLogStatus): FriendRequest {
+    fun getAcceptFriendRequest(sender: User, receiver: User, message: String): FriendRequest {
+        return getFriendRequest(sender, receiver, message, FriendLogStatus.ACCEPT)
+    }
+
+    fun getRejectFriendRequest(sender: User, receiver: User, message: String): FriendRequest {
+        return getFriendRequest(sender, receiver, message, FriendLogStatus.REJECT)
+    }
+
+    fun getFriendRequest(sender: User, receiver: User, message: String): FriendRequest {
+        return getFriendRequest(sender, receiver, message, FriendLogStatus.PENDING)
+    }
+
+    private fun getFriendRequest(sender: User, receiver: User, message: String, status: FriendLogStatus): FriendRequest {
         return FriendRequest(
             sender = sender,
             receiver = receiver,
