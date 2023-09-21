@@ -95,7 +95,7 @@
 					"response": []
 				},
 				{
-					"name": "Add User2",
+					"name": "Sign Up User2",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -285,6 +285,35 @@
 								"api",
 								"friend",
 								"accept"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Friend",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sender\": 1,\r\n    \"receiver\": 2,\r\n    \"message\": \"reject message\",\r\n    \"isBlock\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{domain}}:{{port}}/api/friend/reject",
+							"host": [
+								"{{domain}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"api",
+								"friend",
+								"reject"
 							]
 						}
 					},
