@@ -49,7 +49,11 @@ class FriendRelation(
 
     @Enumerated(EnumType.STRING)
     var status: FriendStatus = status
-        private set
+        private set(status: FriendStatus) {
+            if (this.status != status) {
+                this.status = status
+            }
+        }
 
     fun blockFriend() {
         this.status = FriendStatus.BLOCKED
