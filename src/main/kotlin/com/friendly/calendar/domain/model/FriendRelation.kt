@@ -25,13 +25,40 @@ class FriendRelation(
     @JoinColumn(name = "friend_key")
     val friend: User,
 
+    groupList: List<FriendGroupList>? = null,
+
+    status: FriendStatus,
+
+    friendAlias: String? = null,
+
+) : BaseEntity() {
     @OneToMany
     @JoinColumn(name = "relation_key")
-    val groupList: List<FriendGroupList>? = null,
+    var groupList: List<FriendGroupList>? = groupList
+        private set
+
+    fun addGroupList(addGroup: FriendGroupList) {
+        this.groupList = this.groupList?.plus(addGroup) ?: listOf(addGroup)
+    }
+
+    fun removeGroupList(removeGroup: FriendGroupList) {
+        this.groupList?.filter { it.id == removeGroup.id }?.apply {
+            delete()
+        }
+    }
 
     @Enumerated(EnumType.STRING)
-    val status: FriendStatus,
+    var status: FriendStatus = status
+        private set
 
-    val friendAlias: String? = null,
+    fun blockFriend() {
+        this.status = FriendStatus.BLOCKED
+    }
 
-) : BaseEntity()
+    fun successFriend() {
+        this.status = FriendStatus.SUCCESS
+    }
+
+    var friendAlias: String? = friendAlias
+        private set
+}

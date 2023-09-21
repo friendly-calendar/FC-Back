@@ -42,4 +42,14 @@ class FriendRelationRepositoryCustomImpl(
                     .and(friendRelation.delFlag.eq(DelFlag.N))
                     .and(friendRelation.status.eq(FriendStatus.SUCCESS))
             ).fetchOne() != null
+
+    override fun findBlockedFriendRelation(sender: User, receiver: User): FriendRelation? =
+        queryFactory
+            .selectFrom(friendRelation)
+            .where(
+                friendRelation.user.eq(sender)
+                    .and(friendRelation.friend.eq(receiver))
+                    .and(friendRelation.delFlag.eq(DelFlag.N))
+                    .and(friendRelation.status.eq(FriendStatus.BLOCKED))
+            ).fetchOne()
 }

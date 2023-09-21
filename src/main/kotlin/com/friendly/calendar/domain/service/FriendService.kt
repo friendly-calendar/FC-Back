@@ -1,9 +1,6 @@
 package com.friendly.calendar.domain.service
 
-import com.friendly.calendar.domain.model.FriendLogStatus
-import com.friendly.calendar.domain.model.FriendRelation
-import com.friendly.calendar.domain.model.FriendRequest
-import com.friendly.calendar.domain.model.User
+import com.friendly.calendar.domain.model.*
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.persistence.UserRepository
 import org.springframework.stereotype.Service
@@ -31,6 +28,32 @@ class FriendService(
 
     fun getFriendRequest(sender: User, receiver: User, message: String): FriendRequest {
         return getFriendRequest(sender, receiver, message, FriendLogStatus.PENDING)
+    }
+
+    fun successFriend(sender: User, receiver: User) {
+        FriendRelation(
+            user = sender,
+            friend = receiver,
+            status = FriendStatus.SUCCESS
+        ).let { friendRelationRepository.save(it) }
+
+        FriendRelation(
+            user = receiver,
+            friend = sender,
+            status = FriendStatus.SUCCESS
+        ).let { friendRelationRepository.save(it) }
+    }
+
+    fun blockFriend(sender: User, receiver: User) {
+        friendRelationRepository.findBlockedFriendRelation(sender, receiver)?.apply {
+
+        }
+
+        FriendRelation(
+            user = sender,
+            friend = receiver,
+            status = FriendStatus.BLOCKED
+        ).let { friendRelationRepository.save(it) }
     }
 
     private fun getFriendRequest(sender: User, receiver: User, message: String, status: FriendLogStatus): FriendRequest {

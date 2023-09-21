@@ -23,13 +23,13 @@ class FriendStatusService(
         val sender: User = userService.findUserById(senderKey)
         val receiver: User = userService.findUserById(receiverKey)
 
-        if (friendRelationRepository.isBlockedRelation(sender, receiver)) {
-            throw IllegalArgumentException("You are blocked by this user.")
-        }
-
-        if (friendRelationRepository.isFriendRelation(sender, receiver)) {
-            throw IllegalArgumentException("You are already friend with this user.")
-        }
+//        if (friendRelationRepository.isBlockedRelation(sender, receiver)) {
+//            throw IllegalArgumentException("You are blocked by this user.")
+//        }
+//
+//        if (friendRelationRepository.isFriendRelation(sender, receiver)) {
+//            throw IllegalArgumentException("You are already friend with this user.")
+//        }
 
         val friendRequest: FriendRequest = friendService.getFriendRequest(sender, receiver, requestMessage)
 
