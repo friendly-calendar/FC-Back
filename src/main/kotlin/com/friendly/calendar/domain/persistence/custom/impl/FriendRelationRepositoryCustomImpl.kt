@@ -45,10 +45,10 @@ class FriendRelationRepositoryCustomImpl(
 
     override fun findByUserAndFriend(user: User, friend: User): FriendRelation? =
         queryFactory
-                .selectFrom(friendRelation)
-                .where(
-                        friendRelation.user.eq(user)
-                                .and(friendRelation.friend.eq(friend))
-                                .and(friendRelation.delFlag.eq(DelFlag.N))
-                ).fetchOne()
+            .selectFrom(friendRelation)
+            .where(
+                friendRelation.user.eq(user)
+                    .and(friendRelation.friend.eq(friend))
+                    .and(friendRelation.delFlag.eq(DelFlag.N))
+            ).fetchOne()
 }
