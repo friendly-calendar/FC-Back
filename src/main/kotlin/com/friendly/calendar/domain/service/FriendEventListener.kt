@@ -17,7 +17,7 @@ class FriendEventListener(
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     fun onFriendRequestRejectedEvent(event: FriendRequestRejectedEvent) {
-        event.isBlock.takeIf { it }?.run {
+        if (event.isBlock) {
             friendService.blockFriend(event.sender, event.receiver)
         }
     }
