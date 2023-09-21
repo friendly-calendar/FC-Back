@@ -3,9 +3,9 @@ package com.friendly.calendar.domain.service
 import com.friendly.calendar.domain.model.*
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus.*
-import com.friendly.calendar.network.EventCreateDto
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
+import com.friendly.calendar.network.EventCreateDto
 import com.friendly.calendar.network.EventUpdateDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -31,7 +31,7 @@ class EventService(val eventRepository: EventRepository, val userRepository: Use
             val invitedUser = userRepository.findByUsername(it).get()
             EventMember(invitedUser = invitedUser, eventInvitationStatus = INVITED)
         } ?: emptyList()
-         val event = Event(
+        val event = Event(
             title = eventCreateDto.title,
             description = eventCreateDto.description,
             eventDate = eventDate,

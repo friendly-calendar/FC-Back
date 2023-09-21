@@ -66,10 +66,6 @@ class FriendStatusService(
     }
 
     fun blockFriend(sender: User, receiver: User) {
-        if (friendRelationRepository.isBlockedRelation(sender, receiver)) {
-            throw IllegalArgumentException("You are already blocked by this user.")
-        }
-
-
+        TODO("Not yet implemented")
     }
 }

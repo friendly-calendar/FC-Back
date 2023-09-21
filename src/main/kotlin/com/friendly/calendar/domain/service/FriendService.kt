@@ -46,10 +46,8 @@ class FriendService(
 
     fun blockFriend(sender: User, receiver: User) {
         friendRelationRepository.findBlockedFriendRelation(sender, receiver)?.apply {
-
-        }
-
-        FriendRelation(
+            blockFriend()
+        } ?: FriendRelation(
             user = sender,
             friend = receiver,
             status = FriendStatus.BLOCKED
