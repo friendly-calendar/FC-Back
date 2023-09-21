@@ -31,13 +31,17 @@ class FriendService(
     }
 
     fun successFriend(sender: User, receiver: User) {
-        FriendRelation(
+        friendRelationRepository.findByUserAndFriend(sender, receiver)?.apply {
+            successFriend()
+        } ?: FriendRelation(
             user = sender,
             friend = receiver,
             status = FriendStatus.SUCCESS
         ).let { friendRelationRepository.save(it) }
 
-        FriendRelation(
+        friendRelationRepository.findByUserAndFriend(receiver, sender)?.apply {
+            successFriend()
+        } ?: FriendRelation(
             user = receiver,
             friend = sender,
             status = FriendStatus.SUCCESS

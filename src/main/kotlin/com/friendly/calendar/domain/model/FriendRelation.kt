@@ -49,17 +49,17 @@ class FriendRelation(
 
     @Enumerated(EnumType.STRING)
     var status: FriendStatus = status
-        private set(status: FriendStatus) {
-            if (this.status != status) {
-                this.status = status
-            }
-        }
+        private set
 
     fun blockFriend() {
         this.status = FriendStatus.BLOCKED
     }
 
     fun successFriend() {
+        if (this.status == FriendStatus.BLOCKED) {
+            throw IllegalArgumentException("${this.friend.username} are blocked by ${this.user.username}.")
+        }
+
         this.status = FriendStatus.SUCCESS
     }
 
