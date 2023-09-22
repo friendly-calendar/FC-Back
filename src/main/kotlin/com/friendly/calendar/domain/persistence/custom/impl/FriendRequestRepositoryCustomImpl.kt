@@ -19,6 +19,6 @@ class FriendRequestRepositoryCustomImpl(
                     .and(friendRequest.delFlag.eq(DelFlag.N))
             ).orderBy(friendRequest.createdDate.desc()).fetchFirst()
 
-        return lastRequestLog.equals(FriendLogStatus.PENDING)
+        return lastRequestLog.status == FriendLogStatus.PENDING
     }
 }

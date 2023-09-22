@@ -9,4 +9,6 @@ interface FriendRelationRepositoryCustom {
     fun isBlockedRelation(user: User, friend: User): Boolean
 
     fun isFriendRelation(user: User, friend: User): Boolean
+
+    fun findByUserAndFriend(user: User, friend: User): FriendRelation?
 }

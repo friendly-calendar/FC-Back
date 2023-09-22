@@ -1,5 +1,6 @@
 package com.friendly.calendar.service
 
+import com.friendly.calendar.domain.model.FriendLogStatus
 import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.model.User
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
@@ -67,19 +68,48 @@ class FriendStatusServiceTest : AnnotationSpec() {
 
         every { friendRelationRepository.isFriendRelation(any(), any()) } returns false
 
-        every { friendService.getFriendRequest(any(), any(), any(), any()) } answers {
+        every { friendService.getFriendRequest(any(), any(), any()) } answers {
             val args = it.invocation.args
 
             val sender = args[0] as User
             val receiver = args[1] as User
             val message = args[2] as String
-            val status = args[3] as com.friendly.calendar.domain.model.FriendLogStatus
 
             FriendRequest(
                 sender = sender,
                 receiver = receiver,
                 message = message,
-                status = status
+                status = FriendLogStatus.PENDING
+            )
+        }
+
+        every { friendService.getAcceptFriendRequest(any(), any(), any()) } answers {
+            val args = it.invocation.args
+
+            val sender = args[0] as User
+            val receiver = args[1] as User
+            val message = args[2] as String
+
+            FriendRequest(
+                sender = sender,
+                receiver = receiver,
+                message = message,
+                status = FriendLogStatus.ACCEPT
+            )
+        }
+
+        every { friendService.getRejectFriendRequest(any(), any(), any()) } answers {
+            val args = it.invocation.args
+
+            val sender = args[0] as User
+            val receiver = args[1] as User
+            val message = args[2] as String
+
+            FriendRequest(
+                sender = sender,
+                receiver = receiver,
+                message = message,
+                status = FriendLogStatus.REJECT
             )
         }
     }

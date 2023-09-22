@@ -42,4 +42,13 @@ class FriendRelationRepositoryCustomImpl(
                     .and(friendRelation.delFlag.eq(DelFlag.N))
                     .and(friendRelation.status.eq(FriendStatus.SUCCESS))
             ).fetchOne() != null
+
+    override fun findByUserAndFriend(user: User, friend: User): FriendRelation? =
+        queryFactory
+            .selectFrom(friendRelation)
+            .where(
+                friendRelation.user.eq(user)
+                    .and(friendRelation.friend.eq(friend))
+                    .and(friendRelation.delFlag.eq(DelFlag.N))
+            ).fetchOne()
 }

@@ -2,14 +2,14 @@ package com.friendly.calendar.service
 
 import com.friendly.calendar.domain.model.baseEntity.DelFlag.*
 import com.friendly.calendar.domain.model.enum.EventInvitationStatus
-import com.friendly.calendar.network.EventCreateDto
-import com.friendly.calendar.network.UserSignUpReq
 import com.friendly.calendar.domain.persistence.EventRepository
 import com.friendly.calendar.domain.persistence.UserRepository
 import com.friendly.calendar.domain.service.EventService
 import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.network.EventCreateDto
 import com.friendly.calendar.network.EventMemberDto
 import com.friendly.calendar.network.EventUpdateDto
+import com.friendly.calendar.network.UserSignUpReq
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -106,7 +106,7 @@ class EventServiceTest(
         val changeStartDate: LocalDateTime = LocalDateTime.now().plusDays(3)
         val changeEndDate: LocalDateTime = LocalDateTime.now().plusDays(4)
 
-        //create event
+        // create event
         val eventCreateDto = EventCreateDto(
             title = "title1",
             description = "description1",
@@ -118,7 +118,7 @@ class EventServiceTest(
         val createEvent = eventService.createEvent(eventCreateDto)
         val findEvent = eventRepository.findEventWithDetails(createEvent.id)
 
-        //update event
+        // update event
         val eventMemberDto = EventMemberDto(
             invitedMembersId = findUser2.username,
             eventInvitationStatus = EventInvitationStatus.ACCEPTED
@@ -135,7 +135,7 @@ class EventServiceTest(
         eventService.updateEvent(eventUpdateDto)
         val updateEvent = eventRepository.findEventWithDetails(createEvent.id)
 
-        //check update event
+        // check update event
         updateEvent.title shouldNotBe findEvent.title
         updateEvent.eventLocation?.location shouldNotBe findEvent.eventLocation?.location
         updateEvent.members[0]?.invitedUser?.username shouldNotBe findEvent.members[0]?.invitedUser?.username

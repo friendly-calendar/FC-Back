@@ -3,8 +3,9 @@ package com.friendly.calendar.controller
 import com.friendly.calendar.domain.model.FriendRelation
 import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.domain.service.FriendStatusService
-import com.friendly.calendar.network.ResponseDto
+import com.friendly.calendar.network.FriendRejectDto
 import com.friendly.calendar.network.FriendRequestDto
+import com.friendly.calendar.network.ResponseDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -43,6 +44,18 @@ class FriendController(
             senderKey = friendRequestDto.sender,
             receiverKey = friendRequestDto.receiver,
             acceptMessage = friendRequestDto.message
+        )
+
+        return ResponseDto.success()
+    }
+
+    @PostMapping("/reject")
+    fun rejectFriend(@RequestBody friendRejectDto: FriendRejectDto): ResponseDto<Any> {
+        friendStatusService.rejectFriend(
+            senderKey = friendRejectDto.sender,
+            receiverKey = friendRejectDto.receiver,
+            rejectMessage = friendRejectDto.message,
+            isBlock = friendRejectDto.isBlock
         )
 
         return ResponseDto.success()

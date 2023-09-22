@@ -26,7 +26,7 @@ class AwsS3Client(val config: AwsS3Config) {
     }
 
     fun uploadFile(filePath: String, fileName: String, content: MultipartFile): PutObjectResult {
-        val metaData = ObjectMetadata();
+        val metaData = ObjectMetadata()
         metaData.contentLength = content.size
         return client.putObject(config.bucket, "$filePath/$fileName", content.inputStream, metaData)
     }
