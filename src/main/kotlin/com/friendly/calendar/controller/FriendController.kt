@@ -3,6 +3,7 @@ package com.friendly.calendar.controller
 import com.friendly.calendar.domain.model.FriendRelation
 import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.domain.service.FriendStatusService
+import com.friendly.calendar.network.FriendBlockDto
 import com.friendly.calendar.network.FriendRejectDto
 import com.friendly.calendar.network.FriendRequestDto
 import com.friendly.calendar.network.ResponseDto
@@ -56,6 +57,16 @@ class FriendController(
             receiverKey = friendRejectDto.receiver,
             rejectMessage = friendRejectDto.message,
             isBlock = friendRejectDto.isBlock
+        )
+
+        return ResponseDto.success()
+    }
+
+    @PostMapping("/block")
+    fun blockFriend(@RequestBody friendBlockDto: FriendBlockDto): ResponseDto<Any> {
+        friendStatusService.blockFriend(
+            senderKey = friendBlockDto.sender,
+            receiverKey = friendBlockDto.receiver
         )
 
         return ResponseDto.success()

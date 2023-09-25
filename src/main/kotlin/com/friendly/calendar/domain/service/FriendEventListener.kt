@@ -1,5 +1,6 @@
 package com.friendly.calendar.domain.service
 
+import com.friendly.calendar.domain.model.event.FriendBlockedRequestEvent
 import com.friendly.calendar.domain.model.event.FriendRequestAcceptedEvent
 import com.friendly.calendar.domain.model.event.FriendRequestRejectedEvent
 import org.springframework.stereotype.Service
@@ -20,5 +21,10 @@ class FriendEventListener(
         if (event.isBlock) {
             friendService.blockFriend(event.sender, event.receiver)
         }
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
+    fun onFriendBlockedRequestEvent(event: FriendBlockedRequestEvent) {
+        friendService.blockFriend(event.sender, event.receiver)
     }
 }
