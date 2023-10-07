@@ -3,6 +3,6 @@ package com.friendly.calendar.domain.model.event
 import com.friendly.calendar.domain.model.User
 
 data class FriendRequestAcceptedEvent(
-    val sender: User,
-    val receiver: User
-)
+    override val sender: User,
+    override val receiver: User
+) : FriendEvent

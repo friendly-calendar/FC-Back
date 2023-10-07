@@ -2,6 +2,8 @@ package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.model.User
+import com.friendly.calendar.domain.model.event.FriendBlockedRequestEvent
+import com.friendly.calendar.domain.model.event.FriendEvent
 import com.friendly.calendar.domain.model.event.FriendRequestAcceptedEvent
 import com.friendly.calendar.domain.model.event.FriendRequestRejectedEvent
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
@@ -40,6 +42,36 @@ class FriendStatusService(
         val sender: User = userService.findUserById(senderKey)
         val receiver: User = userService.findUserById(receiverKey)
 
+        assertValidFriendRequest(sender, receiver)
+
+        val acceptFriendRequest: FriendRequest = friendService.getAcceptFriendRequest(sender, receiver, acceptMessage)
+
+        friendRequestRepository.save(acceptFriendRequest)
+
+        publishFriendEvent(FriendRequestAcceptedEvent(sender, receiver))
+    }
+
+    fun rejectFriend(senderKey: Long, receiverKey: Long, rejectMessage: String, isBlock: Boolean) {
+        val sender: User = userService.findUserById(senderKey)
+        val receiver: User = userService.findUserById(receiverKey)
+
+        assertValidFriendRequest(sender, receiver)
+
+        val rejectFriendRequest: FriendRequest = friendService.getRejectFriendRequest(sender, receiver, rejectMessage)
+
+        friendRequestRepository.save(rejectFriendRequest)
+
+        publishFriendEvent(FriendRequestRejectedEvent(sender, receiver, isBlock))
+    }
+
+    fun blockFriend(senderKey: Long, receiverKey: Long) {
+        val sender: User = userService.findUserById(senderKey)
+        val receiver: User = userService.findUserById(receiverKey)
+
+        publishFriendEvent(FriendBlockedRequestEvent(sender, receiver))
+    }
+
+    private fun assertValidFriendRequest(sender: User, receiver: User) {
         if (friendRelationRepository.isFriendRelation(sender, receiver)) {
             throw IllegalArgumentException("You are already friend with this user.")
         }
@@ -47,25 +79,9 @@ class FriendStatusService(
         if (!friendRequestRepository.existsRequestFriend(sender, receiver)) {
             throw IllegalArgumentException("There is no friend request from this user.")
         }
-
-        val acceptFriendRequest: FriendRequest = friendService.getAcceptFriendRequest(sender, receiver, acceptMessage)
-
-        friendRequestRepository.save(acceptFriendRequest)
-
-        applicationEventPublisher.publishEvent(FriendRequestAcceptedEvent(sender, receiver))
     }
 
-    fun rejectFriend(senderKey: Long, receiverKey: Long, rejectMessage: String, isBlock: Boolean) {
-        val sender: User = userService.findUserById(senderKey)
-        val receiver: User = userService.findUserById(receiverKey)
-        val rejectFriendRequest: FriendRequest = friendService.getRejectFriendRequest(sender, receiver, rejectMessage)
-
-        friendRequestRepository.save(rejectFriendRequest)
-
-        applicationEventPublisher.publishEvent(FriendRequestRejectedEvent(sender, receiver, isBlock))
-    }
-
-    fun blockFriend(sender: User, receiver: User) {
-        TODO("Not yet implemented")
+    private fun publishFriendEvent(event: FriendEvent) {
+        applicationEventPublisher.publishEvent(event)
     }
 }
