@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.0.4")
 	implementation("org.springframework.boot:spring-boot-starter-security:3.0.4")
 	implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
+	implementation("io.jsonwebtoken:jjwt:0.12.1")
 	implementation("io.github.microutils:kotlin-logging:2.0.11")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")

@@ -1,9 +1,13 @@
 package com.friendly.calendar.security
 
 import com.friendly.calendar.config.JwtConfig
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import org.springframework.security.core.Authentication
-import java.util.Base64
+import java.util.*
+
+private val logger = mu.KotlinLogging.logger {}
 
 class JwtProvider(private val jwtConfig: JwtConfig) {
 
@@ -17,7 +21,16 @@ class JwtProvider(private val jwtConfig: JwtConfig) {
     }
 
     fun createToken(username: String, roles: List<String>): String {
-        TODO()
+        logger.info { "create token username: $username, roles: $roles" }
+        val now = Date()
+
+        return Jwts.builder()
+            .subject(username)
+            .issuedAt(now)
+            .expiration(Date(now.time + expiration))
+            .claim("roles", roles)
+            .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()))
+            .compact()
     }
 
     fun getAuthentication(token: String): Authentication {
