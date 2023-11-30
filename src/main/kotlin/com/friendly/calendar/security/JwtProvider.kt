@@ -5,10 +5,13 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
 import org.springframework.security.core.Authentication
-import java.util.*
+import org.springframework.stereotype.Component
+import java.util.Date
+import java.util.Base64
 
 private val logger = mu.KotlinLogging.logger {}
 
+@Component
 class JwtProvider(private val jwtConfig: JwtConfig) {
 
     private var secretKey: String = ""
