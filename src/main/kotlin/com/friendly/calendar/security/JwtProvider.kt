@@ -4,6 +4,7 @@ import com.friendly.calendar.config.JwtConfig
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import jakarta.annotation.PostConstruct
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import java.util.Base64
@@ -40,7 +41,7 @@ class JwtProvider(private val jwtConfig: JwtConfig) {
         TODO()
     }
 
-    fun resolveToken(request: String): String? {
+    fun resolveToken(request: HttpServletRequest): String? {
         TODO()
     }
 
