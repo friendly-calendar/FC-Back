@@ -3,19 +3,19 @@ package com.friendly.calendar.domain.model
 import com.friendly.calendar.enum.UserRole
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
-import jakarta.persistence.Enumerated
-import jakarta.persistence.EnumType
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "APP_USER")
-class User: UserDetails {
+class User : UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0L

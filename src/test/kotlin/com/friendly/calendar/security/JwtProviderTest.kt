@@ -1,6 +1,5 @@
 package com.friendly.calendar.security
 
-import com.friendly.calendar.config.JwtConfig
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
