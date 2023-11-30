@@ -16,8 +16,8 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
-  server:
-    port: 8080
-  jwt:
-    secret: a2ltbGlta2ltY2hhbmp1bmthbmdzdXllb25naG8=
-    expiration: 86400000
+server:
+  port: 8080
+jwt:
+  secret: a2ltbGlta2ltY2hhbmp1bmthbmdzdXllb25naG8=
+  expiration: 86400000
