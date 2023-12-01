@@ -42,6 +42,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
     testImplementation("org.springframework.security:spring-security-test:6.0.2")
     testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("org.modelmapper:modelmapper:2.3.8")
 }
 
 tasks.withType<KotlinCompile> {
