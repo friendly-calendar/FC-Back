@@ -10,7 +10,7 @@ data class UserSignUpDTO(
 
     @field:Size(min = 2, max = 10, message = "닉네임은 {min} ~ {max} 사이로 입력해주세요.")
     @AlphaNumeric
-    val nickname: String?,
+    val name: String?,
 
     @field:Email
     val email: String?,
