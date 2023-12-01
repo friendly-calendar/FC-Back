@@ -19,7 +19,7 @@ class CalendarUser {
     var name: String = ""
 
     @Column(unique = true)
-    @Email(regexp = ".+@.+\\..+")
+    @Email
     var email: String? = null
 
     @Column(unique = true)
