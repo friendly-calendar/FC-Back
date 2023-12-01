@@ -20,6 +20,5 @@ class UserController(
     @ResponseStatus(HttpStatus.CREATED)
     fun signUp(@RequestBody userSignUpDTO: UserSignUpDTO) {
         userService.createUser(userSignUpDTO)
-        TODO("Not yet implemented")
     }
 }
