@@ -69,21 +69,43 @@ class JwtProviderTest @Autowired constructor(private val jwtProvider: JwtProvide
         assertThat(result).isTrue()
     }
 
+    @Test
+    fun `validateToken should return false for invalid token`() {
+        mockkStatic(Jwts::class)
+
+        val invalidToken = "invalid.token.string"
+        mockJwtsParser(invalidToken, false)
+
+        val result = jwtProvider.validateToken(invalidToken)
+        assertThat(result).isFalse()
+    }
+
+    @Test
+    fun `validateToken should return false for expired token`() {
+        mockkStatic(Jwts::class)
+
+        val expiredToken = "expired.token.string"
+        mockJwtsParser(expiredToken, isValid = true, isExpired = true)
+
+        val result = jwtProvider.validateToken(expiredToken)
+        assertThat(result).isFalse()
+    }
+
     companion object {
         private fun mockJwtsParser(token: String, isValid: Boolean, isExpired: Boolean = false) {
-            val mockedJwsClaims = mockk<Jws<Claims>>()
-            val mockedClaims = mockk<Claims>()
-            every { mockedJwsClaims.payload } returns mockedClaims
-            every { mockedClaims.expiration } answers {
-                if (isExpired) {
-                    Date(System.currentTimeMillis() - 10000)
-                } else {
-                    Date(System.currentTimeMillis() + 10000)
-                }
-            }
-
             every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(token) } answers {
                 if (isValid) {
+                    val mockedJwsClaims = mockk<Jws<Claims>>()
+                    val mockedClaims = mockk<Claims>()
+                    every { mockedJwsClaims.payload } returns mockedClaims
+                    every { mockedClaims.expiration } answers {
+                        if (isExpired) {
+                            Date(System.currentTimeMillis() - 10000)
+                        } else {
+                            Date(System.currentTimeMillis() + 10000)
+                        }
+                    }
+
                     mockedJwsClaims
                 } else {
                     // 유효하지 않은 토큰에 대한 처리, 예외를 발생시킴
