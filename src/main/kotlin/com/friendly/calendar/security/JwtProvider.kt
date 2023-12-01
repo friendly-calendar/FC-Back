@@ -50,7 +50,11 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
     }
 
     fun resolveToken(request: HttpServletRequest): String? {
-        TODO()
+        val authInfo = request.getHeader("Authorization") ?: return null
+
+        return authInfo.startsWith("Bearer ").let {
+            if (!it) null else authInfo.substring(7)
+        }
     }
 
     fun validateToken(token: String): Boolean {
