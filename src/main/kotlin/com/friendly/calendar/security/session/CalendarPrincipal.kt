@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 class CalendarPrincipal(
     val user: CalendarUser
-): UserDetails {
+) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
         user.roles.map { SimpleGrantedAuthority(it.value) }.toMutableList()
 

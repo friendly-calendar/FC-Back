@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 @Component
 class CalendarUserDetailsServiceImpl(
     private val userRepository: UserRepository
-): UserDetailsService {
+) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails =
         userRepository.findByUsername(username)?.let {
             CalendarPrincipal(it)

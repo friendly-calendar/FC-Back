@@ -49,7 +49,6 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
 
         val userDetails = userDetailsService.loadUserByUsername(username)
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
-
     }
 
     fun resolveToken(request: HttpServletRequest): String? {
