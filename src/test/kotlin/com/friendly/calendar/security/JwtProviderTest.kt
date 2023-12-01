@@ -1,12 +1,18 @@
 package com.friendly.calendar.security
 
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
+import io.jsonwebtoken.Jwts
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import jakarta.servlet.http.HttpServletRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.util.*
+import javax.crypto.SecretKey
 
 @SpringBootTest
 class JwtProviderTest @Autowired constructor(private val jwtProvider: JwtProvider) {
@@ -49,5 +55,41 @@ class JwtProviderTest @Autowired constructor(private val jwtProvider: JwtProvide
         val token = jwtProvider.resolveToken(request)
 
         assertThat(token).isEqualTo("token")
+    }
+
+    @Test
+    fun `validateToken should return true for valid token`() {
+        mockkStatic(Jwts::class)
+
+        // JWT 토큰 파싱 로직 모킹
+        val validToken = "valid.token.string"
+        mockJwtsParser(validToken, true)
+
+        val result = jwtProvider.validateToken(validToken)
+        assertThat(result).isTrue()
+    }
+
+    companion object {
+        private fun mockJwtsParser(token: String, isValid: Boolean, isExpired: Boolean = false) {
+            val mockedJwsClaims = mockk<Jws<Claims>>()
+            val mockedClaims = mockk<Claims>()
+            every { mockedJwsClaims.payload } returns mockedClaims
+            every { mockedClaims.expiration } answers {
+                if (isExpired) {
+                    Date(System.currentTimeMillis() - 10000)
+                } else {
+                    Date(System.currentTimeMillis() + 10000)
+                }
+            }
+
+            every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(token) } answers {
+                if (isValid) {
+                    mockedJwsClaims
+                } else {
+                    // 유효하지 않은 토큰에 대한 처리, 예외를 발생시킴
+                    throw Exception("Invalid Token")
+                }
+            }
+        }
     }
 }

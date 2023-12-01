@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 @Entity
 @Table(name = "APP_USER")
-class User : UserDetails {
+class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0L
@@ -36,24 +36,4 @@ class User : UserDetails {
     @Enumerated(value = EnumType.STRING)
     var roles: MutableList<UserRole> = mutableListOf(UserRole.USER)
         private set
-
-    fun addRole(userRole: UserRole) {
-        require(!roles.contains(userRole)) { "이미 존재하는 Role은 추가할 수 없습니다." }
-
-        roles.add(userRole)
-    }
-
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = roles.map { SimpleGrantedAuthority(it.value) }.toMutableList()
-
-    override fun getPassword(): String = password
-
-    override fun getUsername(): String = username
-
-    override fun isAccountNonExpired(): Boolean = true
-
-    override fun isAccountNonLocked(): Boolean = true
-
-    override fun isCredentialsNonExpired(): Boolean = true
-
-    override fun isEnabled(): Boolean = true
 }

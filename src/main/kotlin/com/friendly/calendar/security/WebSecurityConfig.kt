@@ -29,7 +29,9 @@ class WebSecurityConfig(private val jwtProvider: JwtProvider) {
 
     @Bean
     fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
-        httpSecurity.csrf { it.disable() }
+        httpSecurity
+            .cors {}
+            .csrf { it.disable() }
             .sessionManagement {
                 it
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
