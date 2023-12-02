@@ -1,6 +1,7 @@
 package com.friendly.calendar.security
 
 import com.friendly.calendar.config.JwtConfig
+import com.friendly.calendar.enum.UserRole
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
@@ -29,7 +30,7 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
         expiration = jwtConfig.expiration.toLong()
     }
 
-    fun createToken(username: String, roles: List<String>): String {
+    fun createToken(username: String, roles: List<UserRole>): String {
         logger.info { "create token username: $username, roles: $roles" }
         val now = Date()
 

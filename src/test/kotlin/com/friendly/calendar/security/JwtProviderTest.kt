@@ -1,5 +1,6 @@
 package com.friendly.calendar.security
 
+import com.friendly.calendar.enum.UserRole
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
@@ -26,7 +27,7 @@ class JwtProviderTest @Autowired constructor(private val jwtProvider: JwtProvide
 
     @Test
     fun `create token`() {
-        val token = jwtProvider.createToken("username", listOf("ROLE_USER"))
+        val token = jwtProvider.createToken("username", listOf(UserRole.USER))
         assertThat(token).isNotEmpty
     }
 
