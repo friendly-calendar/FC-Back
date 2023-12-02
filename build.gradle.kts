@@ -55,3 +55,21 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.register<Delete>("deletePreviousGitHook") {
+    val preCommit = "${rootProject.rootDir}/.git/hooks/pre-commit"
+    if (file(preCommit).exists()) {
+        delete(preCommit)
+    }
+}
+
+tasks.register<Copy>("installGitHook") {
+    dependsOn("deletePreviousGitHook")
+    from("${rootProject.rootDir}/hooks/pre-commit")
+    into("${rootProject.rootDir}/.git/hooks")
+    eachFile {
+        fileMode = 777
+    }
+}
+
+tasks.getByName("build").dependsOn("installGitHook")
