@@ -8,7 +8,6 @@ import com.friendly.calendar.network.UserSignUpDTO
 import com.friendly.calendar.network.mapper.Mapper
 import com.friendly.calendar.security.JwtProvider
 import org.springframework.security.authentication.BadCredentialsException
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 

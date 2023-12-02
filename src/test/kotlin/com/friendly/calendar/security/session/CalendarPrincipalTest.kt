@@ -4,8 +4,6 @@ import com.friendly.calendar.domain.model.CalendarUser
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-
 class CalendarPrincipalTest {
 
     private val calendarUserPrincipal = CalendarPrincipal(CalendarUser())

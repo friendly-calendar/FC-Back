@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.test.context.support.WithSecurityContextFactory
 
-class WithMockCalendarUserSecurityContextFactory: WithSecurityContextFactory<WithMockCalendarUser> {
+class WithMockCalendarUserSecurityContextFactory : WithSecurityContextFactory<WithMockCalendarUser> {
     override fun createSecurityContext(testCalendarUser: WithMockCalendarUser): SecurityContext {
         val context = SecurityContextHolder.createEmptyContext()
 

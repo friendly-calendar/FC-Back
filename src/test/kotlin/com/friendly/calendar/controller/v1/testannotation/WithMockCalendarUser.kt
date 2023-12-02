@@ -1,7 +1,6 @@
 package com.friendly.calendar.controller.v1.testannotation
 
 import com.friendly.calendar.controller.v1.annoationimpl.WithMockCalendarUserSecurityContextFactory
-import com.friendly.calendar.enum.UserRole
 import org.springframework.security.test.context.support.TestExecutionEvent
 import org.springframework.security.test.context.support.WithSecurityContext
 
