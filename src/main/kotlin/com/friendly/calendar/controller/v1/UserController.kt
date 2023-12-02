@@ -1,4 +1,4 @@
-package com.friendly.calendar.controller
+package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.network.UserSignUpDTO
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/v1/users", produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping("/users", produces = [MediaType.APPLICATION_JSON_VALUE])
 class UserController(
     private val userService: UserService
 ) {
