@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -49,7 +50,9 @@ class AuthControllerTest @Autowired constructor(
         mockMvc.post("/api/v1/auth") {
             contentType = MediaType.APPLICATION_JSON
             content = userSignInDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+        }
     }
 
     @Test
@@ -64,6 +67,11 @@ class AuthControllerTest @Autowired constructor(
         mockMvc.post("/api/v1/auth") {
             contentType = MediaType.APPLICATION_JSON
             content = userSignInDTOJson
-        }.andExpect { status { isForbidden() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.UNAUTHORIZED.value()) }
+            jsonPath("$.description") { value("Invalid username or password") }
+            jsonPath("$.data") { value(null) }
+        }
     }
 }

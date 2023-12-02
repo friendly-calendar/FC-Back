@@ -19,7 +19,5 @@ class UserController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun signUp(@Valid @RequestBody userSignUpDTO: UserSignUpDTO) {
-        userService.createUser(userSignUpDTO)
-    }
+    fun signUp(@Valid @RequestBody userSignUpDTO: UserSignUpDTO) = userService.createUser(userSignUpDTO)
 }

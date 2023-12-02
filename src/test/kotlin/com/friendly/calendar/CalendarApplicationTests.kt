@@ -9,4 +9,9 @@ class CalendarApplicationTests {
     @Test
     fun contextLoads() {
     }
+
+    @Test
+    fun main() {
+        main(arrayOf())
+    }
 }
