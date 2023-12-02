@@ -4,5 +4,13 @@ echo "Running git pre-commit hook"
 
 STATUS=$?
 
+git add .
+
+if git diff-index --cached --quiet HEAD --; then
+    echo "No changes to commit."
+else
+    git commit -m 'format'
+fi
+
 [ $STATUS -eq 0 ] || exit 1
 exit 0
