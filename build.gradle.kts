@@ -57,7 +57,7 @@ tasks.withType<Test> {
 }
 
 tasks.register<Delete>("deletePreviousGitHook") {
-    val preCommit = "${rootProject.rootDir}/.git/hooks/pre-commit"
+    val preCommit = "${rootProject.rootDir}/.git/hooks/pre-push"
     if (file(preCommit).exists()) {
         delete(preCommit)
     }
@@ -65,7 +65,7 @@ tasks.register<Delete>("deletePreviousGitHook") {
 
 tasks.register<Copy>("installGitHook") {
     dependsOn("deletePreviousGitHook")
-    from("${rootProject.rootDir}/hooks/pre-commit")
+    from("${rootProject.rootDir}/hooks/pre-push")
     into("${rootProject.rootDir}/.git/hooks")
     eachFile {
         fileMode = 777
