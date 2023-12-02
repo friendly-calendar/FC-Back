@@ -11,6 +11,6 @@ data class ResponseDTO(
 ) {
     companion object {
         fun ok(description: String = "OK", data: Any? = null) = ResponseDTO(HttpStatus.OK.value(), description, data)
-        fun error(code: Int, description: String, data: Any? = null) = ResponseDTO(code, description, null)
+        fun error(code: Int, description: String, data: Any? = null) = ResponseDTO(code, description, data)
     }
 }
