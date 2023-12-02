@@ -1,6 +1,6 @@
 echo "Running git pre-commit hook"
 
-./gradlew ktlintFormat
+./gradlew ktlintFormat --daemon
 
 STATUS=$?
 
