@@ -43,7 +43,7 @@ class LibMapperTest {
 
     @Test
     fun `private property를 변환할 수 없다`() {
-        val testEntity = modelMapper.map(fromDTO, PrivateEntity::class.java)
+        val testEntity = modelMapper.map(fromDTO, PrivateSetEntity::class.java)
         assertAll(
             { assertThat(testEntity.username).isNotEqualTo(username).isEmpty() },
             { assertThat(testEntity.name).isNotEqualTo(name).isEmpty() },
@@ -70,7 +70,7 @@ class LibMapperTest {
             var phoneNumber: String = ""
         }
 
-        class PrivateEntity() {
+        class PrivateSetEntity() {
             var name: String = ""
                 private set
             var email: String = ""
