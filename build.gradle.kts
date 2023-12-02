@@ -64,12 +64,32 @@ tasks.register<Delete>("deletePreviousGitHook") {
 }
 
 tasks.register<Copy>("installGitHook") {
+    val gitHooksDir = "${rootProject.rootDir}/.git/hooks"
+
     dependsOn("deletePreviousGitHook")
     from("${rootProject.rootDir}/hooks/pre-push")
-    into("${rootProject.rootDir}/.git/hooks")
+    into(gitHooksDir)
     eachFile {
         fileMode = 777
     }
 }
 
-tasks.getByName("build").dependsOn("installGitHook")
+tasks.register("addExecutePermissionToGitHook") {
+    dependsOn("installGitHook")
+
+    val osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("mac") || osName.contains("darwin") || osName.contains("linux")) {
+        doLast {
+            val gitHooksDir = "${rootProject.rootDir}/.git/hooks"
+            val prePushScript = "$gitHooksDir/pre-push"
+
+            if (file(prePushScript).exists()) {
+                exec {
+                    commandLine("chmod", "+x", prePushScript)
+                }
+            }
+        }
+    }
+}
+
+tasks.getByName("build").dependsOn("addExecutePermissionToGitHook")

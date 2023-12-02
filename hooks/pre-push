@@ -10,6 +10,7 @@ if git diff-index --cached --quiet HEAD --; then
     echo "No changes to commit."
 else
     git commit -m 'format'
+    git push origin HEAD
 fi
 
 [ $STATUS -eq 0 ] || exit 1
