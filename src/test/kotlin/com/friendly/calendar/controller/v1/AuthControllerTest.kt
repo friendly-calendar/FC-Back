@@ -1,8 +1,11 @@
 package com.friendly.calendar.controller.v1
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.network.UserSignInDTO
 import com.friendly.calendar.network.UserSignUpDTO
 import jakarta.transaction.Transactional
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -16,13 +19,13 @@ import org.springframework.test.web.servlet.post
 @Transactional
 @AutoConfigureMockMvc(printOnlyOnFailure = false)
 @ActiveProfiles("dev")
-class UserControllerTest @Autowired constructor(
+class AuthControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
+    val userService: UserService
 ) {
-
-    @Test
-    fun signUp() {
+    @BeforeEach
+    fun setup() {
         val userSignUpDTO = UserSignUpDTO(
             name = "user123",
             email = "user@example.com",
@@ -31,29 +34,36 @@ class UserControllerTest @Autowired constructor(
             phoneNumber = "010-1234-5678"
         )
 
-        val userSignUpDTOJson = objectMapper.writeValueAsString(userSignUpDTO)
-
-        mockMvc.post("/api/v1/users") {
-            contentType = MediaType.APPLICATION_JSON
-            content = userSignUpDTOJson
-        }.andExpect { status { isCreated() } }
+        userService.createUser(userSignUpDTO)
     }
 
     @Test
-    fun signUpFail() {
-        val userSignUpDTO = UserSignUpDTO(
-            name = "user123",
-            email = "user@example.com",
-            username = "t",
-            password = "password123!",
-            phoneNumber = "010-1234-5678"
+    fun signIn() {
+        val userSignInDTO = UserSignInDTO(
+            username = "username1",
+            password = "password123!"
         )
 
-        val userSignUpDTOJson = objectMapper.writeValueAsString(userSignUpDTO)
+        val userSignInDTOJson = objectMapper.writeValueAsString(userSignInDTO)
 
-        mockMvc.post("/api/v1/users") {
+        mockMvc.post("/api/v1/auth") {
             contentType = MediaType.APPLICATION_JSON
-            content = userSignUpDTOJson
-        }.andExpect { status { isBadRequest() } }
+            content = userSignInDTOJson
+        }.andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun signInFail() {
+        val userSignInDTO = UserSignInDTO(
+            username = "username1",
+            password = "password123"
+        )
+
+        val userSignInDTOJson = objectMapper.writeValueAsString(userSignInDTO)
+
+        mockMvc.post("/api/v1/auth") {
+            contentType = MediaType.APPLICATION_JSON
+            content = userSignInDTOJson
+        }.andExpect { status { isForbidden() } }
     }
 }

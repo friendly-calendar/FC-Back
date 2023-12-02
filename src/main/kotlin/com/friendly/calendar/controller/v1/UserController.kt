@@ -2,6 +2,7 @@ package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.network.UserSignUpDTO
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
@@ -18,7 +19,7 @@ class UserController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun signUp(@RequestBody userSignUpDTO: UserSignUpDTO) {
+    fun signUp(@Valid @RequestBody userSignUpDTO: UserSignUpDTO) {
         userService.createUser(userSignUpDTO)
     }
 }
