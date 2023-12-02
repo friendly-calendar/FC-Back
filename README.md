@@ -1,11 +1,5 @@
 # Hook 을 mac에서 원활히 사용하기
-
-## 1. 생성된 pre-push 파일에 권한을 준다.
-```agsl
-chmod +x .git/hooks/pre-push
-```
-
-## 2. gradlew 파일에 권한을 준다.
+/hooks 밑 hook 파일들을 mac에서 사용하기 위해서는 gradlew 파일에 권한을 주어야 합니다.
 ```agsl
 chmod +x ./gradlew
 ```
