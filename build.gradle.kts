@@ -73,4 +73,3 @@ tasks.register<Copy>("installGitHook") {
 }
 
 tasks.getByName("build").dependsOn("installGitHook")
-
