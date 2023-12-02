@@ -7,10 +7,12 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.validation.constraints.Email
+import lombok.AllArgsConstructor
 import lombok.RequiredArgsConstructor
 
 @Entity
 @RequiredArgsConstructor
+@AllArgsConstructor
 class CalendarUser {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -26,7 +28,6 @@ class CalendarUser {
     var username: String = ""
 
     var password: String = ""
-        private set
 
     @Column(unique = true)
     var phoneNumber: String? = null
