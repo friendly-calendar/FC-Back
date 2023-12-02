@@ -19,6 +19,15 @@ class UserServiceImpl(
     private val jwtProvider: JwtProvider
 ) : UserService {
     override fun createUser(userSignUpDTO: UserSignUpDTO) {
+        val existsUser = calendarUserRepository.findByEmailOrUsernameOrPhoneNumber(
+            userSignUpDTO.email,
+            userSignUpDTO.username,
+            userSignUpDTO.phoneNumber
+        )
+        require(existsUser == null) {
+            "User already exists"
+        }
+
         val encodedUserDTO = userSignUpDTO.copy(
             password = bCryptPasswordEncoder.encode(userSignUpDTO.password)
         )

@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CalendarUserRepository : JpaRepository<CalendarUser, Long> {
     fun findByUsername(username: String): CalendarUser?
+
+    fun findByEmailOrUsernameOrPhoneNumber(email: String?, username: String, phoneNumber: String?): CalendarUser?
 }

@@ -19,6 +19,14 @@ class CalendarExceptionHandler {
         return ResponseDTO.error(code = HttpStatus.INTERNAL_SERVER_ERROR.value(), description = "Internal server error")
     }
 
+    @ExceptionHandler(value = [IllegalArgumentException::class])
+    fun handle(illegalArgumentException: IllegalArgumentException): ResponseDTO {
+        val message = illegalArgumentException.message ?: "invalid arguments"
+
+        logger.error(illegalArgumentException) { message }
+        return ResponseDTO.error(code = HttpStatus.BAD_REQUEST.value(), description = message)
+    }
+
     @ExceptionHandler(value = [MethodArgumentNotValidException::class])
     fun handle(methodArgumentNotValidException: MethodArgumentNotValidException): ResponseDTO {
         val fieldErrors = methodArgumentNotValidException.bindingResult.fieldErrors
