@@ -1,22 +1,32 @@
 package com.friendly.calendar.security
 
+import com.friendly.calendar.config.JwtConfig
+import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.enum.UserRole
+import com.friendly.calendar.security.session.CalendarPrincipal
+import com.friendly.calendar.security.session.CalendarUserDetailsServiceImpl
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.security.Keys
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import jakarta.servlet.http.HttpServletRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.security.core.context.SecurityContextHolder
 import java.util.Date
 import javax.crypto.SecretKey
 
 @SpringBootTest
-class JwtProviderTest @Autowired constructor(private val jwtProvider: JwtProvider) {
+class JwtProviderTest @Autowired constructor(
+    private val jwtProvider: JwtProvider,
+    private val jwtConfig: JwtConfig
+) {
 
     private val request: HttpServletRequest = mockk()
 
@@ -29,6 +39,37 @@ class JwtProviderTest @Autowired constructor(private val jwtProvider: JwtProvide
     fun `create token`() {
         val token = jwtProvider.createToken("username", listOf(UserRole.USER))
         assertThat(token).isNotEmpty
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `get authentication from token`() {
+        val mockPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val mockCalendarUserDetailsServiceImpl = mockk<CalendarUserDetailsServiceImpl>()
+        every { mockCalendarUserDetailsServiceImpl.loadUserByUsername(any()) } returns mockPrincipal
+
+        val testJwtProvider = JwtProvider(jwtConfig, mockCalendarUserDetailsServiceImpl)
+        val token = jwtProvider.createToken(mockPrincipal.username, mockPrincipal.user.roles.toList())
+
+        mockkStatic(Jwts::class)
+        mockkStatic(Keys::class)
+        every { Keys.hmacShaKeyFor(any<ByteArray>()) } returns mockk()
+        every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(token) } answers {
+            val mockedJwsClaims = mockk<Jws<Claims>>()
+            every { mockedJwsClaims.payload.subject } returns mockPrincipal.username
+
+            mockedJwsClaims
+        }
+        val authentication = testJwtProvider.getAuthentication(token)
+
+        assertAll(
+            { assertThat(authentication).isNotNull },
+            { assertThat(authentication.principal).isNotNull },
+            { assertThat(authentication.authorities).isNotNull },
+            { assertThat(authentication.authorities.size).isEqualTo(1) },
+            { assertThat(authentication.authorities.first().authority).isEqualTo("ROLE_USER") },
+            { assertThat(authentication.principal == mockPrincipal) }
+        )
     }
 
     @Test

@@ -7,6 +7,8 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
 import io.jsonwebtoken.security.Keys
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
 import jakarta.annotation.PostConstruct
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -44,8 +46,7 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
     }
 
     fun getAuthentication(token: String): Authentication {
-        val parseSignedClaims =
-            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.toByteArray())).build().parseSignedClaims(token)
+        val parseSignedClaims = parseSignedClaim(token)
         val username = parseSignedClaims.payload.subject
 
         val userDetails = userDetailsService.loadUserByUsername(username)
@@ -62,8 +63,7 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
 
     fun validateToken(token: String): Boolean {
         return try {
-            val parseSignedClaims =
-                Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.toByteArray())).build().parseSignedClaims(token)
+            val parseSignedClaims = parseSignedClaim(token)
 
             return parseSignedClaims.payload.expiration.after(Date())
         } catch (otherException: Exception) {
@@ -79,4 +79,7 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
             false
         }
     }
+
+    private fun parseSignedClaim(token: String): Jws<Claims> =
+        Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.toByteArray())).build().parseSignedClaims(token)
 }
