@@ -11,7 +11,7 @@ class CalendarDataInitializer(
     private val userRepository: CalendarUserRepository,
     private val bCryptPasswordEncoder: BCryptPasswordEncoder,
     private val adminConfig: AdminConfig
-): CommandLineRunner {
+) : CommandLineRunner {
     override fun run(vararg args: String?) {
         val adminUser = CalendarUser().apply {
             username = adminConfig.username

@@ -29,5 +29,4 @@ class AdminConfigTest @Autowired constructor(
     fun `name is not empty`() {
         assertNotNull(adminConfig.name)
     }
-
 }
