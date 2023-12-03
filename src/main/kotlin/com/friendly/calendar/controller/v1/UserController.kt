@@ -1,10 +1,13 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.network.ResponseDTO
 import com.friendly.calendar.network.UserSignUpDTO
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,4 +23,8 @@ class UserController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun signUp(@Valid @RequestBody userSignUpDTO: UserSignUpDTO) = userService.createUser(userSignUpDTO)
+
+    @GetMapping
+    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
+    fun getUsers() = ResponseDTO.ok(data = userService.getUsers())
 }

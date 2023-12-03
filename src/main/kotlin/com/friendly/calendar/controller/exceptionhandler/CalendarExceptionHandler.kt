@@ -5,6 +5,7 @@ import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -17,6 +18,12 @@ class CalendarExceptionHandler {
     fun handle(otherException: Exception): ResponseDTO {
         logger.error(otherException) { HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase }
         return ResponseDTO.error(code = HttpStatus.INTERNAL_SERVER_ERROR.value(), description = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase)
+    }
+
+    @ExceptionHandler(value = [AccessDeniedException::class])
+    fun handle(accessDeniedException: AccessDeniedException): ResponseDTO {
+        logger.error(accessDeniedException) { "접근 권한이 없습니다." }
+        return ResponseDTO.error(code = HttpStatus.FORBIDDEN.value(), description = HttpStatus.FORBIDDEN.reasonPhrase)
     }
 
     @ExceptionHandler(value = [IllegalArgumentException::class])

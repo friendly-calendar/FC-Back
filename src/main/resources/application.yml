@@ -3,3 +3,8 @@ server:
 jwt:
   secret: a2ltbGlta2ltY2hhbmp1bmthbmdzdXllb25naG8=
   expiration: 86400000
+
+admin-user:
+  name: admin
+  password: khkimcsjylim1234
+  username: admin

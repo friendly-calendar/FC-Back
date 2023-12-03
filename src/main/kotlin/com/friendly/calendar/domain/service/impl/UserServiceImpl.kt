@@ -3,6 +3,7 @@ package com.friendly.calendar.domain.service.impl
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.network.UserDTO
 import com.friendly.calendar.network.UserSignInDTO
 import com.friendly.calendar.network.UserSignUpDTO
 import com.friendly.calendar.network.mapper.Mapper
@@ -48,5 +49,18 @@ class UserServiceImpl(
         }
 
         return jwtProvider.createToken(findUser!!.username, findUser.roles.toList())
+    }
+
+    override fun getUsers(): List<UserDTO> {
+        return calendarUserRepository.findAll().map {
+            UserDTO(
+                id = it.id,
+                username = it.username,
+                name = it.name,
+                email = it.email,
+                phoneNumber = it.phoneNumber,
+                roles = it.roles.toList()
+            )
+        }
     }
 }
