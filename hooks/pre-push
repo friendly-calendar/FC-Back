@@ -1,4 +1,4 @@
-echo "Running git pre-commit hook"
+echo "Running git pre-push hook"
 
 ./gradlew ktlintFormat --daemon
 
