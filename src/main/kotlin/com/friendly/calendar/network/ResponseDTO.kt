@@ -10,7 +10,7 @@ data class ResponseDTO(
     val responseTime: String = LocalDateTime.now().toString(),
 ) {
     companion object {
-        fun ok(description: String = "OK", data: Any? = null) = ResponseDTO(HttpStatus.OK.value(), description, data)
+        fun ok(description: String = HttpStatus.OK.reasonPhrase, data: Any? = null) = ResponseDTO(HttpStatus.OK.value(), description, data)
         fun error(code: Int, description: String, data: Any? = null) = ResponseDTO(code, description, data)
     }
 }

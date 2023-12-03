@@ -25,7 +25,7 @@ class CalendarExceptionHandlerTest @Autowired constructor(
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.INTERNAL_SERVER_ERROR.value()) }
             jsonPath("$.description") { value(HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase) }
-            jsonPath("$.data") { null }
+            jsonPath("$.data") { doesNotExist() }
         }
     }
 }

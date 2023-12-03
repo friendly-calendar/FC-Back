@@ -65,7 +65,7 @@ class UserControllerTest @Autowired constructor(
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.BAD_REQUEST.value()) }
             jsonPath("$.description") { value("아이디는 4 ~ 15 사이로 입력해주세요.") }
-            jsonPath("$.data") { value(null) }
+            jsonPath("$.data") { doesNotExist() }
         }
     }
 
@@ -83,7 +83,7 @@ class UserControllerTest @Autowired constructor(
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.BAD_REQUEST.value()) }
             jsonPath("$.description") { value("User already exists") }
-            jsonPath("$.data") { value(null) }
+            jsonPath("$.data") { doesNotExist() }
         }
     }
 

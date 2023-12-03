@@ -52,6 +52,9 @@ class AuthControllerTest @Autowired constructor(
             content = userSignInDTOJson
         }.andExpect {
             status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.OK.value()) }
+            jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
+            jsonPath("$.data") { exists() }
         }
     }
 
