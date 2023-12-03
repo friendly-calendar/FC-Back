@@ -15,8 +15,8 @@ class CalendarExceptionHandler {
 
     @ExceptionHandler(value = [Exception::class, NullPointerException::class])
     fun handle(otherException: Exception): ResponseDTO {
-        logger.error(otherException) { "Internal server exception" }
-        return ResponseDTO.error(code = HttpStatus.INTERNAL_SERVER_ERROR.value(), description = "Internal server error")
+        logger.error(otherException) { HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase }
+        return ResponseDTO.error(code = HttpStatus.INTERNAL_SERVER_ERROR.value(), description = HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase)
     }
 
     @ExceptionHandler(value = [IllegalArgumentException::class])
