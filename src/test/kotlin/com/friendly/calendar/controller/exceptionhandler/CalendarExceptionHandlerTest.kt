@@ -20,7 +20,7 @@ class CalendarExceptionHandlerTest @Autowired constructor(
 
     @Test
     fun `알 수 없는 예외가 발생하면 500 에러를 반환한다`() {
-        mockMvc.get("/api/v1/exception") {
+        mockMvc.get("/api/v1/auth") {
         }.andExpect {
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.INTERNAL_SERVER_ERROR.value()) }

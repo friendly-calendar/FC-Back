@@ -9,7 +9,7 @@ class CalendarPrincipal(
     val user: CalendarUser
 ) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> =
-        user.roles.map { SimpleGrantedAuthority(it.value) }.toMutableList()
+        user.roles.map { SimpleGrantedAuthority("ROLE_${it.value}") }.toMutableList()
 
     override fun getPassword(): String = user.password
 
