@@ -1,5 +1,6 @@
 package com.friendly.calendar.network
 
+import com.friendly.calendar.domain.model.base.DelFlag
 import com.friendly.calendar.enum.UserRole
 
 data class UserDTO(
@@ -9,4 +10,5 @@ data class UserDTO(
     val email: String?,
     val name: String?,
     val phoneNumber: String?,
+    val delFlag: DelFlag,
 )
