@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor
 @Entity
 @RequiredArgsConstructor
 @AllArgsConstructor
-class CalendarUser: BaseEntity() {
+class CalendarUser : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0L

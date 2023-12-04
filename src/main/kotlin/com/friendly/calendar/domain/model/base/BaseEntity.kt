@@ -11,7 +11,7 @@ import java.io.Serializable
 
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
-abstract class BaseEntity: Serializable {
+abstract class BaseEntity : Serializable {
 
     @CreatedBy
     lateinit var createdBy: String
