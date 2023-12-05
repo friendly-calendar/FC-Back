@@ -1,6 +1,7 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
+import com.friendly.calendar.enum.ADMIN_ROLE
 import com.friendly.calendar.network.ResponseDTO
 import com.friendly.calendar.network.UserDTO
 import com.friendly.calendar.network.UserSignUpDTO
@@ -29,11 +30,10 @@ class UserController(
     fun signUp(@Valid @RequestBody userSignUpDTO: UserSignUpDTO) = userService.createUser(userSignUpDTO)
 
     @GetMapping
-    @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('$ADMIN_ROLE')")
     fun getUsers() = ResponseDTO.ok(data = userService.getUsers())
 
     @GetMapping("/me")
-    @PreAuthorize("isAuthenticated()")
     fun getMyInfo(@AuthenticationPrincipal calendarPrincipal: CalendarPrincipal): ResponseDTO =
         ResponseDTO.ok(data = calendarPrincipal.user.toDto())
 }
