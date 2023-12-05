@@ -9,7 +9,7 @@ import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.core.Authentication
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -33,8 +33,7 @@ class UserController(
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    fun getMyInfo(authentication: Authentication): ResponseDTO {
-        val calendarPrincipal = authentication.principal as CalendarPrincipal
+    fun getMyInfo(@AuthenticationPrincipal calendarPrincipal: CalendarPrincipal): ResponseDTO {
         val userDTO = calendarPrincipal.user.let {
             UserDTO(
                 id = it.id,

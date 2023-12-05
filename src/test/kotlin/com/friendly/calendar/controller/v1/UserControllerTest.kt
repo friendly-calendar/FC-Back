@@ -129,6 +129,11 @@ class UserControllerTest @Autowired constructor(
             jsonPath("$.code") { value(HttpStatus.OK.value()) }
             jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
             jsonPath("$.data") { exists() }
+            jsonPath("$.data.id") { value(0) }
+            jsonPath("$.data.username") { value("testUser") }
+            jsonPath("$.data.name") { value("test") }
+            jsonPath("$.data.email") { value("dokdogalmaegi@gmail.com") }
+            jsonPath("$.data.phoneNumber") { value("010-1234-5678") }
         }
     }
 
