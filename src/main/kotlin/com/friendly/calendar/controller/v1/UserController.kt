@@ -2,11 +2,15 @@ package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.network.ResponseDTO
+import com.friendly.calendar.network.UserDTO
 import com.friendly.calendar.network.UserSignUpDTO
+import com.friendly.calendar.network.toDto
+import com.friendly.calendar.security.session.CalendarPrincipal
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -27,4 +31,9 @@ class UserController(
     @GetMapping
     @PreAuthorize("isAuthenticated() && hasRole('ROLE_ADMIN')")
     fun getUsers() = ResponseDTO.ok(data = userService.getUsers())
+
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    fun getMyInfo(@AuthenticationPrincipal calendarPrincipal: CalendarPrincipal): ResponseDTO =
+        ResponseDTO.ok(data = calendarPrincipal.user.toDto())
 }

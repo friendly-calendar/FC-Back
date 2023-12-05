@@ -2,6 +2,7 @@ package com.friendly.calendar.controller.v1
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.friendly.calendar.config.AdminConfig
+import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.network.UserSignInDTO
 import com.friendly.calendar.network.UserSignUpDTO
@@ -92,26 +93,9 @@ class UserControllerTest @Autowired constructor(
     }
 
     @Test
+    @WithMockCalendarUser
     fun `USER ROLE is not allowed to access get user list api`() {
-        val userSignUpDTO: UserSignUpDTO = UserSignUpDTO(
-            name = "user123",
-            email = "user@example.com",
-            username = "username1",
-            password = "password123!",
-            phoneNumber = "010-1234-5678"
-        )
-
-        userService.createUser(userSignUpDTO)
-
-        val userSignInDTO = UserSignInDTO(
-            username = userSignUpDTO.username,
-            password = userSignUpDTO.password
-        )
-        val token = userService.createToken(userSignInDTO)
-
-        mockMvc.get("/api/v1/users") {
-            header("Authorization", "Bearer $token")
-        }.andExpect {
+        mockMvc.get("/api/v1/users").andExpect {
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.FORBIDDEN.value()) }
             jsonPath("$.description") { value(HttpStatus.FORBIDDEN.reasonPhrase) }
@@ -134,6 +118,32 @@ class UserControllerTest @Autowired constructor(
             jsonPath("$.code") { value(HttpStatus.OK.value()) }
             jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
             jsonPath("$.data") { exists() }
+        }
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `get my info`() {
+        mockMvc.get("/api/v1/users/me").andExpect {
+            status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.OK.value()) }
+            jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
+            jsonPath("$.data") { exists() }
+            jsonPath("$.data.id") { value(0) }
+            jsonPath("$.data.username") { value("testUser") }
+            jsonPath("$.data.name") { value("test") }
+            jsonPath("$.data.email") { value("dokdogalmaegi@gmail.com") }
+            jsonPath("$.data.phoneNumber") { value("010-1234-5678") }
+        }
+    }
+
+    @Test
+    fun `get my info fail`() {
+        mockMvc.get("/api/v1/users/me").andExpect {
+            status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.FORBIDDEN.value()) }
+            jsonPath("$.description") { value(HttpStatus.FORBIDDEN.reasonPhrase) }
+            jsonPath("$.data") { doesNotExist() }
         }
     }
 

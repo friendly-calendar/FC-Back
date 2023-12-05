@@ -13,11 +13,7 @@ class JwtAuthenticationFilter(private val jwtProvider: JwtProvider) : GenericFil
 
         token?.let {
             if (jwtProvider.validateToken(it)) {
-                val currentAuthentication = SecurityContextHolder.getContext().authentication
-
-                if (currentAuthentication == null || !currentAuthentication.isAuthenticated) {
-                    SecurityContextHolder.getContext().authentication = jwtProvider.getAuthentication(it)
-                }
+                SecurityContextHolder.getContext().authentication = jwtProvider.getAuthentication(it)
             }
         }
 
