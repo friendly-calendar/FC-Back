@@ -1,5 +1,6 @@
 package com.friendly.calendar.domain.model
 
+import com.friendly.calendar.domain.model.base.BaseEntity
 import com.friendly.calendar.enum.UserRole
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -13,7 +14,7 @@ import lombok.RequiredArgsConstructor
 @Entity
 @RequiredArgsConstructor
 @AllArgsConstructor
-class CalendarUser {
+class CalendarUser : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     val id: Long = 0L

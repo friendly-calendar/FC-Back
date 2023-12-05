@@ -8,3 +8,28 @@ admin-user:
   name: admin
   password: khkimcsjylim1234
   username: admin
+
+management:
+  endpoints.web.exposure.include: "*"
+  endpoint:
+    configprops:
+      roles: ADMIN
+      show-values: when_authorized
+    env:
+      roles: ADMIN
+      show-values: when_authorized
+    health:
+      roles: ADMIN
+      show-details: when_authorized
+    shutdown:
+      enabled: true
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+  simple:
+    metrics:
+      export:
+        enabled: true
+        step: 24h

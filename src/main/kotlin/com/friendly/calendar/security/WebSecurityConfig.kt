@@ -1,6 +1,8 @@
 package com.friendly.calendar.security
 
+import com.friendly.calendar.enum.ADMIN_ROLE
 import lombok.RequiredArgsConstructor
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -57,7 +59,13 @@ class WebSecurityConfig(private val jwtProvider: JwtProvider) {
             }.addFilterAt(
                 JwtAuthenticationFilter(jwtProvider),
                 UsernamePasswordAuthenticationFilter::class.java
-            )
+            ).authorizeHttpRequests {
+                it.requestMatchers("/api/v1/auth", "/api/v1/users").permitAll()
+
+                it.requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ADMIN_ROLE)
+
+                it.requestMatchers("/api/v1/**").authenticated()
+            }
 
         return httpSecurity.build()
     }

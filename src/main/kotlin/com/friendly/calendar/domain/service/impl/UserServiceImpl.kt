@@ -59,7 +59,8 @@ class UserServiceImpl(
                 name = it.name,
                 email = it.email,
                 phoneNumber = it.phoneNumber,
-                roles = it.roles.toList()
+                roles = it.roles.toList(),
+                delFlag = it.delFlag
             )
         }
     }
