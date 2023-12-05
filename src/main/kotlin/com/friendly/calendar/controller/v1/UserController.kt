@@ -4,6 +4,7 @@ import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.network.ResponseDTO
 import com.friendly.calendar.network.UserDTO
 import com.friendly.calendar.network.UserSignUpDTO
+import com.friendly.calendar.network.toDto
 import com.friendly.calendar.security.session.CalendarPrincipal
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -33,18 +34,6 @@ class UserController(
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    fun getMyInfo(@AuthenticationPrincipal calendarPrincipal: CalendarPrincipal): ResponseDTO {
-        val userDTO = calendarPrincipal.user.let {
-            UserDTO(
-                id = it.id,
-                username = it.username,
-                roles = it.roles.toList(),
-                email = it.email,
-                name = it.name,
-                phoneNumber = it.phoneNumber
-            )
-        }
-
-        return ResponseDTO.ok(data = userDTO)
-    }
+    fun getMyInfo(@AuthenticationPrincipal calendarPrincipal: CalendarPrincipal): ResponseDTO =
+        ResponseDTO.ok(data = calendarPrincipal.user.toDto())
 }
