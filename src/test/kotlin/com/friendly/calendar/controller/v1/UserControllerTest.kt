@@ -140,10 +140,7 @@ class UserControllerTest @Autowired constructor(
     @Test
     fun `get my info fail`() {
         mockMvc.get("/api/v1/users/me").andExpect {
-            status { isOk() }
-            jsonPath("$.code") { value(HttpStatus.FORBIDDEN.value()) }
-            jsonPath("$.description") { value(HttpStatus.FORBIDDEN.reasonPhrase) }
-            jsonPath("$.data") { doesNotExist() }
+            status { isForbidden() }
         }
     }
 
