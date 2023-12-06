@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
 
 @Entity
-
 class FriendRequest(sender: CalendarUser, receiver: CalendarUser, message: String) : BaseEntity() {
 
     @Id
