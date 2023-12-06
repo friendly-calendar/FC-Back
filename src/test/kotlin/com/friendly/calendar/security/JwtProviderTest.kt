@@ -12,6 +12,8 @@ import io.jsonwebtoken.security.Keys
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
+import io.mockk.unmockkStatic
 import jakarta.servlet.http.HttpServletRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -70,6 +72,8 @@ class JwtProviderTest @Autowired constructor(
             { assertThat(authentication.authorities.first().authority).isEqualTo("ROLE_USER") },
             { assertThat(authentication.principal == mockPrincipal) }
         )
+
+        unmockkAll()
     }
 
     @Test
@@ -109,6 +113,8 @@ class JwtProviderTest @Autowired constructor(
 
         val result = jwtProvider.validateToken(validToken)
         assertThat(result).isTrue()
+
+        unmockkStatic(Jwts::class)
     }
 
     @Test
@@ -120,6 +126,8 @@ class JwtProviderTest @Autowired constructor(
 
         val result = jwtProvider.validateToken(invalidToken)
         assertThat(result).isFalse()
+
+        unmockkStatic(Jwts::class)
     }
 
     @Test
@@ -131,6 +139,8 @@ class JwtProviderTest @Autowired constructor(
 
         val result = jwtProvider.validateToken(expiredToken)
         assertThat(result).isFalse()
+
+        unmockkStatic(Jwts::class)
     }
 
     companion object {
