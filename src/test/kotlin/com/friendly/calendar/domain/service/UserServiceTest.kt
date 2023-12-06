@@ -92,4 +92,10 @@ class UserServiceTest @Autowired constructor(
             userService.createToken(invalidSignInDTO)
         }.hasMessage("아이디나 비밀번호를 확인해주세요.")
     }
+
+    @Test
+    fun `유저 리스트를 정상적으로 가져온다`() {
+        val users = userService.getUsers()
+        assertThat(users).isNotEmpty
+    }
 }
