@@ -31,6 +31,7 @@ class FriendStatusServiceTest @Autowired constructor(
     fun `Success request friend`() {
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         val calendarUser: CalendarUser = calendarPrincipal.user
+        calendarUserRepository.save(calendarUser)
 
         assertDoesNotThrow {
             friendStatusService.requestFriend(calendarUser.id, 1L, "message")
@@ -56,6 +57,7 @@ class FriendStatusServiceTest @Autowired constructor(
     fun `Success accept friend request`() {
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         val calendarUser: CalendarUser = calendarPrincipal.user
+        calendarUserRepository.save(calendarUser)
 
         friendStatusService.requestFriend(calendarUser.id, 1L, "message")
 
@@ -79,5 +81,4 @@ class FriendStatusServiceTest @Autowired constructor(
             assertThat(it.message).isEqualTo("Friend request not found")
         }
     }
-
 }

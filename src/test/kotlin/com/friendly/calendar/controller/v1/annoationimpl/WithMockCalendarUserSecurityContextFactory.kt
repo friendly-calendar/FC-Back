@@ -27,8 +27,6 @@ class WithMockCalendarUserSecurityContextFactory @Autowired constructor(
             }
         )
 
-        calendarUserRepository.save(calendarPrincipal.user)
-
         val auth = UsernamePasswordAuthenticationToken(calendarPrincipal, "", calendarPrincipal.authorities)
         context.authentication = auth
         return context

@@ -11,6 +11,6 @@ annotation class WithMockCalendarUser(
     val email: String = "dokdogalmaegi@gmail.com",
     val username: String = "testUser",
     val password: String = "testPassword",
-    val phoneNumber: String = "010-1234-5678",
+    val phoneNumber: String = "010-9999-9999",
     val roleAdmin: Boolean = false,
 )
