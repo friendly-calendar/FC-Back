@@ -22,8 +22,21 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class FriendStatusServiceTest @Autowired constructor(
     private val friendRequestRepository: FriendRequestRepository,
-    private val friendStatusService: FriendStatusService
+    private val friendStatusService: FriendStatusService,
+    private val calendarUserRepository: CalendarUserRepository
 ) {
+
+    @Test
+    @WithMockCalendarUser
+    fun `Success request friend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser: CalendarUser = calendarPrincipal.user
+
+        assertDoesNotThrow {
+            friendStatusService.requestFriend(calendarUser.id, 1L, "message")
+        }
+    }
+
     @Test
     fun `Fail request friend invalid user`() {
         val calendarUserRepository = mockk<CalendarUserRepository>()
@@ -40,12 +53,31 @@ class FriendStatusServiceTest @Autowired constructor(
 
     @Test
     @WithMockCalendarUser
-    fun `Success request friend`() {
+    fun `Success accept friend request`() {
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         val calendarUser: CalendarUser = calendarPrincipal.user
 
+        friendStatusService.requestFriend(calendarUser.id, 1L, "message")
+
         assertDoesNotThrow {
-            friendStatusService.requestFriend(calendarUser.id, 1L, "message")
+            friendStatusService.acceptFriend(calendarUser.id, 1L)
+        }
+
+        assertThat(friendRequestRepository.findAll().size).isEqualTo(1)
+    }
+
+    @Test
+    fun `Fail accept friend invalid friend request`() {
+        val testFriendRequestRepository = mockk<FriendRequestRepository>()
+        val testFriendStatusService = FriendStatusServiceImpl(calendarUserRepository, testFriendRequestRepository)
+
+        every { testFriendRequestRepository.findBySenderIdAndReceiverId(any(), any()) } returns null
+
+        assertThrows<IllegalArgumentException> {
+            testFriendStatusService.acceptFriend(1L, 2L)
+        }.let {
+            assertThat(it.message).isEqualTo("Friend request not found")
         }
     }
+
 }

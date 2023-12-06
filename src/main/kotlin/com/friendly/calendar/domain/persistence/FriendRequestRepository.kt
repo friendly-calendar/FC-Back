@@ -5,4 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface FriendRequestRepository : JpaRepository<FriendRequest, Long>
+interface FriendRequestRepository : JpaRepository<FriendRequest, Long> {
+
+    fun findBySenderIdAndReceiverId(senderId: Long, receiverId: Long): FriendRequest?
+}

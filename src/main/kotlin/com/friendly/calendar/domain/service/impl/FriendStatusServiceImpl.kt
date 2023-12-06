@@ -1,5 +1,6 @@
 package com.friendly.calendar.domain.service.impl
 
+import com.friendly.calendar.domain.model.FriendLogStatus
 import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
@@ -21,5 +22,19 @@ class FriendStatusServiceImpl(
         }
 
         friendRequestRepository.save(FriendRequest(sender, receiver, message))
+    }
+
+    override fun acceptFriend(senderId: Long, receiverId: Long) {
+        val friendRequest = friendRequestRepository.findBySenderIdAndReceiverId(senderId, receiverId)
+
+        require(friendRequest != null) {
+            "Friend request not found"
+        }
+
+        require(friendRequest.status == FriendLogStatus.PENDING) {
+            "Friend request already accepted or rejected"
+        }
+
+        friendRequest.accept()
     }
 }
