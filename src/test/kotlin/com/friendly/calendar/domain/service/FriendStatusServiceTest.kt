@@ -2,6 +2,7 @@ package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.model.CalendarUser
+import com.friendly.calendar.domain.model.FriendLogStatus
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
 import com.friendly.calendar.domain.service.impl.FriendStatusServiceImpl
@@ -10,6 +11,7 @@ import io.mockk.every
 import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
@@ -65,7 +67,10 @@ class FriendStatusServiceTest @Autowired constructor(
             friendStatusService.acceptFriend(calendarUser.id, 1L)
         }
 
-        assertThat(friendRequestRepository.findAll().size).isEqualTo(1)
+        assertAll(
+            { assertThat(friendRequestRepository.findAll().size).isEqualTo(1) },
+            { assertThat(friendRequestRepository.findAll()[0].status).isEqualTo(FriendLogStatus.ACCEPT) }
+        )
     }
 
     @Test
