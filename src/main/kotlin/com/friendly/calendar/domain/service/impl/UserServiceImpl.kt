@@ -7,6 +7,7 @@ import com.friendly.calendar.network.UserDTO
 import com.friendly.calendar.network.UserSignInDTO
 import com.friendly.calendar.network.UserSignUpDTO
 import com.friendly.calendar.network.mapper.Mapper
+import com.friendly.calendar.network.toDto
 import com.friendly.calendar.security.JwtProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -51,17 +52,5 @@ class UserServiceImpl(
         return jwtProvider.createToken(findUser!!.username, findUser.roles.toList())
     }
 
-    override fun getUsers(): List<UserDTO> {
-        return calendarUserRepository.findAll().map {
-            UserDTO(
-                id = it.id,
-                username = it.username,
-                name = it.name,
-                email = it.email,
-                phoneNumber = it.phoneNumber,
-                roles = it.roles.toList(),
-                delFlag = it.delFlag
-            )
-        }
-    }
+    override fun getUsers(): List<UserDTO> = calendarUserRepository.findAll().map(CalendarUser::toDto)
 }
