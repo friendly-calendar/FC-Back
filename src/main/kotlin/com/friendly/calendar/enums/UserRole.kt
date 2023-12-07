@@ -1,4 +1,4 @@
-package com.friendly.calendar.enum
+package com.friendly.calendar.enums
 
 import lombok.AllArgsConstructor
 import lombok.Getter

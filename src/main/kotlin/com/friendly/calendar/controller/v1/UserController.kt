@@ -1,7 +1,7 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
-import com.friendly.calendar.enum.ADMIN_ROLE
+import com.friendly.calendar.enums.ADMIN_ROLE
 import com.friendly.calendar.network.ResponseDTO
 import com.friendly.calendar.network.UserSignUpDTO
 import com.friendly.calendar.network.toDto

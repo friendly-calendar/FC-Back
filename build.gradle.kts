@@ -42,7 +42,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.26")
     runtimeOnly("com.h2database:h2:2.1.214")
     runtimeOnly("org.postgresql:postgresql:42.5.4")
-    kapt("org.projectlombok:lombok:1.18.26")
+    annotationProcessor("org.projectlombok:lombok:1.18.26")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
     testImplementation("org.springframework.security:spring-security-test:6.0.2")

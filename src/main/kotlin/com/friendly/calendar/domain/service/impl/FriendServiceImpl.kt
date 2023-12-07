@@ -1,11 +1,9 @@
 package com.friendly.calendar.domain.service.impl
 
 import com.friendly.calendar.domain.model.FriendRelation
-import com.friendly.calendar.domain.model.FriendStatus
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.service.FriendService
-import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
