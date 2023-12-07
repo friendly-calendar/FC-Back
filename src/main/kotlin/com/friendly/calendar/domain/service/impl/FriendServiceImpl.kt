@@ -6,6 +6,7 @@ import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.service.FriendService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class FriendServiceImpl(
@@ -23,24 +24,14 @@ class FriendServiceImpl(
         friendRelationRepository.save(FriendRelation(sender, receiver))
     }
 
+    @Transactional
     override fun acceptFriend(senderId: Long, receiverId: Long) {
-        TODO("Not yet implemented")
-    }
+        val friendRelationList: List<FriendRelation> = friendRelationRepository.findPendingRelationBetweenUserAndFriend(senderId, receiverId)
 
-//    @Transactional
-//    override fun acceptFriend(senderId: Long, receiverId: Long) {
-//        val senderFriendRelation = friendRelationRepository.findByUserAndFriend(senderId, receiverId)
-//        val receiverFriendRelation = friendRelationRepository.findByUserAndFriend(receiverId, senderId)
-//
-//        require(senderFriendRelation != null && receiverFriendRelation != null) {
-//            "Friend request not found"
-//        }
-//
-//        require(senderFriendRelation.status == FriendStatus.PENDING && receiverFriendRelation.status == FriendStatus.PENDING) {
-//            "Friend request already accepted or rejected"
-//        }
-//
-//        senderFriendRelation.accept()
-//        receiverFriendRelation.accept()
-//    }
+        require(friendRelationList.size == 2) {
+            "Friend request not found"
+        }
+
+        friendRelationList.forEach(FriendRelation::accept)
+    }
 }
