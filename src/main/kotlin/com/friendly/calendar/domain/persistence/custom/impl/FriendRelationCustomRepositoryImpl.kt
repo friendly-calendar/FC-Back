@@ -12,20 +12,20 @@ class FriendRelationCustomRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ) : FriendRelationCustomRepository {
     override fun findPendingRelationBetweenUserAndFriend(userId: Long, friendId: Long): List<FriendRelation> = queryFactory
-            .selectFrom(friendRelation)
-            .innerJoin(friendRelation.user, calendarUser).fetchJoin()
-            .innerJoin(friendRelation.friend, calendarUser).fetchJoin()
-            .where(
-                friendRelation.status.eq(PENDING).and(
-                    friendRelation.delFlag.eq(DelFlag.N)
-                ).and
-                (
-                    friendRelation.user.id.eq(userId)
-                        .and(friendRelation.friend.id.eq(friendId))
-                ).or(
-                    friendRelation.user.id.eq(friendId)
-                        .and(friendRelation.friend.id.eq(userId))
-                )
+        .selectFrom(friendRelation)
+        .innerJoin(friendRelation.user, calendarUser).fetchJoin()
+        .innerJoin(friendRelation.friend, calendarUser).fetchJoin()
+        .where(
+            friendRelation.status.eq(PENDING).and(
+                friendRelation.delFlag.eq(DelFlag.N)
+            ).and
+            (
+                friendRelation.user.id.eq(userId)
+                    .and(friendRelation.friend.id.eq(friendId))
+            ).or(
+                friendRelation.user.id.eq(friendId)
+                    .and(friendRelation.friend.id.eq(userId))
             )
-            .fetch()
+        )
+        .fetch()
 }
