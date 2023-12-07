@@ -31,6 +31,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation:3.0.4")
     implementation("org.springframework.boot:spring-boot-starter-security:3.0.4")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.0.4")
+    implementation("org.springframework.data:spring-data-envers:3.0.3")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.0")
     implementation("io.jsonwebtoken:jjwt:0.12.1")
     implementation("io.github.microutils:kotlin-logging:2.0.11")

@@ -11,8 +11,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.OneToOne
+import org.hibernate.envers.Audited
+import org.hibernate.envers.RelationTargetAuditMode
 
 @Entity
+@Audited
 class FriendRequest(sender: CalendarUser, receiver: CalendarUser, message: String) : BaseEntity() {
 
     @Id
@@ -21,10 +24,12 @@ class FriendRequest(sender: CalendarUser, receiver: CalendarUser, message: Strin
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id")
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     var sender: CalendarUser = sender
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     var receiver: CalendarUser = receiver
 
     @Enumerated(EnumType.STRING)

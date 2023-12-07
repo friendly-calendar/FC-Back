@@ -5,6 +5,7 @@ import com.friendly.calendar.domain.model.FriendRequest
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRequestRepository
 import com.friendly.calendar.domain.service.FriendStatusService
+import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -24,6 +25,7 @@ class FriendStatusServiceImpl(
         friendRequestRepository.save(FriendRequest(sender, receiver, message))
     }
 
+    @Transactional
     override fun acceptFriend(senderId: Long, receiverId: Long) {
         val friendRequest = friendRequestRepository.findBySenderIdAndReceiverId(senderId, receiverId)
 

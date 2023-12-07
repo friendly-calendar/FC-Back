@@ -1,3 +1,12 @@
+spring:
+  jpa:
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _HIS
+            store_data_at_delete: true
+
 server:
   port: 8080
 jwt:

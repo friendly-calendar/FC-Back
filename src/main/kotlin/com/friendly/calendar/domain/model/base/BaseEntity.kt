@@ -1,26 +1,25 @@
 package com.friendly.calendar.domain.model.base
 
-import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.MappedSuperclass
-import org.springframework.data.annotation.CreatedBy
+import org.hibernate.envers.Audited
 import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
+import java.time.LocalDateTime
 
 @MappedSuperclass
 @EntityListeners(value = [AuditingEntityListener::class])
+@Audited
 abstract class BaseEntity : Serializable {
-
-    @CreatedBy
-    @Column(updatable = false)
-    lateinit var createdBy: String
-
     @CreatedDate
-    @Column(updatable = false)
-    lateinit var createdAt: String
+    lateinit var createdAt: LocalDateTime
+
+    @LastModifiedDate
+    lateinit var updatedAt: LocalDateTime
 
     @Enumerated(EnumType.STRING)
     var delFlag: DelFlag = DelFlag.N

@@ -2,38 +2,36 @@ package com.friendly.calendar.domain.model.base
 
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.model.CalendarUser
+import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.security.session.CalendarPrincipal
-import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-@DataJpaTest
-@EnableJpaAuditing
+@SpringBootTest
 @ExtendWith(SpringExtension::class)
 class BaseEntityTest @Autowired constructor(
-    private val entityManager: EntityManager
+    private val calendarUserRepository: CalendarUserRepository
 ) {
 
     @Test
     @WithMockCalendarUser
+    @Transactional
     fun `baseEntity를 상속 받은 클래스는 생성자를 통해 createdBy, createdAt, delFlag 값을 가져올 수 있다`() {
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         val calendarUser: CalendarUser = calendarPrincipal.user
-        calendarUser.createdBy = calendarUser.username
 
-        entityManager.persist(calendarUser)
-        entityManager.flush()
+        calendarUserRepository.save(calendarUser)
 
         assertAll(
             { assertThat(calendarUser.createdAt).isNotNull },
-            { assertThat(calendarUser.createdBy).isEqualTo(calendarUser.username) },
+            { assertThat(calendarUser.updatedAt).isNotNull },
             { assertThat(calendarUser.delFlag).isEqualTo(DelFlag.N) }
         )
     }
