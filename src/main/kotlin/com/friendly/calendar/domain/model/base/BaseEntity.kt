@@ -1,5 +1,6 @@
 package com.friendly.calendar.domain.model.base
 
+import jakarta.persistence.Column
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -16,6 +17,7 @@ import java.time.LocalDateTime
 @Audited
 abstract class BaseEntity : Serializable {
     @CreatedDate
+    @Column(updatable = false)
     lateinit var createdAt: LocalDateTime
 
     @LastModifiedDate

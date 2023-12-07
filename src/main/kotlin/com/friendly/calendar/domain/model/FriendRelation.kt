@@ -60,7 +60,7 @@ class FriendRelation(
 
     fun block(blockedByUserId: Long) {
         this.status = FriendStatus.BLOCKED
-        this.blockedBy = blockedBy
+        this.blockedBy = blockedByUserId
     }
 
     fun unBlock(userId: Long) {
