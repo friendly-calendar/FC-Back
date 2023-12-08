@@ -99,4 +99,45 @@ class FriendServiceTest @Autowired constructor(
             friendService.acceptFriend(1, testFriend.id)
         }.message().isEqualTo("Friend request not found")
     }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success rejectFriend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.requestFriend(testUser.id, testFriend.id)
+
+        assertAll(
+            {
+                assertThatNoException().isThrownBy {
+                    friendService.rejectFriend(testUser.id, testFriend.id)
+                }
+            },
+            {
+                assertThat(friendRelationRepository.findAll().size).isEqualTo(1)
+            },
+            {
+                assertThat(
+                    friendRelationRepository.findAll().all {
+                        it.status == FriendStatus.REJECTED
+                    }
+                ).isTrue()
+            }
+        )
+    }
+
+    @Test
+    @Transactional
+    fun `failure rejectFriend with not found friend request`() {
+        val testFriend = calendarUserRepository.findByUsername("admin")!!
+
+        Assertions.assertThatThrownBy {
+            friendService.rejectFriend(1, testFriend.id)
+        }.message().isEqualTo("Friend request not found")
+    }
 }

@@ -38,6 +38,17 @@ class FriendServiceImpl(
         FriendRelation(pendingFriendRelation.friend, pendingFriendRelation.user).accept()
     }
 
+    @Transactional
+    override fun rejectFriend(senderId: Long, receiverId: Long) {
+        val pendingFriendRelation: FriendRelation? = friendRelationRepository.findPendingRelationByUserIdAndFriendId(senderId, receiverId)
+
+        require(pendingFriendRelation != null) {
+            "Friend request not found"
+        }
+
+        pendingFriendRelation.reject()
+    }
+
     private fun canRequestFriend(senderId: Long, receiverId: Long): Boolean {
         require(senderId != receiverId) {
             "Cannot send friend request to yourself"
