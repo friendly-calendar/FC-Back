@@ -1,5 +1,5 @@
 package com.friendly.calendar.network
 
-data class FriendRequestAcceptDTO(
+data class FriendRequestPatchDTO(
     val senderId: Long,
 )
