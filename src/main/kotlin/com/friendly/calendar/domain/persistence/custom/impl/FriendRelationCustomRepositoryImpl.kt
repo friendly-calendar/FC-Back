@@ -27,5 +27,4 @@ class FriendRelationCustomRepositoryImpl(
             )
             .fetchOne() as FriendRelation? ?: return null
     }
-
 }

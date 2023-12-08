@@ -81,9 +81,11 @@ class FriendServiceTest @Autowired constructor(
                 }
             },
             {
-                assertThat(friendRelationRepository.findAll().all {
-                    it.status == FriendStatus.ACCEPTED
-                }).isTrue()
+                assertThat(
+                    friendRelationRepository.findAll().all {
+                        it.status == FriendStatus.ACCEPTED
+                    }
+                ).isTrue()
             }
         )
     }
