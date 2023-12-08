@@ -3,6 +3,7 @@ package com.friendly.calendar.controller.v1
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
+import com.friendly.calendar.network.FriendRequestAcceptDTO
 import com.friendly.calendar.network.FriendRequestDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.junit.jupiter.api.Test
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
 
@@ -36,7 +38,6 @@ class FriendControllerTest @Autowired constructor(
 
         val friendRequestDTO = FriendRequestDTO(
             receiverId = 1L,
-            message = "Hello"
         )
 
         val friendRequestDTOJson = objectMapper.writeValueAsString(friendRequestDTO)
@@ -52,7 +53,6 @@ class FriendControllerTest @Autowired constructor(
     fun `Request friend with invalid receiver id`() {
         val friendRequestDTO = FriendRequestDTO(
             receiverId = 0L,
-            message = "Hello"
         )
 
         val friendRequestDTOJson = objectMapper.writeValueAsString(friendRequestDTO)
@@ -64,6 +64,47 @@ class FriendControllerTest @Autowired constructor(
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.BAD_REQUEST.value()) }
             jsonPath("$.description") { value("User not found") }
+            jsonPath("$.data") { doesNotExist() }
+        }
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Accept friend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser = calendarPrincipal.user
+        userRepository.save(calendarUser)
+
+        val findUser = userRepository.findByUsername(calendarUser.username)
+
+        val friendRequestAcceptDTO = FriendRequestAcceptDTO(
+            senderId = findUser!!.id,
+        )
+
+        val friendRequestAcceptDTOJson = objectMapper.writeValueAsString(friendRequestAcceptDTO)
+
+        mockMvc.patch("/api/v1/friends/accept") {
+            contentType = MediaType.APPLICATION_JSON
+            content = friendRequestAcceptDTOJson
+        }.andExpect { status { isOk() } }
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Accept friend with invalid sender id`() {
+        val friendRequestAcceptDTO = FriendRequestAcceptDTO(
+            senderId = 0L,
+        )
+
+        val friendRequestAcceptDTOJson = objectMapper.writeValueAsString(friendRequestAcceptDTO)
+
+        mockMvc.patch("/api/v1/friends/accept") {
+            contentType = MediaType.APPLICATION_JSON
+            content = friendRequestAcceptDTOJson
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.BAD_REQUEST.value()) }
+            jsonPath("$.description") { value("Friend request not found") }
             jsonPath("$.data") { doesNotExist() }
         }
     }

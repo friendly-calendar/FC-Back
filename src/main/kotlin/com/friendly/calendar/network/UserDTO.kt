@@ -2,7 +2,7 @@ package com.friendly.calendar.network
 
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.model.base.DelFlag
-import com.friendly.calendar.enum.UserRole
+import com.friendly.calendar.enums.UserRole
 
 data class UserDTO(
     val id: Long,

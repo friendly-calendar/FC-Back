@@ -1,7 +1,7 @@
 package com.friendly.calendar.security
 
 import com.friendly.calendar.config.JwtConfig
-import com.friendly.calendar.enum.UserRole
+import com.friendly.calendar.enums.UserRole
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jws

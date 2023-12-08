@@ -1,6 +1,6 @@
 package com.friendly.calendar.controller.v1
 
-import com.friendly.calendar.domain.service.FriendStatusService
+import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.network.FriendRequestAcceptDTO
 import com.friendly.calendar.network.FriendRequestDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/friends")
 class FriendController(
-    private val friendStatusService: FriendStatusService
+    private val friendStatusService: FriendService
 ) {
 
     @PostMapping
@@ -28,7 +28,6 @@ class FriendController(
         friendStatusService.requestFriend(
             calendarPrincipal.user.id,
             friendRequestDTO.receiverId,
-            friendRequestDTO.message
         )
     }
 

@@ -1,7 +1,7 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.base.BaseEntity
-import com.friendly.calendar.enum.UserRole
+import com.friendly.calendar.enums.UserRole
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

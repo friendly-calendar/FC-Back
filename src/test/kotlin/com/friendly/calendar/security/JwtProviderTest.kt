@@ -2,7 +2,7 @@ package com.friendly.calendar.security
 
 import com.friendly.calendar.config.JwtConfig
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
-import com.friendly.calendar.enum.UserRole
+import com.friendly.calendar.enums.UserRole
 import com.friendly.calendar.security.session.CalendarPrincipal
 import com.friendly.calendar.security.session.CalendarUserDetailsServiceImpl
 import io.jsonwebtoken.Claims

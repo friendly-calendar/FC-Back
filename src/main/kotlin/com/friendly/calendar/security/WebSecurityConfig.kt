@@ -1,6 +1,6 @@
 package com.friendly.calendar.security
 
-import com.friendly.calendar.enum.ADMIN_ROLE
+import com.friendly.calendar.enums.ADMIN_ROLE
 import lombok.RequiredArgsConstructor
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest
 import org.springframework.context.annotation.Bean
