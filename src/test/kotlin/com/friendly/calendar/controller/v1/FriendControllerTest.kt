@@ -36,7 +36,6 @@ class FriendControllerTest @Autowired constructor(
 
         val friendRequestDTO = FriendRequestDTO(
             receiverId = 1L,
-            message = "Hello"
         )
 
         val friendRequestDTOJson = objectMapper.writeValueAsString(friendRequestDTO)
@@ -52,7 +51,6 @@ class FriendControllerTest @Autowired constructor(
     fun `Request friend with invalid receiver id`() {
         val friendRequestDTO = FriendRequestDTO(
             receiverId = 0L,
-            message = "Hello"
         )
 
         val friendRequestDTOJson = objectMapper.writeValueAsString(friendRequestDTO)

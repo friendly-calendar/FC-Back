@@ -12,6 +12,7 @@ import com.friendly.calendar.security.JwtProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserServiceImpl(
@@ -52,5 +53,6 @@ class UserServiceImpl(
         return jwtProvider.createToken(findUser!!.username, findUser.roles.toList())
     }
 
+    @Transactional(readOnly = true)
     override fun getUsers(): List<UserDTO> = calendarUserRepository.findAll().map(CalendarUser::toDto)
 }
