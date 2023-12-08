@@ -68,6 +68,6 @@ class FriendRelation(
             "User is not blocked by this user"
         }
 
-        this.status = FriendStatus.PENDING
+        this.delete()
     }
 }
