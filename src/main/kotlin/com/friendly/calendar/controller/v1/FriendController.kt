@@ -1,8 +1,8 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.FriendService
-import com.friendly.calendar.network.FriendRequestDTO
-import com.friendly.calendar.network.FriendRequestPatchDTO
+import com.friendly.calendar.network.domain.FriendRequestDTO
+import com.friendly.calendar.network.domain.FriendRequestPatchDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal

@@ -2,9 +2,9 @@ package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.enums.ADMIN_ROLE
-import com.friendly.calendar.network.ResponseDTO
 import com.friendly.calendar.network.UserSignUpDTO
 import com.friendly.calendar.network.toDto
+import com.friendly.calendar.network.utils.ResponseDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
