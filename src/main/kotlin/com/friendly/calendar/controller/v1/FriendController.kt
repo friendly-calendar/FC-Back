@@ -50,6 +50,10 @@ class FriendController(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
         @RequestBody friendRejectDTO: FriendRejectDTO
     ) {
-        TODO("Implement reject friend")
+        friendStatusService.rejectFriend(
+            friendRejectDTO.senderId,
+            calendarPrincipal.user.id,
+            friendRejectDTO.isBlock
+        )
     }
 }

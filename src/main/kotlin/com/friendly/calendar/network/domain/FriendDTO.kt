@@ -11,6 +11,6 @@ sealed class FriendDTO {
 
     data class FriendRejectDTO(
         val senderId: Long,
-        val isBlock: Boolean,
+        val isBlock: Boolean = false,
     ) : FriendDTO()
 }
