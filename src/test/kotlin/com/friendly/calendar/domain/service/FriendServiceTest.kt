@@ -5,7 +5,7 @@ import com.friendly.calendar.domain.model.FriendStatus
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.security.session.CalendarPrincipal
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatNoException
 import org.junit.jupiter.api.Test
@@ -43,23 +43,40 @@ class FriendServiceTest @Autowired constructor(
     }
 
     @Test
-    @Transactional
     fun `failure requestFriend with not found user`() {
         val testFriend = calendarUserRepository.findByUsername("admin")!!
 
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             friendService.requestFriend(999, testFriend.id)
         }.message().isEqualTo("User not found")
     }
 
     @Test
-    @Transactional
     fun `failure requestFriend with same user`() {
         val testUser = calendarUserRepository.findByUsername("admin")!!
 
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             friendService.requestFriend(testUser.id, testUser.id)
         }.message().isEqualTo("Cannot send friend request to yourself")
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `failure requestFriend with blocked user`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+        val testFriend = calendarUserRepository.findByUsername("admin")!!
+
+        friendService.requestFriend(testUser.id, testFriend.id)
+
+        friendService.rejectFriend(testUser.id, testFriend.id, true)
+
+        assertThatThrownBy {
+            friendService.requestFriend(testUser.id, testFriend.id)
+        }.message().isEqualTo("Cannot send friend request to blocked user")
     }
 
     @Test
@@ -91,11 +108,10 @@ class FriendServiceTest @Autowired constructor(
     }
 
     @Test
-    @Transactional
     fun `failure acceptFriend with not found friend request`() {
         val testFriend = calendarUserRepository.findByUsername("admin")!!
 
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             friendService.acceptFriend(1, testFriend.id)
         }.message().isEqualTo("Friend request not found")
     }
@@ -167,7 +183,7 @@ class FriendServiceTest @Autowired constructor(
     fun `failure rejectFriend with not found friend request`() {
         val testFriend = calendarUserRepository.findByUsername("admin")!!
 
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             friendService.rejectFriend(1, testFriend.id)
         }.message().isEqualTo("Friend request not found")
     }
