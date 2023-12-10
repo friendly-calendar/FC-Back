@@ -4,4 +4,6 @@ interface FriendService {
     fun requestFriend(senderId: Long, receiverId: Long)
 
     fun acceptFriend(senderId: Long, receiverId: Long)
+
+    fun rejectFriend(senderId: Long, receiverId: Long, isBlock: Boolean = false)
 }

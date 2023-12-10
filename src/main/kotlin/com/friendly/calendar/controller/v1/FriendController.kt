@@ -1,8 +1,9 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.FriendService
-import com.friendly.calendar.network.FriendRequestAcceptDTO
-import com.friendly.calendar.network.FriendRequestDTO
+import com.friendly.calendar.network.domain.FriendDTO.FriendPatchDTO
+import com.friendly.calendar.network.domain.FriendDTO.FriendRejectDTO
+import com.friendly.calendar.network.domain.FriendDTO.FriendRequestDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -35,11 +36,24 @@ class FriendController(
     @ResponseStatus(HttpStatus.OK)
     fun acceptFriend(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
-        @RequestBody friendRequestAcceptDTO: FriendRequestAcceptDTO
+        @RequestBody friendRequestPatchDTO: FriendPatchDTO
     ) {
         friendStatusService.acceptFriend(
-            friendRequestAcceptDTO.senderId,
+            friendRequestPatchDTO.senderId,
             calendarPrincipal.user.id
+        )
+    }
+
+    @PatchMapping("/reject")
+    @ResponseStatus(HttpStatus.OK)
+    fun rejectFriend(
+        @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
+        @RequestBody friendRejectDTO: FriendRejectDTO
+    ) {
+        friendStatusService.rejectFriend(
+            friendRejectDTO.senderId,
+            calendarPrincipal.user.id,
+            friendRejectDTO.isBlock
         )
     }
 }
