@@ -46,7 +46,13 @@ class FriendServiceImpl(
             "Friend request not found"
         }
 
-        isBlock.takeIf { it }?.let { pendingFriendRelation.block(receiverId) }
+        isBlock.takeIf { it }?.let {
+            pendingFriendRelation.block(receiverId)
+
+            val friendRelation = FriendRelation(pendingFriendRelation.friend, pendingFriendRelation.user)
+            friendRelation.block(receiverId)
+            friendRelationRepository.save(friendRelation)
+        }
             ?: pendingFriendRelation.reject()
     }
 

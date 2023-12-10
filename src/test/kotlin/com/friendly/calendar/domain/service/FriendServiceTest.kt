@@ -150,14 +150,14 @@ class FriendServiceTest @Autowired constructor(
                 }
             },
             {
-                assertThat(friendRelationRepository.findAll().size).isEqualTo(1)
+                assertThat(friendRelationRepository.findAll().size).isEqualTo(2)
             },
             {
-                friendRelationRepository.findAll().let {
-                    assertThat(it[0].user.id).isEqualTo(testUser.id)
-                    assertThat(it[0].friend.id).isEqualTo(testFriend.id)
-                    assertThat(it[0].status).isEqualTo(FriendStatus.BLOCKED)
-                }
+                assertThat(
+                    friendRelationRepository.findAll().all {
+                        it.status == FriendStatus.BLOCKED
+                    }
+                ).isTrue()
             }
         )
     }
