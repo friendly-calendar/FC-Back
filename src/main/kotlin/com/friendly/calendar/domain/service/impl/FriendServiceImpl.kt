@@ -49,7 +49,8 @@ class FriendServiceImpl(
         isBlock.takeIf { it }?.let {
             pendingFriendRelation.block(receiverId)
 
-            val friendRelation = FriendRelation(pendingFriendRelation.friend, pendingFriendRelation.user)
+            val friendRelation = friendRelationRepository.findFriendRelationByUserIdAndFriendId(receiverId, senderId)
+                ?: FriendRelation(pendingFriendRelation.friend, pendingFriendRelation.user)
             friendRelation.block(receiverId)
             friendRelationRepository.save(friendRelation)
         }
