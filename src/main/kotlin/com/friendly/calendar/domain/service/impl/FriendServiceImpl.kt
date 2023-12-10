@@ -46,7 +46,8 @@ class FriendServiceImpl(
             "Friend request not found"
         }
 
-        pendingFriendRelation.reject()
+        isBlock.takeIf { it }?.let { pendingFriendRelation.block(receiverId) }
+            ?: pendingFriendRelation.reject()
     }
 
     private fun canRequestFriend(senderId: Long, receiverId: Long): Boolean {
