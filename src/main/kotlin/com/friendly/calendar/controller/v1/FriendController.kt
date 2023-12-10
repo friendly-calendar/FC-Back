@@ -1,6 +1,7 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.FriendService
+import com.friendly.calendar.network.domain.FriendDTO.FriendRejectDTO
 import com.friendly.calendar.network.domain.FriendDTO.FriendPatchDTO
 import com.friendly.calendar.network.domain.FriendDTO.FriendRequestDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
@@ -47,7 +48,7 @@ class FriendController(
     @ResponseStatus(HttpStatus.OK)
     fun rejectFriend(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
-        @RequestBody friendRequestPatchDTO: FriendPatchDTO
+        @RequestBody friendRejectDTO: FriendRejectDTO
     ) {
         TODO("Implement reject friend")
     }

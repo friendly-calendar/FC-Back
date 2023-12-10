@@ -39,7 +39,7 @@ class FriendServiceImpl(
     }
 
     @Transactional
-    override fun rejectFriend(senderId: Long, receiverId: Long) {
+    override fun rejectFriend(senderId: Long, receiverId: Long, isBlock: Boolean) {
         val pendingFriendRelation: FriendRelation? = friendRelationRepository.findPendingRelationByUserIdAndFriendId(senderId, receiverId)
 
         require(pendingFriendRelation != null) {

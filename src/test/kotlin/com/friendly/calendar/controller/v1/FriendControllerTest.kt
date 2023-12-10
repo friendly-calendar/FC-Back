@@ -3,8 +3,8 @@ package com.friendly.calendar.controller.v1
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
+import com.friendly.calendar.network.domain.FriendDTO.FriendPatchDTO
 import com.friendly.calendar.network.domain.FriendDTO.FriendRequestDTO
-import com.friendly.calendar.network.domain.FriendRequestPatchDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -77,7 +77,7 @@ class FriendControllerTest @Autowired constructor(
 
         val findUser = userRepository.findByUsername(calendarUser.username)
 
-        val friendRequestPatchDTO = FriendRequestPatchDTO(
+        val friendRequestPatchDTO = FriendPatchDTO(
             senderId = findUser!!.id,
         )
 
@@ -92,7 +92,7 @@ class FriendControllerTest @Autowired constructor(
     @Test
     @WithMockCalendarUser
     fun `Accept friend with invalid sender id`() {
-        val friendRequestPatchDTO = FriendRequestPatchDTO(
+        val friendRequestPatchDTO = FriendPatchDTO(
             senderId = 0L,
         )
 
