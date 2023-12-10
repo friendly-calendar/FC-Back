@@ -56,4 +56,13 @@ class FriendController(
             friendRejectDTO.isBlock
         )
     }
+
+    @PatchMapping("/block")
+    @ResponseStatus(HttpStatus.OK)
+    fun blockFriend(
+        @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
+        @RequestBody friendPatchDTO: FriendPatchDTO
+    ) {
+        TODO("차단 기능 service 구현 필요")
+    }
 }
