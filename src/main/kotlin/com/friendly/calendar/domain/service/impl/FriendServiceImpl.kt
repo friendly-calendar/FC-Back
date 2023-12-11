@@ -23,7 +23,11 @@ class FriendServiceImpl(
             "Cannot send friend request to blocked user"
         }
 
-        friendRelationRepository.save(FriendRelation(sender, receiver))
+        val friendRelation = friendRelationRepository.findFriendRelationByUserIdAndFriendId(senderId, receiverId)
+            ?: FriendRelation(sender, receiver)
+        friendRelation.request()
+
+        friendRelationRepository.save(friendRelation)
     }
 
     @Transactional
@@ -34,8 +38,10 @@ class FriendServiceImpl(
             "Friend request not found"
         }
 
-        pendingFriendRelation.accept()
-        FriendRelation(pendingFriendRelation.friend, pendingFriendRelation.user).accept()
+        val (senderFriendRelation, receiverFriendRelation) = mutualFriendPair(senderId, receiverId)
+
+        val mutualFriendRelations = listOf(senderFriendRelation, receiverFriendRelation).onEach { it.accept() }
+        friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
     @Transactional
@@ -55,6 +61,34 @@ class FriendServiceImpl(
             friendRelationRepository.save(friendRelation)
         }
             ?: pendingFriendRelation.reject()
+    }
+
+    override fun blockFriend(blockById: Long, blockToId: Long) {
+        require(blockById != blockToId) {
+            "Cannot block friend to yourself"
+        }
+
+        val (firstUserFriendRelation, secondUserFriendRelation) = mutualFriendPair(blockById, blockToId)
+
+        val mutualFriendRelations = listOf(firstUserFriendRelation, secondUserFriendRelation).onEach { it.block(blockById) }
+        friendRelationRepository.saveAll(mutualFriendRelations)
+    }
+
+    private fun mutualFriendPair(
+        firstUserId: Long,
+        secondUserId: Long,
+    ): Pair<FriendRelation, FriendRelation> {
+        val firstUser = calendarUserRepository.findByIdOrThrow(firstUserId, "User not found")
+        val secondUser = calendarUserRepository.findByIdOrThrow(secondUserId, "User not found")
+
+        val firstUserFriendRelation =
+            friendRelationRepository.findFriendRelationByUserIdAndFriendId(firstUserId, secondUserId)
+                ?: FriendRelation(firstUser, secondUser)
+        val secondUserFriendRelation =
+            friendRelationRepository.findFriendRelationByUserIdAndFriendId(secondUserId, firstUserId)
+                ?: FriendRelation(secondUser, firstUser)
+
+        return Pair(firstUserFriendRelation, secondUserFriendRelation)
     }
 
     private fun canRequestFriend(senderId: Long, receiverId: Long): Boolean {

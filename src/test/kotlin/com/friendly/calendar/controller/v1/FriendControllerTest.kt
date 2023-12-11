@@ -222,4 +222,25 @@ class FriendControllerTest @Autowired constructor(
             jsonPath("$.data") { doesNotExist() }
         }
     }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Block friend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser = calendarPrincipal.user
+        userRepository.save(calendarUser)
+
+        val findUser = userRepository.findByUsername(calendarUser.username)
+
+        val friendPatchDTO = FriendPatchDTO(
+            senderId = 1L,
+        )
+
+        val friendPatchDTOJson = objectMapper.writeValueAsString(friendPatchDTO)
+
+        mockMvc.patch("/api/v1/friends/block") {
+            contentType = MediaType.APPLICATION_JSON
+            content = friendPatchDTOJson
+        }.andExpect { status { isOk() } }
+    }
 }

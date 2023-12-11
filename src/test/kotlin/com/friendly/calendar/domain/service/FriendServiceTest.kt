@@ -98,6 +98,9 @@ class FriendServiceTest @Autowired constructor(
                 }
             },
             {
+                assertThat(friendRelationRepository.findAll().size).isEqualTo(2)
+            },
+            {
                 assertThat(
                     friendRelationRepository.findAll().all {
                         it.status == FriendStatus.ACCEPTED
@@ -186,5 +189,65 @@ class FriendServiceTest @Autowired constructor(
         assertThatThrownBy {
             friendService.rejectFriend(1, testFriend.id)
         }.message().isEqualTo("Friend request not found")
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success blockFriend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.requestFriend(testUser.id, testFriend.id)
+
+        assertAll(
+            {
+                assertThatNoException().isThrownBy {
+                    friendService.blockFriend(testUser.id, testFriend.id)
+                }
+            },
+            {
+                assertThat(friendRelationRepository.findAll().size).isEqualTo(2)
+            },
+            {
+                assertThat(
+                    friendRelationRepository.findAll().all {
+                        it.status == FriendStatus.BLOCKED
+                    }
+                ).isTrue()
+            }
+        )
+    }
+
+    @Test
+    @Transactional
+    fun `failure blockFriend with same user`() {
+        val testFriend = calendarUserRepository.findByUsername("admin")!!
+
+        assertThatThrownBy {
+            friendService.blockFriend(testFriend.id, testFriend.id)
+        }.message().isEqualTo("Cannot block friend to yourself")
+    }
+
+    @Test
+    @Transactional
+    fun `failure blockFriend with not exists friend`() {
+        val testUser = calendarUserRepository.findByUsername("admin")!!
+
+        assertAll(
+            {
+                assertThatThrownBy {
+                    friendService.blockFriend(testUser.id, 999L)
+                }.message().isEqualTo("User not found")
+            },
+            {
+                assertThatThrownBy {
+                    friendService.blockFriend(999L, testUser.id)
+                }.message().isEqualTo("User not found")
+            }
+        )
     }
 }
