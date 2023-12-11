@@ -50,6 +50,10 @@ class FriendRelation(
 
     private var blockedBy: Long? = null
 
+    fun request() {
+        this.status = FriendStatus.PENDING
+    }
+
     fun accept() {
         this.status = FriendStatus.ACCEPTED
     }

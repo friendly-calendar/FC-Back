@@ -23,7 +23,11 @@ class FriendServiceImpl(
             "Cannot send friend request to blocked user"
         }
 
-        friendRelationRepository.save(FriendRelation(sender, receiver))
+        val friendRelation = friendRelationRepository.findFriendRelationByUserIdAndFriendId(senderId, receiverId)
+            ?: FriendRelation(sender, receiver)
+        friendRelation.request()
+
+        friendRelationRepository.save(friendRelation)
     }
 
     @Transactional
