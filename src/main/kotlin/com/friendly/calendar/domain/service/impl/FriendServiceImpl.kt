@@ -38,8 +38,10 @@ class FriendServiceImpl(
             "Friend request not found"
         }
 
-        pendingFriendRelation.accept()
-        FriendRelation(pendingFriendRelation.friend, pendingFriendRelation.user).accept()
+        val (senderFriendRelation, receiverFriendRelation) = mutualFriendPair(senderId, receiverId)
+
+        val mutualFriendRelations = listOf(senderFriendRelation, receiverFriendRelation).onEach { it.accept() }
+        friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
     @Transactional

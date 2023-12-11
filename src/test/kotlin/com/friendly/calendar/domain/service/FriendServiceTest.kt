@@ -98,6 +98,9 @@ class FriendServiceTest @Autowired constructor(
                 }
             },
             {
+                assertThat(friendRelationRepository.findAll().size).isEqualTo(2)
+            },
+            {
                 assertThat(
                     friendRelationRepository.findAll().all {
                         it.status == FriendStatus.ACCEPTED
