@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/friends")
 class FriendController(
-    private val friendStatusService: FriendService
+    private val friendService: FriendService
 ) {
 
     @PostMapping
@@ -26,7 +26,7 @@ class FriendController(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
         @RequestBody friendRequestDTO: FriendRequestDTO
     ) {
-        friendStatusService.requestFriend(
+        friendService.requestFriend(
             calendarPrincipal.user.id,
             friendRequestDTO.receiverId,
         )
@@ -38,7 +38,7 @@ class FriendController(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
         @RequestBody friendRequestPatchDTO: FriendPatchDTO
     ) {
-        friendStatusService.acceptFriend(
+        friendService.acceptFriend(
             friendRequestPatchDTO.senderId,
             calendarPrincipal.user.id
         )
@@ -50,7 +50,7 @@ class FriendController(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
         @RequestBody friendRejectDTO: FriendRejectDTO
     ) {
-        friendStatusService.rejectFriend(
+        friendService.rejectFriend(
             friendRejectDTO.senderId,
             calendarPrincipal.user.id,
             friendRejectDTO.isBlock
@@ -63,6 +63,9 @@ class FriendController(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
         @RequestBody friendPatchDTO: FriendPatchDTO
     ) {
-        TODO("차단 기능 service 구현 필요")
+        friendService.blockFriend(
+            calendarPrincipal.user.id,
+            friendPatchDTO.senderId
+        )
     }
 }
