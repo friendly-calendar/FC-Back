@@ -1,8 +1,8 @@
 package com.friendly.calendar.domain.service
 
-import com.friendly.calendar.network.UserDTO
-import com.friendly.calendar.network.UserSignInDTO
-import com.friendly.calendar.network.UserSignUpDTO
+import com.friendly.calendar.dto.UserDTO
+import com.friendly.calendar.dto.UserSignInDTO
+import com.friendly.calendar.dto.UserSignUpDTO
 
 interface UserService {
     fun createUser(userSignUpDTO: UserSignUpDTO)

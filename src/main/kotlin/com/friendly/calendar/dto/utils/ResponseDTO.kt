@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.utils
+package com.friendly.calendar.dto.utils
 
 import org.springframework.http.HttpStatus
 import java.time.LocalDateTime

@@ -1,4 +1,4 @@
-package com.friendly.calendar.network
+package com.friendly.calendar.dto
 
 import jakarta.validation.Validation
 import org.assertj.core.api.Assertions.assertThat

@@ -1,8 +1,8 @@
 package com.friendly.calendar.controller.v1
 
 import com.friendly.calendar.domain.service.UserService
-import com.friendly.calendar.network.UserSignInDTO
-import com.friendly.calendar.network.utils.ResponseDTO
+import com.friendly.calendar.dto.UserSignInDTO
+import com.friendly.calendar.dto.utils.ResponseDTO
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

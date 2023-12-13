@@ -3,8 +3,8 @@ package com.friendly.calendar.domain.service
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.service.impl.UserServiceImpl
-import com.friendly.calendar.network.UserSignInDTO
-import com.friendly.calendar.network.UserSignUpDTO
+import com.friendly.calendar.dto.UserSignInDTO
+import com.friendly.calendar.dto.UserSignUpDTO
 import com.friendly.calendar.security.JwtProvider
 import io.mockk.every
 import io.mockk.mockk

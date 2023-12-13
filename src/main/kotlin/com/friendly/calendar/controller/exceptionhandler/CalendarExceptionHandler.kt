@@ -1,6 +1,6 @@
 package com.friendly.calendar.controller.exceptionhandler
 
-import com.friendly.calendar.network.utils.ResponseDTO
+import com.friendly.calendar.dto.utils.ResponseDTO
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException

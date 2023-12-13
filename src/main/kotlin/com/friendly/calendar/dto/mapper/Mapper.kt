@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.mapper
+package com.friendly.calendar.dto.mapper
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KMutableProperty

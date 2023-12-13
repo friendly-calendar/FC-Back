@@ -6,9 +6,9 @@ import com.friendly.calendar.domain.model.FriendStatus
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.service.FriendService
-import com.friendly.calendar.network.domain.FriendDTO.FriendPatchDTO
-import com.friendly.calendar.network.domain.FriendDTO.FriendRejectDTO
-import com.friendly.calendar.network.domain.FriendDTO.FriendRequestDTO
+import com.friendly.calendar.dto.domain.FriendDTO.FriendPatchDTO
+import com.friendly.calendar.dto.domain.FriendDTO.FriendRejectDTO
+import com.friendly.calendar.dto.domain.FriendDTO.FriendRequestDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

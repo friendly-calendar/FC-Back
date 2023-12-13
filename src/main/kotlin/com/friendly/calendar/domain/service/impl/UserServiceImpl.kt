@@ -3,11 +3,11 @@ package com.friendly.calendar.domain.service.impl
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.service.UserService
-import com.friendly.calendar.network.UserDTO
-import com.friendly.calendar.network.UserSignInDTO
-import com.friendly.calendar.network.UserSignUpDTO
-import com.friendly.calendar.network.mapper.Mapper
-import com.friendly.calendar.network.toDto
+import com.friendly.calendar.dto.UserDTO
+import com.friendly.calendar.dto.UserSignInDTO
+import com.friendly.calendar.dto.UserSignUpDTO
+import com.friendly.calendar.dto.mapper.Mapper
+import com.friendly.calendar.dto.toDto
 import com.friendly.calendar.security.JwtProvider
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder

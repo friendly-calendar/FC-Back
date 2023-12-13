@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.mapper
+package com.friendly.calendar.dto.mapper
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach

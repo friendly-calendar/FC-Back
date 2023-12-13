@@ -1,4 +1,4 @@
-package com.friendly.calendar.network
+package com.friendly.calendar.dto
 
 data class UserSignInDTO(
     val username: String,

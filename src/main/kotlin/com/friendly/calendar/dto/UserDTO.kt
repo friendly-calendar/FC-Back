@@ -1,4 +1,4 @@
-package com.friendly.calendar.network
+package com.friendly.calendar.dto
 
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.model.base.DelFlag

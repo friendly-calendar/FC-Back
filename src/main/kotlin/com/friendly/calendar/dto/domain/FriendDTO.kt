@@ -1,4 +1,4 @@
-package com.friendly.calendar.network.domain
+package com.friendly.calendar.dto.domain
 
 sealed class FriendDTO {
     data class FriendRequestDTO(

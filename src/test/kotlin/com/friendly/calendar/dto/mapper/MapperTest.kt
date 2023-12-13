@@ -1,7 +1,7 @@
-package com.friendly.calendar.network.mapper
+package com.friendly.calendar.dto.mapper
 
 import com.friendly.calendar.domain.model.CalendarUser
-import com.friendly.calendar.network.UserSignUpDTO
+import com.friendly.calendar.dto.UserSignUpDTO
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll

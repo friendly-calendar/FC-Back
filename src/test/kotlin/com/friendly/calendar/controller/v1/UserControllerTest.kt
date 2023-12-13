@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.friendly.calendar.config.AdminConfig
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.service.UserService
-import com.friendly.calendar.network.UserSignInDTO
-import com.friendly.calendar.network.UserSignUpDTO
+import com.friendly.calendar.dto.UserSignInDTO
+import com.friendly.calendar.dto.UserSignUpDTO
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
