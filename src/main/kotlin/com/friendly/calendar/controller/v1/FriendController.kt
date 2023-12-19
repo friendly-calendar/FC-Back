@@ -7,6 +7,7 @@ import com.friendly.calendar.dto.domain.FriendDTO.FriendRequestDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -68,4 +69,9 @@ class FriendController(
             friendPatchDTO.senderId
         )
     }
+
+    @GetMapping
+    fun getFriendList(
+        @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal
+    ) = friendService.getFriendList(calendarPrincipal.user.id)
 }
