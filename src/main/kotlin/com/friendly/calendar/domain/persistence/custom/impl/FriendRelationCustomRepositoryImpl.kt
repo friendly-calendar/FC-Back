@@ -69,7 +69,7 @@ class FriendRelationCustomRepositoryImpl(
         val userEntity = QCalendarUser("userEntity")
         val friendEntity = QCalendarUser("friendEntity")
 
-        val result =  queryFactory
+        val result = queryFactory
             .select(friendRelation.friend)
             .from(friendRelation)
             .innerJoin(friendRelation.user, userEntity)

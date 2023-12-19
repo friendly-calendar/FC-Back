@@ -75,8 +75,8 @@ class FriendServiceImpl(
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
-    override fun getFriendList(userId: Long): List<UserDTO>
-        = friendRelationRepository.findFriendListByUserId(userId)
+    override fun getFriendList(userId: Long): List<UserDTO> =
+        friendRelationRepository.findFriendListByUserId(userId)
 
     private fun mutualFriendPair(
         firstUserId: Long,
