@@ -6,7 +6,7 @@ import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.persistence.util.findByIdOrThrow
 import com.friendly.calendar.domain.service.FriendService
-import com.friendly.calendar.dto.UserDTO
+import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -75,7 +75,7 @@ class FriendServiceImpl(
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
-    override fun getFriendList(userId: Long): List<UserDTO> =
+    override fun getFriendList(userId: Long): List<FriendReturnDTO> =
         friendRelationRepository.findFriendListByUserId(userId)
 
     private fun mutualFriendPair(

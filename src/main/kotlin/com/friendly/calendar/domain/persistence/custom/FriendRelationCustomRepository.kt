@@ -1,7 +1,7 @@
 package com.friendly.calendar.domain.persistence.custom
 
 import com.friendly.calendar.domain.model.FriendRelation
-import com.friendly.calendar.dto.UserDTO
+import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
 
 interface FriendRelationCustomRepository {
     fun findPendingRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
@@ -10,5 +10,5 @@ interface FriendRelationCustomRepository {
 
     fun findFriendRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
 
-    fun findFriendListByUserId(userId: Long): List<UserDTO>
+    fun findFriendListByUserId(userId: Long): List<FriendReturnDTO>
 }

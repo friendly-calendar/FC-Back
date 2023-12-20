@@ -1,6 +1,6 @@
 package com.friendly.calendar.domain.service
 
-import com.friendly.calendar.dto.UserDTO
+import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
 
 interface FriendService {
     fun requestFriend(senderId: Long, receiverId: Long)
@@ -11,5 +11,5 @@ interface FriendService {
 
     fun blockFriend(blockById: Long, blockToId: Long)
 
-    fun getFriendList(userId: Long): List<UserDTO>
+    fun getFriendList(userId: Long): List<FriendReturnDTO>
 }

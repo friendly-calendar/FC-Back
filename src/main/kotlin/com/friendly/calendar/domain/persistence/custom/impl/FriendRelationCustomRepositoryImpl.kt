@@ -1,6 +1,5 @@
 package com.friendly.calendar.domain.persistence.custom.impl
 
-import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.model.FriendRelation
 import com.friendly.calendar.domain.model.FriendStatus.BLOCKED
 import com.friendly.calendar.domain.model.FriendStatus.PENDING
@@ -8,8 +7,8 @@ import com.friendly.calendar.domain.model.QCalendarUser
 import com.friendly.calendar.domain.model.QFriendRelation.friendRelation
 import com.friendly.calendar.domain.model.base.DelFlag
 import com.friendly.calendar.domain.persistence.custom.FriendRelationCustomRepository
-import com.friendly.calendar.dto.UserDTO
-import com.friendly.calendar.dto.toDto
+import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
+import com.friendly.calendar.dto.domain.toFriendDto
 import com.querydsl.jpa.impl.JPAQueryFactory
 
 class FriendRelationCustomRepositoryImpl(
@@ -65,12 +64,12 @@ class FriendRelationCustomRepositoryImpl(
             .fetchOne() as FriendRelation? ?: return null
     }
 
-    override fun findFriendListByUserId(userId: Long): List<UserDTO> {
+    override fun findFriendListByUserId(userId: Long): List<FriendReturnDTO> {
         val userEntity = QCalendarUser("userEntity")
         val friendEntity = QCalendarUser("friendEntity")
 
         val result = queryFactory
-            .select(friendRelation.friend)
+            .select(friendRelation)
             .from(friendRelation)
             .innerJoin(friendRelation.user, userEntity)
             .innerJoin(friendRelation.friend, friendEntity)
@@ -79,6 +78,6 @@ class FriendRelationCustomRepositoryImpl(
                     .and(friendRelation.user.id.eq(userId))
             ).fetch()
 
-        return result.map(CalendarUser::toDto)
+        return result.map(FriendRelation::toFriendDto)
     }
 }
