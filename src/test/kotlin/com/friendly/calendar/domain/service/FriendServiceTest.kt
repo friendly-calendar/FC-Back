@@ -4,6 +4,7 @@ import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.model.FriendStatus
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
+import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
 import com.friendly.calendar.security.session.CalendarPrincipal
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatNoException
@@ -249,5 +250,51 @@ class FriendServiceTest @Autowired constructor(
                 }.message().isEqualTo("User not found")
             }
         )
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success get friend list`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val adminUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.requestFriend(testUser.id, adminUser.id)
+        friendService.acceptFriend(testUser.id, adminUser.id)
+
+        val testUserFriendList: List<FriendReturnDTO> = friendService.getFriendList(testUser.id)
+        val adminUserFriendList: List<FriendReturnDTO> = friendService.getFriendList(adminUser.id)
+
+        assertAll(
+            { assertThat(testUserFriendList.size).isEqualTo(1) },
+            { assertThat(adminUserFriendList.size).isEqualTo(1) },
+            { assertThat(testUserFriendList[0].friendAlias).isEqualTo("admin") },
+            { assertThat(adminUserFriendList[0].friendAlias).isEqualTo(testUser.username) }
+        )
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success get friend list friend alias`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val adminUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.requestFriend(testUser.id, adminUser.id)
+        friendService.acceptFriend(testUser.id, adminUser.id)
+
+        val testUserFriendRelation = friendRelationRepository.findFriendRelationByUserIdAndFriendId(testUser.id, adminUser.id)!!
+        testUserFriendRelation.friendAlias = "aliasTest"
+        friendRelationRepository.save(testUserFriendRelation)
+
+        val testUserFriendList = friendService.getFriendList(testUser.id)
+
+        assertThat(testUserFriendList[0].friendAlias).isEqualTo("aliasTest")
     }
 }

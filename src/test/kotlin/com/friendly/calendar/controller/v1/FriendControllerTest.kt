@@ -20,6 +20,7 @@ import org.springframework.http.MediaType
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
@@ -242,5 +243,28 @@ class FriendControllerTest @Autowired constructor(
             contentType = MediaType.APPLICATION_JSON
             content = friendPatchDTOJson
         }.andExpect { status { isOk() } }
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Get friend list`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser = calendarPrincipal.user
+        userRepository.save(calendarUser)
+
+        val testUser = userRepository.findByUsername(calendarUser.username)!!
+        val adminUser = userRepository.findByUsername("admin")!!
+
+        friendService.requestFriend(testUser.id, adminUser.id)
+        friendService.acceptFriend(testUser.id, adminUser.id)
+
+        mockMvc.get("/api/v1/friends").andExpect {
+            status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.OK.value()) }
+            jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
+            jsonPath("$.data[0].id") { value(1) }
+            jsonPath("$.data[0].friendAlias") { value("admin") }
+            jsonPath("$.data[0].email") { value(null) }
+        }
     }
 }
