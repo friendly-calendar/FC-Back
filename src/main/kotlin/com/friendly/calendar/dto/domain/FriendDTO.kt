@@ -20,6 +20,7 @@ sealed class FriendDTO {
     data class FriendReturnDTO(
         val id: Long,
         val friendAlias: String,
+        val path: String?,
         val email: String?
     ) : FriendDTO()
 }
@@ -27,5 +28,6 @@ sealed class FriendDTO {
 fun FriendRelation.toFriendDto(): FriendReturnDTO = FriendReturnDTO(
     id = friend.id,
     friendAlias = friendAlias ?: friend.username,
+    path = friend.profile?.path,
     email = friend.email,
 )

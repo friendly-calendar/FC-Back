@@ -272,7 +272,9 @@ class FriendServiceTest @Autowired constructor(
             { assertThat(testUserFriendList.size).isEqualTo(1) },
             { assertThat(adminUserFriendList.size).isEqualTo(1) },
             { assertThat(testUserFriendList[0].friendAlias).isEqualTo("admin") },
-            { assertThat(adminUserFriendList[0].friendAlias).isEqualTo(testUser.username) }
+            { assertThat(adminUserFriendList[0].friendAlias).isEqualTo(testUser.username) },
+            { assertThat(testUserFriendList[0].path).isNull() },
+            { assertThat(adminUserFriendList[0].path).isNull() }
         )
     }
 
