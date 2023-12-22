@@ -3,6 +3,7 @@ package com.friendly.calendar.domain.service
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.service.impl.UserServiceImpl
+import com.friendly.calendar.dto.UserDTO
 import com.friendly.calendar.dto.UserSignInDTO
 import com.friendly.calendar.dto.UserSignUpDTO
 import com.friendly.calendar.security.JwtProvider
@@ -15,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.transaction.annotation.Transactional
+import kotlin.reflect.full.declaredMemberProperties
 
 @SpringBootTest
 class UserServiceTest @Autowired constructor(
-    private val calendarUserRepository: CalendarUserRepository,
     private val bCryptPasswordEncoder: BCryptPasswordEncoder,
     private val jwtProvider: JwtProvider,
     private val userService: UserService
@@ -96,6 +97,13 @@ class UserServiceTest @Autowired constructor(
     @Test
     fun `유저 리스트를 정상적으로 가져온다`() {
         val users = userService.getUsers()
-        assertThat(users).isNotEmpty
+        val testUser = users[0]
+
+        UserDTO::class.declaredMemberProperties.forEach {
+            assertThat(hasProperty(testUser, it.name)).isTrue()
+        }
     }
+
+    private fun hasProperty(testObject: Any, propId: String): Boolean =
+        testObject::class.declaredMemberProperties.any { it.name == propId }
 }
