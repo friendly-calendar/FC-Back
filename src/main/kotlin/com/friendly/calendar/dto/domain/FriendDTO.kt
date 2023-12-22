@@ -1,5 +1,8 @@
 package com.friendly.calendar.dto.domain
 
+import com.friendly.calendar.domain.model.FriendRelation
+import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
+
 sealed class FriendDTO {
     data class FriendRequestDTO(
         val receiverId: Long,
@@ -13,4 +16,16 @@ sealed class FriendDTO {
         val senderId: Long,
         val isBlock: Boolean = false,
     ) : FriendDTO()
+
+    data class FriendReturnDTO(
+        val id: Long,
+        val friendAlias: String,
+        val email: String?
+    ) : FriendDTO()
 }
+
+fun FriendRelation.toFriendDto(): FriendReturnDTO = FriendReturnDTO(
+    id = friend.id,
+    friendAlias = friendAlias ?: friend.username,
+    email = friend.email,
+)
