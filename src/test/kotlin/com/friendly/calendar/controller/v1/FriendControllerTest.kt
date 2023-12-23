@@ -231,8 +231,6 @@ class FriendControllerTest @Autowired constructor(
         val calendarUser = calendarPrincipal.user
         userRepository.save(calendarUser)
 
-        val findUser = userRepository.findByUsername(calendarUser.username)
-
         val friendPatchDTO = FriendPatchDTO(
             senderId = 1L,
         )

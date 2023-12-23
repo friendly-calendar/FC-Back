@@ -71,6 +71,15 @@ class FriendController(
         )
     }
 
+    @PatchMapping("/unblock")
+    @ResponseStatus(HttpStatus.OK)
+    fun unblockFriend(
+        @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
+        @RequestBody friendPatchDTO: FriendPatchDTO
+    ) {
+        TODO("Not yet implemented")
+    }
+
     @GetMapping
     fun getFriendList(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal
