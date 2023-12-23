@@ -76,6 +76,12 @@ class FriendServiceImpl(
     }
 
     override fun unblockFriend(unblockById: Long, unblockToId: Long) {
+        val (unblockBy, unblockTo) = mutualFriendPair(unblockById, unblockToId)
+
+        require(unblockBy.status == FriendStatus.BLOCKED && unblockTo.status == FriendStatus.BLOCKED) {
+            "Not exists block relation"
+        }
+
         TODO("Not yet implemented")
     }
 
