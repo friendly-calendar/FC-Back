@@ -71,6 +71,18 @@ class FriendController(
         )
     }
 
+    @PatchMapping("/unblock")
+    @ResponseStatus(HttpStatus.OK)
+    fun unblockFriend(
+        @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
+        @RequestBody friendPatchDTO: FriendPatchDTO
+    ) {
+        friendService.unblockFriend(
+            calendarPrincipal.user.id,
+            friendPatchDTO.senderId
+        )
+    }
+
     @GetMapping
     fun getFriendList(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal

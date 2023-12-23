@@ -96,7 +96,10 @@ class FriendControllerTest @Autowired constructor(
         mockMvc.patch("/api/v1/friends/accept") {
             contentType = MediaType.APPLICATION_JSON
             content = friendRequestAcceptDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
     }
 
     @Test
@@ -165,7 +168,10 @@ class FriendControllerTest @Autowired constructor(
         mockMvc.patch("/api/v1/friends/reject") {
             contentType = MediaType.APPLICATION_JSON
             content = friendRequestRejectDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
     }
 
     @Test
@@ -231,8 +237,6 @@ class FriendControllerTest @Autowired constructor(
         val calendarUser = calendarPrincipal.user
         userRepository.save(calendarUser)
 
-        val findUser = userRepository.findByUsername(calendarUser.username)
-
         val friendPatchDTO = FriendPatchDTO(
             senderId = 1L,
         )
@@ -242,7 +246,37 @@ class FriendControllerTest @Autowired constructor(
         mockMvc.patch("/api/v1/friends/block") {
             contentType = MediaType.APPLICATION_JSON
             content = friendPatchDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Unblock friend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser = calendarPrincipal.user
+        userRepository.save(calendarUser)
+
+        val testUser = userRepository.findByUsername(calendarUser.username)!!
+        val testAdmin = userRepository.findByUsername("admin")!!
+
+        friendService.blockFriend(testUser.id, testAdmin.id)
+
+        val friendPatchDTO = FriendPatchDTO(
+            senderId = testAdmin.id
+        )
+
+        val friendPatchDTOJson = objectMapper.writeValueAsString(friendPatchDTO)
+
+        mockMvc.patch("/api/v1/friends/unblock") {
+            contentType = MediaType.APPLICATION_JSON
+            content = friendPatchDTOJson
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
     }
 
     @Test

@@ -39,10 +39,8 @@ class FriendServiceImpl(
             "Friend request not found"
         }
 
-        val (senderFriendRelation, receiverFriendRelation) = mutualFriendPair(senderId, receiverId)
-
-        val mutualFriendRelations = listOf(senderFriendRelation, receiverFriendRelation).onEach { it.accept() }
-        friendRelationRepository.saveAll(mutualFriendRelations)
+        val mutualFriendRelations = mutualFriendPair(senderId, receiverId).toList()
+        friendRelationRepository.saveAll(mutualFriendRelations.onEach { it.accept() })
     }
 
     @Transactional
@@ -75,6 +73,19 @@ class FriendServiceImpl(
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
+    @Transactional
+    override fun unblockFriend(unblockById: Long, unblockToId: Long) {
+        val friendPair = mutualFriendPair(unblockById, unblockToId)
+
+        require(friendPair.statusIs(FriendStatus.BLOCKED)) {
+            "Not exists block relation"
+        }
+
+        friendPair.toList().forEach {
+            it.unBlock(unblockById)
+        }
+    }
+
     override fun getFriendList(userId: Long): List<FriendReturnDTO> =
         friendRelationRepository.findFriendListByUserId(userId)
 
@@ -105,4 +116,7 @@ class FriendServiceImpl(
 
         return friendRelation.status == FriendStatus.REJECTED
     }
+
+    private fun Pair<FriendRelation, FriendRelation>.statusIs(friendStatus: FriendStatus): Boolean =
+        this.first.status == friendStatus && this.second.status == friendStatus
 }

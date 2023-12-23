@@ -11,5 +11,7 @@ interface FriendService {
 
     fun blockFriend(blockById: Long, blockToId: Long)
 
+    fun unblockFriend(unblockById: Long, unblockToId: Long)
+
     fun getFriendList(userId: Long): List<FriendReturnDTO>
 }
