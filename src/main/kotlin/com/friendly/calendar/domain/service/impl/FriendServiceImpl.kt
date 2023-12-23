@@ -75,10 +75,11 @@ class FriendServiceImpl(
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
+    @Transactional
     override fun unblockFriend(unblockById: Long, unblockToId: Long) {
-        val (unblockBy, unblockTo) = mutualFriendPair(unblockById, unblockToId)
+        val friendPair = mutualFriendPair(unblockById, unblockToId)
 
-        require(unblockBy.status == FriendStatus.BLOCKED && unblockTo.status == FriendStatus.BLOCKED) {
+        require(friendPair.statusIs(FriendStatus.BLOCKED)) {
             "Not exists block relation"
         }
 
@@ -115,4 +116,7 @@ class FriendServiceImpl(
 
         return friendRelation.status == FriendStatus.REJECTED
     }
+
+    private fun Pair<FriendRelation, FriendRelation>.statusIs(friendStatus: FriendStatus): Boolean =
+        this.first.status == friendStatus && this.second.status == friendStatus
 }
