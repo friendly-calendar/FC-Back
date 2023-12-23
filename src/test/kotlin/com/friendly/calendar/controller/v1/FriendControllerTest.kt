@@ -96,7 +96,10 @@ class FriendControllerTest @Autowired constructor(
         mockMvc.patch("/api/v1/friends/accept") {
             contentType = MediaType.APPLICATION_JSON
             content = friendRequestAcceptDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
     }
 
     @Test
@@ -165,7 +168,10 @@ class FriendControllerTest @Autowired constructor(
         mockMvc.patch("/api/v1/friends/reject") {
             contentType = MediaType.APPLICATION_JSON
             content = friendRequestRejectDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
     }
 
     @Test
@@ -240,7 +246,30 @@ class FriendControllerTest @Autowired constructor(
         mockMvc.patch("/api/v1/friends/block") {
             contentType = MediaType.APPLICATION_JSON
             content = friendPatchDTOJson
-        }.andExpect { status { isOk() } }
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
+    }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Unblock friend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser = calendarPrincipal.user
+        userRepository.save(calendarUser)
+
+        val friendPatchDTO = FriendPatchDTO(
+            senderId = 1L
+        )
+
+        mockMvc.patch("/api/v1/friends/block") {
+            contentType = MediaType.APPLICATION_JSON
+            content = friendPatchDTO
+        }.andExpect {
+            status { isOk() }
+            jsonPath("$.code") { doesNotExist() }
+        }
     }
 
     @Test
