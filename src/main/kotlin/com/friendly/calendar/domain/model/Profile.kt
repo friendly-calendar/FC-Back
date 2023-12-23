@@ -1,6 +1,7 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.base.BaseEntity
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
@@ -15,5 +16,8 @@ class Profile(
     @JoinColumn(name = "user_key")
     val user: CalendarUser,
 
-    val path: String
+    var path: String,
+
+    @Column(length = 100)
+    var introduce: String
 ) : BaseEntity()

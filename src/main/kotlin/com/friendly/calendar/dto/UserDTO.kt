@@ -12,6 +12,7 @@ data class UserDTO(
     val name: String?,
     val phoneNumber: String?,
     val path: String?,
+    val introduce: String?,
     val delFlag: DelFlag,
 )
 
@@ -23,5 +24,6 @@ fun CalendarUser.toDto(): UserDTO = UserDTO(
     name = name,
     phoneNumber = phoneNumber,
     path = profile?.path,
+    introduce = profile?.introduce,
     delFlag = delFlag
 )
