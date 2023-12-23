@@ -39,10 +39,8 @@ class FriendServiceImpl(
             "Friend request not found"
         }
 
-        val (senderFriendRelation, receiverFriendRelation) = mutualFriendPair(senderId, receiverId)
-
-        val mutualFriendRelations = listOf(senderFriendRelation, receiverFriendRelation).onEach { it.accept() }
-        friendRelationRepository.saveAll(mutualFriendRelations)
+        val mutualFriendRelations = mutualFriendPair(senderId, receiverId).toList()
+        friendRelationRepository.saveAll(mutualFriendRelations.onEach { it.accept() })
     }
 
     @Transactional
