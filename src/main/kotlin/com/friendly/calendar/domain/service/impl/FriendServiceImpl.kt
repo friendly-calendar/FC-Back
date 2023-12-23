@@ -86,8 +86,6 @@ class FriendServiceImpl(
         friendPair.toList().forEach {
             it.unBlock(unblockById)
         }
-
-        TODO("Not yet implemented")
     }
 
     override fun getFriendList(userId: Long): List<FriendReturnDTO> =
