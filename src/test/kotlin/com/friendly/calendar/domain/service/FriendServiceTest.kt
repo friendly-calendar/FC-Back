@@ -2,6 +2,7 @@ package com.friendly.calendar.domain.service
 
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.model.FriendStatus
+import com.friendly.calendar.domain.model.base.DelFlag
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
@@ -11,6 +12,8 @@ import org.assertj.core.api.Assertions.assertThatNoException
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.context.SecurityContextHolder
@@ -250,6 +253,63 @@ class FriendServiceTest @Autowired constructor(
                 }.message().isEqualTo("User not found")
             }
         )
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success unblockFriend`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.blockFriend(testUser.id, testFriend.id)
+        assertAll(
+            { assertDoesNotThrow { friendService.unblockFriend(testUser.id, testFriend.id) } },
+            {
+                val friendRelations = friendRelationRepository.findAll()
+                assertThat(friendRelations.size).isEqualTo(2)
+
+                val expectedList = friendRelations.filter {
+                    it.status == FriendStatus.BLOCKED && it.delFlag == DelFlag.Y
+                }
+                assertThat(expectedList.size).isEqualTo(2)
+            },
+        )
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `failure unblock with not block user`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.blockFriend(testUser.id, testFriend.id)
+        val otherException = assertThrows<IllegalArgumentException> {
+            friendService.unblockFriend(testFriend.id, testUser.id)
+        }
+        assertThat(otherException.message).isEqualTo("User is not blocked by this user")
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `failure unblock with not exists block relation`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+        val otherException = assertThrows<IllegalArgumentException> {
+            friendService.unblockFriend(testUser.id, testFriend.id)
+        }
+        assertThat(otherException.message).isEqualTo("Not exists block relation")
     }
 
     @Test

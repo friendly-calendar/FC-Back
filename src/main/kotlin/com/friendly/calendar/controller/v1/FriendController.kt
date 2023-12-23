@@ -77,7 +77,10 @@ class FriendController(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal,
         @RequestBody friendPatchDTO: FriendPatchDTO
     ) {
-        TODO("Not yet implemented")
+        friendService.unblockFriend(
+            calendarPrincipal.user.id,
+            friendPatchDTO.senderId
+        )
     }
 
     @GetMapping

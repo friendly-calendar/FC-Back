@@ -75,6 +75,10 @@ class FriendServiceImpl(
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
+    override fun unblockFriend(unblockById: Long, unblockToId: Long) {
+        TODO("Not yet implemented")
+    }
+
     override fun getFriendList(userId: Long): List<FriendReturnDTO> =
         friendRelationRepository.findFriendListByUserId(userId)
 
