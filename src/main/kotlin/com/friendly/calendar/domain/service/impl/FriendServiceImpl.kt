@@ -83,6 +83,10 @@ class FriendServiceImpl(
             "Not exists block relation"
         }
 
+        friendPair.toList().forEach {
+            it.unBlock(unblockById)
+        }
+
         TODO("Not yet implemented")
     }
 
