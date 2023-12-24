@@ -36,4 +36,4 @@ jobs:
       - name: Close PR on failure
         run: gh pr close ${{ github.event.number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
