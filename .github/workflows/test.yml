@@ -30,6 +30,9 @@ jobs:
     if: failure()
 
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+    
       - name: Close PR on failure
         run: gh pr close ${{ github.event.number }}
         env:
