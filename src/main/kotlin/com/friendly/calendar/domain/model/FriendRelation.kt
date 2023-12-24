@@ -71,7 +71,7 @@ class FriendRelation(
         status = FriendStatus.REJECTED
 
         if (delFlag == DelFlag.Y) {
-
+            restore()
         }
     }
 
