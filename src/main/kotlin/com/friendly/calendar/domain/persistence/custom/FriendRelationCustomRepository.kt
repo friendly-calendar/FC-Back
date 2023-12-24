@@ -10,5 +10,7 @@ interface FriendRelationCustomRepository {
 
     fun findFriendRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
 
+    fun findFriendRelationByUseridAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation?
+
     fun findFriendListByUserId(userId: Long): List<FriendReturnDTO>
 }

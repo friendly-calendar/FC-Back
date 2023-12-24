@@ -53,6 +53,7 @@ class FriendRelationCustomRepositoryImpl(
         val friendEntity = QCalendarUser("friendEntity")
 
         return queryFactory
+            .select(friendRelation)
             .from(friendRelation)
             .innerJoin(friendRelation.user, userEntity)
             .innerJoin(friendRelation.friend, friendEntity)
@@ -61,7 +62,23 @@ class FriendRelationCustomRepositoryImpl(
                     .and(friendRelation.user.id.eq(userId))
                     .and(friendRelation.friend.id.eq(friendId))
             )
-            .fetchOne() as FriendRelation? ?: return null
+            .fetchOne()
+    }
+
+    override fun findFriendRelationByUseridAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation? {
+        val userEntity = QCalendarUser("userEntity")
+        val friendEntity = QCalendarUser("friendEntity")
+
+        return queryFactory
+            .select(friendRelation)
+            .from(friendRelation)
+            .innerJoin(friendRelation.user, userEntity)
+            .innerJoin(friendRelation.friend, friendEntity)
+            .where(
+                friendRelation.user.id.eq(userId)
+                    .and(friendRelation.friend.id.eq(friendId))
+            )
+            .fetchOne()
     }
 
     override fun findFriendListByUserId(userId: Long): List<FriendReturnDTO> {

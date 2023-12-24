@@ -47,6 +47,34 @@ class FriendServiceTest @Autowired constructor(
     }
 
     @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success request friend with after unblock`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+        val testFriend = calendarUserRepository.findByUsername("admin")!!
+
+        friendService.blockFriend(testUser.id, testFriend.id)
+        friendService.unblockFriend(testUser.id, testFriend.id)
+
+        assertAll(
+            {
+                assertDoesNotThrow {
+                    friendService.requestFriend(testUser.id, testFriend.id)
+                }
+            },
+            {
+                val friendRelation = friendRelationRepository.findPendingRelationByUserIdAndFriendId(testUser.id, testFriend.id)!!
+
+                assertThat(friendRelation.delFlag).isEqualTo(DelFlag.N)
+                assertThat(friendRelation.status).isEqualTo(FriendStatus.PENDING)
+            }
+        )
+    }
+
+    @Test
     fun `failure requestFriend with not found user`() {
         val testFriend = calendarUserRepository.findByUsername("admin")!!
 
