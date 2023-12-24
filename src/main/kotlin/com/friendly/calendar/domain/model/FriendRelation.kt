@@ -1,6 +1,7 @@
 package com.friendly.calendar.domain.model
 
 import com.friendly.calendar.domain.model.base.BaseEntity
+import com.friendly.calendar.domain.model.base.DelFlag
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -51,27 +52,39 @@ class FriendRelation(
     private var blockedBy: Long? = null
 
     fun request() {
-        this.status = FriendStatus.PENDING
+        status = FriendStatus.PENDING
+
+        if (delFlag == DelFlag.Y) {
+            restore()
+        }
     }
 
     fun accept() {
-        this.status = FriendStatus.ACCEPTED
+        status = FriendStatus.ACCEPTED
+
+        if (delFlag == DelFlag.Y) {
+            restore()
+        }
     }
 
     fun reject() {
-        this.status = FriendStatus.REJECTED
+        status = FriendStatus.REJECTED
+
+        if (delFlag == DelFlag.Y) {
+
+        }
     }
 
     fun block(blockedByUserId: Long) {
-        this.status = FriendStatus.BLOCKED
-        this.blockedBy = blockedByUserId
+        status = FriendStatus.BLOCKED
+        blockedBy = blockedByUserId
     }
 
     fun unBlock(userId: Long) {
-        require(this.blockedBy == userId) {
+        require(blockedBy == userId) {
             "User is not blocked by this user"
         }
 
-        this.delete()
+        delete()
     }
 }
