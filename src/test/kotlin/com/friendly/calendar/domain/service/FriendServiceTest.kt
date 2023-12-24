@@ -80,7 +80,7 @@ class FriendServiceTest @Autowired constructor(
 
         assertThatThrownBy {
             friendService.requestFriend(999, testFriend.id)
-        }.message().isEqualTo("User not found")
+        }.message().isEqualTo("User not found22")
     }
 
     @Test
