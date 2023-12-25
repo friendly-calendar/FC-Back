@@ -4,8 +4,10 @@ import com.friendly.calendar.domain.service.UserService
 import com.friendly.calendar.dto.UserSignInDTO
 import com.friendly.calendar.dto.utils.ResponseDTO
 import org.springframework.http.MediaType
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -21,5 +23,10 @@ class AuthController(
         val refreshToken = userService.createRefreshToken(userSignInDTO.username)
 
         return ResponseDTO.ok(data = mapOf("accessToken" to accessToken, "refreshToken" to refreshToken))
+    }
+
+    @GetMapping("/refresh", headers = ["Authorization", "X-Refresh-Token"])
+    fun refresh(@RequestHeader("Authorization") authorization: String, @RequestHeader("X-Refresh-Token") refreshToken: String): ResponseDTO {
+        TODO("Not yes implemented")
     }
 }
