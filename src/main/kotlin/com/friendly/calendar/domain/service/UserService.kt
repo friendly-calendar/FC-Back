@@ -9,5 +9,7 @@ interface UserService {
 
     fun createToken(userSignInDTO: UserSignInDTO): String
 
+    fun createRefreshToken(username: String): String
+
     fun getUsers(): List<UserDTO>
 }

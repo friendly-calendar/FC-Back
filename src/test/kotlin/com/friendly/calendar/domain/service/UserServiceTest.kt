@@ -12,6 +12,7 @@ import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -92,6 +93,20 @@ class UserServiceTest @Autowired constructor(
         assertThatThrownBy {
             userService.createToken(invalidSignInDTO)
         }.hasMessage("아이디나 비밀번호를 확인해주세요.")
+    }
+
+    @Test
+    fun `정상적으로 refresh token 을 생성한다`() {
+        val refreshToken = userService.createRefreshToken("admin")
+
+        assertThat(refreshToken).isNotEmpty()
+    }
+
+    @Test
+    fun `존재하지 않는 username 으로 refresh token 을 발급할 경우 IllegalArgumentException 이 발생한다`() {
+        assertThrows<IllegalArgumentException> {
+            userService.createRefreshToken("test")
+        }
     }
 
     @Test
