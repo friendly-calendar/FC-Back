@@ -122,13 +122,20 @@ class UserServiceTest @Autowired constructor(
     fun `만료된 refresh token 일 경우 IllegalArgumentException 이 발생한다`() {
         mockkStatic(Jwts::class)
 
-        val userSignInDTO = UserSignInDTO(
-            username = adminConfig.username,
-            password = adminConfig.password
-        )
-
-        val accessToken = userService.createToken(userSignInDTO)
+        val accessToken = "valid.access.token"
         val refreshToken = "expired.refresh.token"
+        every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(accessToken) } answers {
+            val mockedJwsClaims = mockk<Jws<Claims>>()
+            val mockedClaims = mockk<Claims>()
+            every { mockedJwsClaims.payload } returns mockedClaims
+            every { mockedClaims.subject } returns "testUser1"
+            every { mockedClaims.expiration } answers {
+                Date(System.currentTimeMillis() + 10000)
+            }
+
+            mockedJwsClaims
+        }
+
         every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(refreshToken) } answers {
             val mockedJwsClaims = mockk<Jws<Claims>>()
             val mockedClaims = mockk<Claims>()
@@ -150,10 +157,6 @@ class UserServiceTest @Autowired constructor(
     fun `access token과 refresh token의 subject가 다를 경우 IllegalArgumentException 이 발생한다`() {
         mockkStatic(Jwts::class)
 
-        val userSignInDTO = UserSignInDTO(
-            username = adminConfig.username,
-            password = adminConfig.password
-        )
         val accessToken = "valid.access.token"
         val refreshToken = "invalid.refresh.token"
 

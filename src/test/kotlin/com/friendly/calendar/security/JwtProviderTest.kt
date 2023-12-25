@@ -8,6 +8,7 @@ import com.friendly.calendar.security.session.CalendarUserDetailsServiceImpl
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.security.Keys
 import io.mockk.every
 import io.mockk.mockk
@@ -159,13 +160,12 @@ class JwtProviderTest @Autowired constructor(
     }
 
     @Test
-    fun `validateRefreshToken should throw IllegalArgumentException for invalid refresh token`() {
+    fun `validateRefreshToken should throw MalformedJwtException for invalid refresh token`() {
         val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
         mockkStatic(Jwts::class)
         val refreshToken = "invalid.refresh.token"
 
-        val otherException = assertThrows<IllegalArgumentException> { jwtProvider.validateRefreshToken(refreshToken, accessToken) }
-        assertThat(otherException.message).isEqualTo("Not valid refresh token")
+        assertThrows<MalformedJwtException> { jwtProvider.validateRefreshToken(refreshToken, accessToken) }
     }
 
     @Test

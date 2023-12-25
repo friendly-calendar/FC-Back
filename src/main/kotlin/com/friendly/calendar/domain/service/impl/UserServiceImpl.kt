@@ -53,12 +53,7 @@ class UserServiceImpl(
         return jwtProvider.createToken(findUser!!.username, findUser.roles.toList())
     }
 
-    override fun createToken(accessToken: String, refreshToken: String): String {
-        require(jwtProvider.validateRefreshToken(refreshToken, accessToken)) {
-            "Not valid refresh token"
-        }
-        TODO("Not yet implemented")
-    }
+    override fun createToken(accessToken: String, refreshToken: String): String = jwtProvider.createToken(accessToken, refreshToken)
 
     override fun createRefreshToken(username: String): String {
         val findUser = calendarUserRepository.findByUsername(username)
