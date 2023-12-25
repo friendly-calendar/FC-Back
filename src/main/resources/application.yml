@@ -12,6 +12,7 @@ server:
 jwt:
   secret: a2ltbGlta2ltY2hhbmp1bmthbmdzdXllb25naG8=
   expiration: 1800000
+  refreshExpiration: 86400000
 
 admin-user:
   name: admin

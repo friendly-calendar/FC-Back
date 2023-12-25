@@ -8,4 +8,5 @@ import org.springframework.context.annotation.Configuration
 class JwtConfig {
     lateinit var secret: String
     lateinit var expiration: String
+    lateinit var refreshExpiration: String
 }

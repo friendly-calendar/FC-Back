@@ -25,11 +25,13 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
 
     private var secretKey: String = ""
     private var expiration: Long = 0L
+    private var refreshExpiration: Long = 0L
 
     @PostConstruct
     private fun init() {
         secretKey = Base64.getEncoder().encodeToString(jwtConfig.secret.toByteArray())
         expiration = jwtConfig.expiration.toLong()
+        refreshExpiration = jwtConfig.refreshExpiration.toLong()
     }
 
     fun createToken(username: String, roles: List<UserRole>): String {
