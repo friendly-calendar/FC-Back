@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
 @SpringBootTest
@@ -76,6 +77,23 @@ class AuthControllerTest @Autowired constructor(
             jsonPath("$.code") { value(HttpStatus.UNAUTHORIZED.value()) }
             jsonPath("$.description") { value("Invalid username or password") }
             jsonPath("$.data") { value(null) }
+        }
+    }
+
+    @Test
+    fun refresh() {
+        val userSignInDTO = UserSignInDTO(
+            username = "username1",
+            password = "password123!"
+        )
+
+        val accessToken = userService.createToken(userSignInDTO)
+        val refreshToken = userService.createRefreshToken(userSignInDTO.username)
+
+        mockMvc.get("/api/v1/auth/refresh") {
+            headers {
+
+            }
         }
     }
 }
