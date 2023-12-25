@@ -103,13 +103,10 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
         return validateToken(refreshToken) && accessClaim.payload.subject == refreshClaim.payload.subject
     }
 
-    fun createToken(accessToken: String, refreshToken: String): String {
-        require(validateRefreshToken(refreshToken, accessToken)) { "Not valid refresh token" }
-
-        val accessClaims = parseSignedClaim(accessToken)
-
-        return createToken(accessClaims.payload.subject, accessClaims.payload["roles"] as List<UserRole>)
-    }
+    fun createToken(accessToken: String, refreshToken: String): String =
+        parseSignedClaim(accessToken).let {
+            createToken(it.payload.subject, it.payload["roles"] as List<UserRole>)
+        }
 
     private fun parseSignedClaim(token: String): Jws<Claims> =
         Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.toByteArray())).build().parseSignedClaims(token)

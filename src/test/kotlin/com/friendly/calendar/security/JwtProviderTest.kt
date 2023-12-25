@@ -177,6 +177,16 @@ class JwtProviderTest @Autowired constructor(
         assertThat(result).isFalse()
     }
 
+    @Test
+    fun `createToken should return new access token`() {
+        val accessToken = jwtProvider.createToken("admin", listOf(UserRole.USER, UserRole.ADMIN))
+        val refreshToken = jwtProvider.createRefreshToken("admin")
+
+        val newAccessToken = jwtProvider.createToken(accessToken, refreshToken)
+
+        assertThat(newAccessToken).isNotEmpty()
+    }
+
     companion object {
         private fun mockJwtsParser(token: String, isValid: Boolean, isExpired: Boolean = false) {
             every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(token) } answers {
