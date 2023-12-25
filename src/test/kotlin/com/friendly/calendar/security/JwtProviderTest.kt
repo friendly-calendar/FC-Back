@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.context.SecurityContextHolder
@@ -41,6 +42,12 @@ class JwtProviderTest @Autowired constructor(
     fun `create token`() {
         val token = jwtProvider.createToken("username", listOf(UserRole.USER))
         assertThat(token).isNotEmpty
+    }
+
+    @Test
+    fun `create refresh token`() {
+        val refreshToken = jwtProvider.createRefreshToken("username")
+        assertThat(refreshToken)
     }
 
     @Test
@@ -141,6 +148,33 @@ class JwtProviderTest @Autowired constructor(
         assertThat(result).isFalse()
 
         unmockkStatic(Jwts::class)
+    }
+
+    @Test
+    fun `validateRefreshToken should return true for same username of access token`() {
+        val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
+        val refreshToken = jwtProvider.createRefreshToken("username")
+
+        assertThat(jwtProvider.validateRefreshToken(refreshToken, accessToken))
+    }
+
+    @Test
+    fun `validateRefreshToken should throw IllegalArgumentException for invalid refresh token`() {
+        val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
+        mockkStatic(Jwts::class)
+        val refreshToken = "invalid.refresh.token"
+
+        val otherException = assertThrows<IllegalArgumentException> { jwtProvider.validateRefreshToken(refreshToken, accessToken) }
+        assertThat(otherException.message).isEqualTo("Not valid refresh token")
+    }
+
+    @Test
+    fun `validateRefreshToken should return false for not same username`() {
+        val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
+        val refreshToken = jwtProvider.createRefreshToken("username2")
+
+        val result = jwtProvider.validateRefreshToken(refreshToken, accessToken)
+        assertThat(result).isFalse()
     }
 
     companion object {

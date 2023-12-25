@@ -47,6 +47,17 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
             .compact()
     }
 
+    fun createRefreshToken(username: String): String {
+        val now = Date()
+
+        return Jwts.builder()
+            .subject(username)
+            .issuedAt(now)
+            .expiration(Date(now.time + refreshExpiration))
+            .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()))
+            .compact()
+    }
+
     fun getAuthentication(token: String): Authentication {
         val parseSignedClaims = parseSignedClaim(token)
         val username = parseSignedClaims.payload.subject
@@ -68,10 +79,11 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
             val parseSignedClaims = parseSignedClaim(token)
 
             return parseSignedClaims.payload.expiration.after(Date())
+        } catch (expiredToken: ExpiredJwtException) {
+            throw expiredToken
         } catch (otherException: Exception) {
             val errorMessage = when (otherException) {
                 is SecurityException, is MalformedJwtException -> "Invalid JWT Token"
-                is ExpiredJwtException -> "Expired JWT Token"
                 is UnsupportedJwtException -> "Unsupported JWT Token"
                 is IllegalArgumentException -> "JWT claims string is empty"
                 else -> "validateToken error"
@@ -80,6 +92,15 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
             logger.error(otherException) { errorMessage }
             false
         }
+    }
+
+    fun validateRefreshToken(refreshToken: String, accessToken: String): Boolean {
+        require(validateToken(refreshToken)) { "Not valid refresh token" }
+
+        val accessClaim = parseSignedClaim(accessToken)
+        val refreshClaim = parseSignedClaim(refreshToken)
+
+        return accessClaim.payload.subject == refreshClaim.payload.subject
     }
 
     private fun parseSignedClaim(token: String): Jws<Claims> =
