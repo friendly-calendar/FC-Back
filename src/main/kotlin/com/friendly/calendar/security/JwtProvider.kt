@@ -3,7 +3,6 @@ package com.friendly.calendar.security
 import com.friendly.calendar.config.JwtConfig
 import com.friendly.calendar.enums.UserRole
 import io.jsonwebtoken.Claims
-import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
@@ -25,11 +24,13 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
 
     private var secretKey: String = ""
     private var expiration: Long = 0L
+    private var refreshExpiration: Long = 0L
 
     @PostConstruct
     private fun init() {
         secretKey = Base64.getEncoder().encodeToString(jwtConfig.secret.toByteArray())
         expiration = jwtConfig.expiration.toLong()
+        refreshExpiration = jwtConfig.refreshExpiration.toLong()
     }
 
     fun createToken(username: String, roles: List<UserRole>): String {
@@ -41,6 +42,17 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
             .issuedAt(now)
             .expiration(Date(now.time + expiration))
             .claim("roles", roles)
+            .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()))
+            .compact()
+    }
+
+    fun createRefreshToken(username: String): String {
+        val now = Date()
+
+        return Jwts.builder()
+            .subject(username)
+            .issuedAt(now)
+            .expiration(Date(now.time + refreshExpiration))
             .signWith(Keys.hmacShaKeyFor(secretKey.toByteArray()))
             .compact()
     }
@@ -65,13 +77,17 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
         return try {
             val parseSignedClaims = parseSignedClaim(token)
 
-            return parseSignedClaims.payload.expiration.after(Date())
+            require(parseSignedClaims.payload.expiration.after(Date())) {
+                "Expired token"
+            }
+
+            true
+        } catch (expiredToken: IllegalArgumentException) {
+            throw expiredToken
         } catch (otherException: Exception) {
             val errorMessage = when (otherException) {
                 is SecurityException, is MalformedJwtException -> "Invalid JWT Token"
-                is ExpiredJwtException -> "Expired JWT Token"
                 is UnsupportedJwtException -> "Unsupported JWT Token"
-                is IllegalArgumentException -> "JWT claims string is empty"
                 else -> "validateToken error"
             }
 
@@ -79,6 +95,18 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
             false
         }
     }
+
+    fun validateRefreshToken(refreshToken: String, accessToken: String): Boolean {
+        val accessClaim = parseSignedClaim(accessToken)
+        val refreshClaim = parseSignedClaim(refreshToken)
+
+        return validateToken(refreshToken) && accessClaim.payload.subject == refreshClaim.payload.subject
+    }
+
+    fun createToken(accessToken: String, refreshToken: String): String =
+        parseSignedClaim(accessToken).let {
+            createToken(it.payload.subject, it.payload["roles"] as List<UserRole>)
+        }
 
     private fun parseSignedClaim(token: String): Jws<Claims> =
         Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.toByteArray())).build().parseSignedClaims(token)

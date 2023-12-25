@@ -8,6 +8,7 @@ import com.friendly.calendar.security.session.CalendarUserDetailsServiceImpl
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.security.Keys
 import io.mockk.every
 import io.mockk.mockk
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.core.context.SecurityContextHolder
@@ -41,6 +43,12 @@ class JwtProviderTest @Autowired constructor(
     fun `create token`() {
         val token = jwtProvider.createToken("username", listOf(UserRole.USER))
         assertThat(token).isNotEmpty
+    }
+
+    @Test
+    fun `create refresh token`() {
+        val refreshToken = jwtProvider.createRefreshToken("username")
+        assertThat(refreshToken)
     }
 
     @Test
@@ -131,16 +139,52 @@ class JwtProviderTest @Autowired constructor(
     }
 
     @Test
-    fun `validateToken should return false for expired token`() {
+    fun `validateToken should throw IllegalArgumentException for expired token`() {
         mockkStatic(Jwts::class)
 
         val expiredToken = "expired.token.string"
         mockJwtsParser(expiredToken, isValid = true, isExpired = true)
 
-        val result = jwtProvider.validateToken(expiredToken)
-        assertThat(result).isFalse()
+        val expiredException = assertThrows<IllegalArgumentException> { jwtProvider.validateToken(expiredToken) }
+        assertThat(expiredException.message).isEqualTo("Expired token")
 
         unmockkStatic(Jwts::class)
+    }
+
+    @Test
+    fun `validateRefreshToken should return true for same username of access token`() {
+        val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
+        val refreshToken = jwtProvider.createRefreshToken("username")
+
+        assertThat(jwtProvider.validateRefreshToken(refreshToken, accessToken))
+    }
+
+    @Test
+    fun `validateRefreshToken should throw MalformedJwtException for invalid refresh token`() {
+        val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
+        mockkStatic(Jwts::class)
+        val refreshToken = "invalid.refresh.token"
+
+        assertThrows<MalformedJwtException> { jwtProvider.validateRefreshToken(refreshToken, accessToken) }
+    }
+
+    @Test
+    fun `validateRefreshToken should return false for not same username`() {
+        val accessToken = jwtProvider.createToken("username", listOf(UserRole.USER))
+        val refreshToken = jwtProvider.createRefreshToken("username2")
+
+        val result = jwtProvider.validateRefreshToken(refreshToken, accessToken)
+        assertThat(result).isFalse()
+    }
+
+    @Test
+    fun `createToken should return new access token`() {
+        val accessToken = jwtProvider.createToken("admin", listOf(UserRole.USER, UserRole.ADMIN))
+        val refreshToken = jwtProvider.createRefreshToken("admin")
+
+        val newAccessToken = jwtProvider.createToken(accessToken, refreshToken)
+
+        assertThat(newAccessToken).isNotEmpty()
     }
 
     companion object {

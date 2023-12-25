@@ -53,6 +53,19 @@ class UserServiceImpl(
         return jwtProvider.createToken(findUser!!.username, findUser.roles.toList())
     }
 
+    override fun createToken(accessToken: String, refreshToken: String): String {
+        require(jwtProvider.validateRefreshToken(refreshToken, accessToken)) { "Not valid refresh token" }
+
+        return jwtProvider.createToken(accessToken, refreshToken)
+    }
+
+    override fun createRefreshToken(username: String): String {
+        val findUser = calendarUserRepository.findByUsername(username)
+        require(findUser != null) { "Not exists user" }
+
+        return jwtProvider.createRefreshToken(username)
+    }
+
     @Transactional(readOnly = true)
     override fun getUsers(): List<UserDTO> = calendarUserRepository.findAll().map(CalendarUser::toDto)
 }

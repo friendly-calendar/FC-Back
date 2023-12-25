@@ -60,7 +60,7 @@ class WebSecurityConfig(private val jwtProvider: JwtProvider) {
                 JwtAuthenticationFilter(jwtProvider),
                 UsernamePasswordAuthenticationFilter::class.java
             ).authorizeHttpRequests {
-                it.requestMatchers("/api/v1/auth", "/api/v1/users").permitAll()
+                it.requestMatchers("/api/v1/auth", "/api/v1/users", "/api/v1/auth/refresh").permitAll()
 
                 it.requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ADMIN_ROLE)
 

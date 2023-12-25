@@ -22,4 +22,9 @@ class JwtConfigTest @Autowired constructor(private val jwtConfig: JwtConfig) {
     fun `expiration is not empty`() {
         assertThat(jwtConfig.expiration).isNotEmpty()
     }
+
+    @Test
+    fun `refresh expiration is not empty`() {
+        assertThat(jwtConfig.refreshExpiration).isNotEmpty()
+    }
 }
