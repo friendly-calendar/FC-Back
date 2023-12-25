@@ -54,7 +54,8 @@ class AuthControllerTest @Autowired constructor(
             status { isOk() }
             jsonPath("$.code") { value(HttpStatus.OK.value()) }
             jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
-            jsonPath("$.data") { exists() }
+            jsonPath("$.data.accessToken") { exists() }
+            jsonPath("$.data.refreshToken") { exists() }
         }
     }
 

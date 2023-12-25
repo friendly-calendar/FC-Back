@@ -16,5 +16,10 @@ class AuthController(
 ) {
 
     @PostMapping
-    fun signIn(@RequestBody userSignInDTO: UserSignInDTO): ResponseDTO = ResponseDTO.ok(data = userService.createToken(userSignInDTO))
+    fun signIn(@RequestBody userSignInDTO: UserSignInDTO): ResponseDTO {
+        val accessToken = userService.createToken(userSignInDTO)
+        val refreshToken = userService.createRefreshToken(userSignInDTO.username)
+
+        return ResponseDTO.ok(data = mapOf("accessToken" to accessToken, "refreshToken" to refreshToken))
+    }
 }
