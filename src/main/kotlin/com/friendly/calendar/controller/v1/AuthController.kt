@@ -27,7 +27,6 @@ class AuthController(
     }
 
     @GetMapping("/refresh", headers = [HttpHeaders.AUTHORIZATION, "X-Refresh-Token"])
-    fun refresh(@RequestHeader("Authorization") authorization: String, @RequestHeader("X-Refresh-Token") refreshToken: String): ResponseDTO {
-        TODO("Not yes implemented")
-    }
+    fun refresh(@RequestHeader("Authorization") authorization: String, @RequestHeader("X-Refresh-Token") refreshToken: String): ResponseDTO =
+        ResponseDTO.ok(data = userService.createToken(authorization.replace("Bearer ", ""), refreshToken))
 }
