@@ -1,5 +1,6 @@
 package com.friendly.calendar.domain.service
 
+import com.friendly.calendar.config.AdminConfig
 import com.friendly.calendar.domain.model.CalendarUser
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.service.impl.UserServiceImpl
@@ -7,8 +8,13 @@ import com.friendly.calendar.dto.UserDTO
 import com.friendly.calendar.dto.UserSignInDTO
 import com.friendly.calendar.dto.UserSignUpDTO
 import com.friendly.calendar.security.JwtProvider
+import io.jsonwebtoken.Claims
+import io.jsonwebtoken.Jws
+import io.jsonwebtoken.Jwts
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -17,13 +23,16 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
+import javax.crypto.SecretKey
 import kotlin.reflect.full.declaredMemberProperties
 
 @SpringBootTest
 class UserServiceTest @Autowired constructor(
     private val bCryptPasswordEncoder: BCryptPasswordEncoder,
     private val jwtProvider: JwtProvider,
-    private val userService: UserService
+    private val userService: UserService,
+    private val adminConfig: AdminConfig
 ) {
 
     @Test
@@ -63,8 +72,8 @@ class UserServiceTest @Autowired constructor(
     @Test
     fun `정상적으로 토큰을 생성한다`() {
         val userSignInDTO = UserSignInDTO(
-            username = "admin",
-            password = "khkimcsjylim1234"
+            username = adminConfig.username,
+            password = adminConfig.password
         )
 
         val token = userService.createToken(userSignInDTO)
@@ -86,13 +95,96 @@ class UserServiceTest @Autowired constructor(
     @Test
     fun `존재하는 유저지만 비밀번호가 일치하지 않을 경우 BadCredentialsException 이 발생한다`() {
         val invalidSignInDTO = UserSignInDTO(
-            username = "admin",
+            username = adminConfig.username,
             password = "invalid"
         )
 
         assertThatThrownBy {
             userService.createToken(invalidSignInDTO)
         }.hasMessage("아이디나 비밀번호를 확인해주세요.")
+    }
+
+    @Test
+    fun `정상적으로 token 을 생성한다`() {
+        val userSignInDTO = UserSignInDTO(
+            username = adminConfig.username,
+            password = adminConfig.password
+        )
+
+        val accessToken = userService.createToken(userSignInDTO)
+        val refreshToken = userService.createRefreshToken(userSignInDTO.username)
+
+        val newAccessToken = userService.createToken(accessToken, refreshToken)
+        assertThat(newAccessToken).isNotEmpty()
+    }
+
+    @Test
+    fun `만료된 refresh token 일 경우 IllegalArgumentException 이 발생한다`() {
+        mockkStatic(Jwts::class)
+
+        val userSignInDTO = UserSignInDTO(
+            username = adminConfig.username,
+            password = adminConfig.password
+        )
+
+        val accessToken = userService.createToken(userSignInDTO)
+        val refreshToken = "expired.refresh.token"
+        every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(refreshToken) } answers {
+            val mockedJwsClaims = mockk<Jws<Claims>>()
+            val mockedClaims = mockk<Claims>()
+            every { mockedJwsClaims.payload } returns mockedClaims
+            every { mockedClaims.expiration } answers {
+                Date(System.currentTimeMillis() - 10000)
+            }
+
+            mockedJwsClaims
+        }
+
+        val expiredException = assertThrows<IllegalArgumentException> { userService.createToken(accessToken, refreshToken) }
+        assertThat(expiredException.message).isEqualTo("Expired token")
+
+        unmockkStatic(Jwts::class)
+    }
+
+    @Test
+    fun `access token과 refresh token의 subject가 다를 경우 IllegalArgumentException 이 발생한다`() {
+        mockkStatic(Jwts::class)
+
+        val userSignInDTO = UserSignInDTO(
+            username = adminConfig.username,
+            password = adminConfig.password
+        )
+        val accessToken = "valid.access.token"
+        val refreshToken = "invalid.refresh.token"
+
+        every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(accessToken) } answers {
+            val mockedJwsClaims = mockk<Jws<Claims>>()
+            val mockedClaims = mockk<Claims>()
+            every { mockedJwsClaims.payload } returns mockedClaims
+            every { mockedClaims.subject } returns "testUser1"
+            every { mockedClaims.expiration } answers {
+                Date(System.currentTimeMillis() + 10000)
+            }
+
+            mockedJwsClaims
+        }
+
+        every { Jwts.parser().verifyWith(any<SecretKey>()).build().parseSignedClaims(refreshToken) } answers {
+            val mockedJwsClaims = mockk<Jws<Claims>>()
+            val mockedClaims = mockk<Claims>()
+            every { mockedJwsClaims.payload } returns mockedClaims
+            every { mockedClaims.subject } returns "testUser"
+            every { mockedClaims.expiration } answers {
+                Date(System.currentTimeMillis() + 10000)
+            }
+
+            mockedJwsClaims
+        }
+
+        val invalidTokenException = assertThrows<IllegalArgumentException> { userService.createToken(accessToken, refreshToken) }
+        assertThat(invalidTokenException.message).isEqualTo("Not valid refresh token")
+
+        unmockkStatic(Jwts::class)
     }
 
     @Test

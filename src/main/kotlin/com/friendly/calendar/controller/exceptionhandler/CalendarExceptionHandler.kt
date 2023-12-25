@@ -1,7 +1,6 @@
 package com.friendly.calendar.controller.exceptionhandler
 
 import com.friendly.calendar.dto.utils.ResponseDTO
-import io.jsonwebtoken.ExpiredJwtException
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
@@ -25,12 +24,6 @@ class CalendarExceptionHandler {
     fun handle(accessDeniedException: AccessDeniedException): ResponseDTO {
         logger.error(accessDeniedException) { "접근 권한이 없습니다." }
         return ResponseDTO.error(code = HttpStatus.FORBIDDEN.value(), description = HttpStatus.FORBIDDEN.reasonPhrase)
-    }
-
-    @ExceptionHandler(value = [ExpiredJwtException::class])
-    fun handle(expiredJwtException: ExpiredJwtException): ResponseDTO {
-        logger.error(expiredJwtException) { "Expired JWT Token" }
-        return ResponseDTO.error(code = HttpStatus.FORBIDDEN.value(), description = "Expired JWT Token")
     }
 
     @ExceptionHandler(value = [IllegalArgumentException::class])

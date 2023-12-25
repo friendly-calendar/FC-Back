@@ -54,6 +54,9 @@ class UserServiceImpl(
     }
 
     override fun createToken(accessToken: String, refreshToken: String): String {
+        require(jwtProvider.validateRefreshToken(refreshToken, accessToken)) {
+            "Not valid refresh token"
+        }
         TODO("Not yet implemented")
     }
 

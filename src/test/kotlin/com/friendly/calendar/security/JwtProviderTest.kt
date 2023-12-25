@@ -138,14 +138,14 @@ class JwtProviderTest @Autowired constructor(
     }
 
     @Test
-    fun `validateToken should return false for expired token`() {
+    fun `validateToken should throw IllegalArgumentException for expired token`() {
         mockkStatic(Jwts::class)
 
         val expiredToken = "expired.token.string"
         mockJwtsParser(expiredToken, isValid = true, isExpired = true)
 
-        val result = jwtProvider.validateToken(expiredToken)
-        assertThat(result).isFalse()
+        val expiredException = assertThrows<IllegalArgumentException> { jwtProvider.validateToken(expiredToken) }
+        assertThat(expiredException.message).isEqualTo("Expired token")
 
         unmockkStatic(Jwts::class)
     }

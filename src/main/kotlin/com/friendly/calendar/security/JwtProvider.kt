@@ -3,7 +3,6 @@ package com.friendly.calendar.security
 import com.friendly.calendar.config.JwtConfig
 import com.friendly.calendar.enums.UserRole
 import io.jsonwebtoken.Claims
-import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.MalformedJwtException
@@ -78,14 +77,17 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
         return try {
             val parseSignedClaims = parseSignedClaim(token)
 
-            return parseSignedClaims.payload.expiration.after(Date())
-        } catch (expiredToken: ExpiredJwtException) {
+            require(parseSignedClaims.payload.expiration.after(Date())) {
+                "Expired token"
+            }
+
+            true
+        } catch (expiredToken: IllegalArgumentException) {
             throw expiredToken
         } catch (otherException: Exception) {
             val errorMessage = when (otherException) {
                 is SecurityException, is MalformedJwtException -> "Invalid JWT Token"
                 is UnsupportedJwtException -> "Unsupported JWT Token"
-                is IllegalArgumentException -> "JWT claims string is empty"
                 else -> "validateToken error"
             }
 
@@ -100,7 +102,7 @@ class JwtProvider(private val jwtConfig: JwtConfig, private val userDetailsServi
         val accessClaim = parseSignedClaim(accessToken)
         val refreshClaim = parseSignedClaim(refreshToken)
 
-        return accessClaim.payload.subject == refreshClaim.payload.subject
+        return validateToken(refreshToken) && accessClaim.payload.subject == refreshClaim.payload.subject
     }
 
     private fun parseSignedClaim(token: String): Jws<Claims> =
