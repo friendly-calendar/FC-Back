@@ -60,7 +60,7 @@ class WebSecurityConfig(private val jwtProvider: JwtProvider) {
                 JwtAuthenticationFilter(jwtProvider),
                 UsernamePasswordAuthenticationFilter::class.java
             ).authorizeHttpRequests {
-                it.requestMatchers("/api/v1/auth", "/api/v1/users", "/api/v1/auth/refresh").permitAll()
+                it.requestMatchers(*PERMIT_ALL_URLS).permitAll()
 
                 it.requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(ADMIN_ROLE)
 
@@ -72,4 +72,12 @@ class WebSecurityConfig(private val jwtProvider: JwtProvider) {
 
     @Bean
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
+
+    companion object {
+        val PERMIT_ALL_URLS = arrayOf(
+            "/api/v1/auth",
+            "/api/v1/users",
+            "/api/v1/auth/refresh",
+        )
+    }
 }
