@@ -87,4 +87,9 @@ class FriendController(
     fun getFriendList(
         @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal
     ) = ResponseDTO.ok(data = friendService.getFriendList(calendarPrincipal.user.id))
+
+    @GetMapping("blocked")
+    fun getBlockedList(
+        @AuthenticationPrincipal calendarPrincipal: CalendarPrincipal
+    ) = ResponseDTO.ok(data = friendService.getBlockedList(calendarPrincipal.user.id))
 }
