@@ -431,6 +431,24 @@ class FriendServiceTest @Autowired constructor(
     }
 
     @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success get only block friend list`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+        val testAdmin = calendarUserRepository.findByUsername("admin")!!
+
+        friendService.requestFriend(testUser.id, testAdmin.id)
+        friendService.acceptFriend(testUser.id, testAdmin.id)
+
+        val blockedList = friendService.getBlockedList(testUser.id)
+
+        assertThat(blockedList.size).isEqualTo(0)
+    }
+
+    @Test
     fun `success get block friend list empty`() {
         val testAdmin = calendarUserRepository.findByUsername("admin")!!
 
