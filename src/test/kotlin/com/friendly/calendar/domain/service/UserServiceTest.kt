@@ -192,7 +192,7 @@ class UserServiceTest @Autowired constructor(
 
     @Test
     fun `정상적으로 refresh token 을 생성한다`() {
-        val refreshToken = userService.createRefreshToken("admin")
+        val refreshToken = userService.createRefreshToken(adminConfig.username)
 
         assertThat(refreshToken).isNotEmpty()
     }

@@ -1,5 +1,6 @@
 package com.friendly.calendar.domain.service
 
+import com.friendly.calendar.config.AdminConfig
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.model.FriendStatus
 import com.friendly.calendar.domain.model.base.DelFlag
@@ -23,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional
 class FriendServiceTest @Autowired constructor(
     private val calendarUserRepository: CalendarUserRepository,
     private val friendService: FriendService,
-    private val friendRelationRepository: FriendRelationRepository
+    private val friendRelationRepository: FriendRelationRepository,
+    private val adminConfig: AdminConfig
 ) {
 
     @Test
@@ -34,7 +36,7 @@ class FriendServiceTest @Autowired constructor(
         calendarUserRepository.save(calendarPrincipal.user)
 
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertAll(
             {
@@ -54,7 +56,7 @@ class FriendServiceTest @Autowired constructor(
         calendarUserRepository.save(calendarPrincipal.user)
 
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         friendService.blockFriend(testUser.id, testFriend.id)
         friendService.unblockFriend(testUser.id, testFriend.id)
@@ -76,7 +78,7 @@ class FriendServiceTest @Autowired constructor(
 
     @Test
     fun `failure requestFriend with not found user`() {
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertThatThrownBy {
             friendService.requestFriend(999, testFriend.id)
@@ -85,7 +87,7 @@ class FriendServiceTest @Autowired constructor(
 
     @Test
     fun `failure requestFriend with same user`() {
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertThatThrownBy {
             friendService.requestFriend(testUser.id, testUser.id)
@@ -100,7 +102,7 @@ class FriendServiceTest @Autowired constructor(
         calendarUserRepository.save(calendarPrincipal.user)
 
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         friendService.requestFriend(testUser.id, testFriend.id)
 
@@ -119,7 +121,7 @@ class FriendServiceTest @Autowired constructor(
         calendarUserRepository.save(calendarPrincipal.user)
 
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         friendService.requestFriend(testUser.id, testFriend.id)
 
@@ -144,7 +146,7 @@ class FriendServiceTest @Autowired constructor(
 
     @Test
     fun `failure acceptFriend with not found friend request`() {
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertThatThrownBy {
             friendService.acceptFriend(1, testFriend.id)
@@ -158,7 +160,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.requestFriend(testUser.id, testFriend.id)
@@ -189,7 +191,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.requestFriend(testUser.id, testFriend.id)
@@ -216,7 +218,7 @@ class FriendServiceTest @Autowired constructor(
     @Test
     @Transactional
     fun `failure rejectFriend with not found friend request`() {
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertThatThrownBy {
             friendService.rejectFriend(1, testFriend.id)
@@ -230,7 +232,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.requestFriend(testUser.id, testFriend.id)
@@ -257,7 +259,7 @@ class FriendServiceTest @Autowired constructor(
     @Test
     @Transactional
     fun `failure blockFriend with same user`() {
-        val testFriend = calendarUserRepository.findByUsername("admin")!!
+        val testFriend = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertThatThrownBy {
             friendService.blockFriend(testFriend.id, testFriend.id)
@@ -267,7 +269,7 @@ class FriendServiceTest @Autowired constructor(
     @Test
     @Transactional
     fun `failure blockFriend with not exists friend`() {
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertAll(
             {
@@ -290,7 +292,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.blockFriend(testUser.id, testFriend.id)
@@ -315,7 +317,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.blockFriend(testUser.id, testFriend.id)
@@ -332,7 +334,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val testUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testFriend = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
         val otherException = assertThrows<IllegalArgumentException> {
             friendService.unblockFriend(testUser.id, testFriend.id)
@@ -347,7 +349,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val adminUser = calendarUserRepository.findByUsername("admin")!!
+        val adminUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.requestFriend(testUser.id, adminUser.id)
@@ -359,7 +361,7 @@ class FriendServiceTest @Autowired constructor(
         assertAll(
             { assertThat(testUserFriendList.size).isEqualTo(1) },
             { assertThat(adminUserFriendList.size).isEqualTo(1) },
-            { assertThat(testUserFriendList[0].friendAlias).isEqualTo("admin") },
+            { assertThat(testUserFriendList[0].friendAlias).isEqualTo(adminConfig.username) },
             { assertThat(adminUserFriendList[0].friendAlias).isEqualTo(testUser.username) },
             { assertThat(testUserFriendList[0].path).isNull() },
             { assertThat(adminUserFriendList[0].path).isNull() }
@@ -373,7 +375,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val adminUser = calendarUserRepository.findByUsername("admin")!!
+        val adminUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.requestFriend(testUser.id, adminUser.id)
@@ -395,7 +397,7 @@ class FriendServiceTest @Autowired constructor(
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
 
-        val adminUser = calendarUserRepository.findByUsername("admin")!!
+        val adminUser = calendarUserRepository.findByUsername(adminConfig.username)!!
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
 
         friendService.requestFriend(testUser.id, adminUser.id)
@@ -418,7 +420,7 @@ class FriendServiceTest @Autowired constructor(
         calendarUserRepository.save(calendarPrincipal.user)
 
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
-        val testAdmin = calendarUserRepository.findByUsername("admin")!!
+        val testAdmin = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         friendService.blockFriend(testUser.id, testAdmin.id)
 
@@ -438,7 +440,7 @@ class FriendServiceTest @Autowired constructor(
         calendarUserRepository.save(calendarPrincipal.user)
 
         val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
-        val testAdmin = calendarUserRepository.findByUsername("admin")!!
+        val testAdmin = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         friendService.requestFriend(testUser.id, testAdmin.id)
         friendService.acceptFriend(testUser.id, testAdmin.id)
@@ -450,7 +452,7 @@ class FriendServiceTest @Autowired constructor(
 
     @Test
     fun `success get block friend list empty`() {
-        val testAdmin = calendarUserRepository.findByUsername("admin")!!
+        val testAdmin = calendarUserRepository.findByUsername(adminConfig.username)!!
 
         assertThat(friendService.getBlockedList(testAdmin.id).size).isEqualTo(0)
     }

@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class CalendarDataInitializerTest @Autowired constructor(
     private val adminConfig: AdminConfig,
-    private val userRepository: CalendarUserRepository
+    private val userRepository: CalendarUserRepository,
 ) {
 
     @Test
     fun `Exists admin user`() {
-        val adminUser = userRepository.findByUsername("admin")
+        val adminUser = userRepository.findByUsername(adminConfig.username)
 
         assertAll(
             { assertThat(adminUser).isNotNull },
