@@ -369,6 +369,28 @@ class FriendServiceTest @Autowired constructor(
     @Test
     @WithMockCalendarUser
     @Transactional
+    fun `success get only friend list`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val adminUser = calendarUserRepository.findByUsername("admin")!!
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+
+        friendService.requestFriend(testUser.id, adminUser.id)
+        friendService.rejectFriend(testUser.id, adminUser.id, true)
+
+        val testUserFriendList: List<FriendReturnDTO> = friendService.getFriendList(testUser.id)
+        val adminUserFriendList: List<FriendReturnDTO> = friendService.getFriendList(adminUser.id)
+
+        assertAll(
+            { assertThat(testUserFriendList.size).isEqualTo(0) },
+            { assertThat(adminUserFriendList.size).isEqualTo(0) },
+        )
+    }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
     fun `success get friend list friend alias`() {
         val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
         calendarUserRepository.save(calendarPrincipal.user)
