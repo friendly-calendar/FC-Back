@@ -301,4 +301,19 @@ class FriendControllerTest @Autowired constructor(
             jsonPath("$.data[0].email") { value(null) }
         }
     }
+
+    @Test
+    @WithMockCalendarUser
+    fun `Get blocked list`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        val calendarUser = calendarPrincipal.user
+        userRepository.save(calendarUser)
+
+        mockMvc.get("/api/v1/friends/blocked").andExpect {
+            status { isOk() }
+            jsonPath("$.code") { value(HttpStatus.OK.value()) }
+            jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
+            jsonPath("$.data") { isEmpty() }
+        }
+    }
 }
