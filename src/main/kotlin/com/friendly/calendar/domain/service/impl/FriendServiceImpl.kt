@@ -88,8 +88,13 @@ class FriendServiceImpl(
         }
     }
 
-    override fun getFriendList(userId: Long): List<FriendReturnDTO> =
-        friendRelationRepository.findFriendListByUserId(userId)
+    override fun getFriendList(userId: Long): List<FriendReturnDTO> {
+        val friendRelationList = friendRelationRepository.findAllByUserId(userId)
+
+        return friendRelationList.filter {
+            it.delFlag == DelFlag.N && it.status == FriendStatus.ACCEPTED
+        }.map(FriendRelation::toFriendDto)
+    }
 
     override fun getBlockedList(userId: Long): List<FriendReturnDTO> {
         val friendRelationList = friendRelationRepository.findAllByUserId(userId)
