@@ -63,23 +63,6 @@ class FriendRelationCustomRepositoryImpl(
             .fetchOne()
     }
 
-    override fun findFriendListByUserId(userId: Long): List<FriendReturnDTO> {
-        val userEntity = QCalendarUser("userEntity")
-        val friendEntity = QCalendarUser("friendEntity")
-
-        val result = queryFactory
-            .select(friendRelation)
-            .from(friendRelation)
-            .innerJoin(friendRelation.user, userEntity)
-            .innerJoin(friendRelation.friend, friendEntity)
-            .where(
-                friendRelation.delFlag.eq(DelFlag.N)
-                    .and(friendRelation.user.id.eq(userId))
-            ).fetch()
-
-        return result.map(FriendRelation::toFriendDto)
-    }
-
     override fun findAllByUserId(userId: Long): List<FriendRelation> {
         val userEntity = QCalendarUser("userEntity")
         val friendEntity = QCalendarUser("friendEntity")
