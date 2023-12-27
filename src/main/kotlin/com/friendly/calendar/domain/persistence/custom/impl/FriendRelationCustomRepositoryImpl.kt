@@ -1,7 +1,6 @@
 package com.friendly.calendar.domain.persistence.custom.impl
 
 import com.friendly.calendar.domain.model.FriendRelation
-import com.friendly.calendar.domain.model.FriendStatus.BLOCKED
 import com.friendly.calendar.domain.model.FriendStatus.PENDING
 import com.friendly.calendar.domain.model.QCalendarUser
 import com.friendly.calendar.domain.model.QFriendRelation.friendRelation
