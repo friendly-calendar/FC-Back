@@ -21,12 +21,12 @@ class CalendarPrincipalTest {
 
     @Test
     fun getPassword() {
-        assertThat(calendarUserPrincipal.password).isEqualTo("")
+        assertThat(calendarUserPrincipal.password).isEmpty()
     }
 
     @Test
     fun getUsername() {
-        assertThat(calendarUserPrincipal.username).isEqualTo("")
+        assertThat(calendarUserPrincipal.username).isEmpty()
     }
 
     @Test
