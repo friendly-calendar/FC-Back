@@ -1,6 +1,7 @@
 package com.friendly.calendar.controller.v1
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.friendly.calendar.config.AdminConfig
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.domain.model.FriendStatus
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
@@ -34,7 +35,8 @@ class FriendControllerTest @Autowired constructor(
     private val objectMapper: ObjectMapper,
     private val userRepository: CalendarUserRepository,
     private val friendService: FriendService,
-    private val friendRelationRepository: FriendRelationRepository
+    private val friendRelationRepository: FriendRelationRepository,
+    private val adminConfig: AdminConfig
 ) {
 
     @Test
@@ -260,7 +262,7 @@ class FriendControllerTest @Autowired constructor(
         userRepository.save(calendarUser)
 
         val testUser = userRepository.findByUsername(calendarUser.username)!!
-        val testAdmin = userRepository.findByUsername("admin")!!
+        val testAdmin = userRepository.findByUsername(adminConfig.username)!!
 
         friendService.blockFriend(testUser.id, testAdmin.id)
 
@@ -287,7 +289,7 @@ class FriendControllerTest @Autowired constructor(
         userRepository.save(calendarUser)
 
         val testUser = userRepository.findByUsername(calendarUser.username)!!
-        val adminUser = userRepository.findByUsername("admin")!!
+        val adminUser = userRepository.findByUsername(adminConfig.username)!!
 
         friendService.requestFriend(testUser.id, adminUser.id)
         friendService.acceptFriend(testUser.id, adminUser.id)
@@ -297,7 +299,7 @@ class FriendControllerTest @Autowired constructor(
             jsonPath("$.code") { value(HttpStatus.OK.value()) }
             jsonPath("$.description") { value(HttpStatus.OK.reasonPhrase) }
             jsonPath("$.data[0].id") { value(1) }
-            jsonPath("$.data[0].friendAlias") { value("admin") }
+            jsonPath("$.data[0].friendAlias") { value(adminConfig.username) }
             jsonPath("$.data[0].email") { value(null) }
         }
     }

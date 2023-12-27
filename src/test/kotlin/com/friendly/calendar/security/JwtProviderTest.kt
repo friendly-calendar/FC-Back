@@ -1,5 +1,6 @@
 package com.friendly.calendar.security
 
+import com.friendly.calendar.config.AdminConfig
 import com.friendly.calendar.config.JwtConfig
 import com.friendly.calendar.controller.v1.testannotation.WithMockCalendarUser
 import com.friendly.calendar.enums.UserRole
@@ -29,7 +30,8 @@ import javax.crypto.SecretKey
 @SpringBootTest
 class JwtProviderTest @Autowired constructor(
     private val jwtProvider: JwtProvider,
-    private val jwtConfig: JwtConfig
+    private val jwtConfig: JwtConfig,
+    private val adminConfig: AdminConfig
 ) {
 
     private val request: HttpServletRequest = mockk()
@@ -179,8 +181,8 @@ class JwtProviderTest @Autowired constructor(
 
     @Test
     fun `createToken should return new access token`() {
-        val accessToken = jwtProvider.createToken("admin", listOf(UserRole.USER, UserRole.ADMIN))
-        val refreshToken = jwtProvider.createRefreshToken("admin")
+        val accessToken = jwtProvider.createToken(adminConfig.username, listOf(UserRole.USER, UserRole.ADMIN))
+        val refreshToken = jwtProvider.createRefreshToken(adminConfig.username)
 
         val newAccessToken = jwtProvider.createToken(accessToken, refreshToken)
 
