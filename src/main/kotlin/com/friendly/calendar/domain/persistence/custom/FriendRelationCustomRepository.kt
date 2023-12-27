@@ -6,8 +6,6 @@ import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
 interface FriendRelationCustomRepository {
     fun findPendingRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
 
-    fun findBlockedRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
-
     fun findFriendRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
 
     fun findFriendRelationByUseridAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation?
