@@ -2,11 +2,13 @@ package com.friendly.calendar.domain.service.impl
 
 import com.friendly.calendar.domain.model.FriendRelation
 import com.friendly.calendar.domain.model.FriendStatus
+import com.friendly.calendar.domain.model.base.DelFlag
 import com.friendly.calendar.domain.persistence.CalendarUserRepository
 import com.friendly.calendar.domain.persistence.FriendRelationRepository
 import com.friendly.calendar.domain.persistence.util.findByIdOrThrow
 import com.friendly.calendar.domain.service.FriendService
 import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
+import com.friendly.calendar.dto.domain.toFriendDto
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -88,6 +90,14 @@ class FriendServiceImpl(
 
     override fun getFriendList(userId: Long): List<FriendReturnDTO> =
         friendRelationRepository.findFriendListByUserId(userId)
+
+    override fun getBlockedList(userId: Long): List<FriendReturnDTO> {
+        val friendRelationList = friendRelationRepository.findAllByUserId(userId)
+
+        return friendRelationList.filter {
+            it.delFlag == DelFlag.N && it.status == FriendStatus.BLOCKED
+        }.map(FriendRelation::toFriendDto)
+    }
 
     private fun mutualFriendPair(
         firstUserId: Long,

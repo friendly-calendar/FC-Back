@@ -387,4 +387,31 @@ class FriendServiceTest @Autowired constructor(
 
         assertThat(testUserFriendList[0].friendAlias).isEqualTo("aliasTest")
     }
+
+    @Test
+    @WithMockCalendarUser
+    @Transactional
+    fun `success get block friend list`() {
+        val calendarPrincipal = SecurityContextHolder.getContext().authentication.principal as CalendarPrincipal
+        calendarUserRepository.save(calendarPrincipal.user)
+
+        val testUser = calendarUserRepository.findByUsername(calendarPrincipal.username)!!
+        val testAdmin = calendarUserRepository.findByUsername("admin")!!
+
+        friendService.blockFriend(testUser.id, testAdmin.id)
+
+        val blockedList = friendService.getBlockedList(testUser.id)
+
+        assertAll(
+            { assertThat(blockedList.size).isEqualTo(1) },
+            { assertThat(blockedList[0].id).isEqualTo(testAdmin.id) }
+        )
+    }
+
+    @Test
+    fun `success get block friend list empty`() {
+        val testAdmin = calendarUserRepository.findByUsername("admin")!!
+
+        assertThat(friendService.getBlockedList(testAdmin.id).size).isEqualTo(0)
+    }
 }
