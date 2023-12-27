@@ -6,8 +6,6 @@ import com.friendly.calendar.domain.model.QCalendarUser
 import com.friendly.calendar.domain.model.QFriendRelation.friendRelation
 import com.friendly.calendar.domain.model.base.DelFlag
 import com.friendly.calendar.domain.persistence.custom.FriendRelationCustomRepository
-import com.friendly.calendar.dto.domain.FriendDTO.FriendReturnDTO
-import com.friendly.calendar.dto.domain.toFriendDto
 import com.querydsl.jpa.impl.JPAQueryFactory
 
 class FriendRelationCustomRepositoryImpl(
