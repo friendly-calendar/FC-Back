@@ -69,9 +69,7 @@ class FriendServiceImpl(
             "Cannot block friend to yourself"
         }
 
-        val (firstUserFriendRelation, secondUserFriendRelation) = mutualFriendPair(blockById, blockToId)
-
-        val mutualFriendRelations = listOf(firstUserFriendRelation, secondUserFriendRelation).onEach { it.block(blockById) }
+        val mutualFriendRelations = mutualFriendPair(blockById, blockToId).toList().onEach { it.block(blockById) }
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 
