@@ -23,8 +23,7 @@ class WithMockCalendarUserSecurityContextFactory : WithSecurityContextFactory<Wi
             }
         )
 
-        val auth = UsernamePasswordAuthenticationToken(calendarPrincipal, "", calendarPrincipal.authorities)
-        context.authentication = auth
+        context.authentication = UsernamePasswordAuthenticationToken(calendarPrincipal, "", calendarPrincipal.authorities)
         return context
     }
 }
