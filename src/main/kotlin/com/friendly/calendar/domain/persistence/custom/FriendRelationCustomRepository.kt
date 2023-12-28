@@ -7,7 +7,7 @@ interface FriendRelationCustomRepository {
 
     fun findFriendRelationByUserIdAndFriendId(userId: Long, friendId: Long): FriendRelation?
 
-    fun findFriendRelationByUseridAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation?
+    fun findFriendRelationByUserIdAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation?
 
     fun findAllByUserId(userId: Long): List<FriendRelation>
 }

@@ -26,7 +26,7 @@ class FriendServiceImpl(
             "Cannot send friend request to blocked user"
         }
 
-        val friendRelation = friendRelationRepository.findFriendRelationByUseridAndFriendIdWithDeleted(senderId, receiverId)
+        val friendRelation = friendRelationRepository.findFriendRelationByUserIdAndFriendIdWithDeleted(senderId, receiverId)
             ?: FriendRelation(sender, receiver)
         friendRelation.request()
 
@@ -69,9 +69,7 @@ class FriendServiceImpl(
             "Cannot block friend to yourself"
         }
 
-        val (firstUserFriendRelation, secondUserFriendRelation) = mutualFriendPair(blockById, blockToId)
-
-        val mutualFriendRelations = listOf(firstUserFriendRelation, secondUserFriendRelation).onEach { it.block(blockById) }
+        val mutualFriendRelations = mutualFriendPair(blockById, blockToId).toList().onEach { it.block(blockById) }
         friendRelationRepository.saveAll(mutualFriendRelations)
     }
 

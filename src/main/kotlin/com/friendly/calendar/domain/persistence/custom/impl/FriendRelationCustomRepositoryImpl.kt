@@ -45,7 +45,7 @@ class FriendRelationCustomRepositoryImpl(
             .fetchOne()
     }
 
-    override fun findFriendRelationByUseridAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation? {
+    override fun findFriendRelationByUserIdAndFriendIdWithDeleted(userId: Long, friendId: Long): FriendRelation? {
         val userEntity = QCalendarUser("userEntity")
         val friendEntity = QCalendarUser("friendEntity")
 
